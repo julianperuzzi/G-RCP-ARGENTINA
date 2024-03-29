@@ -23,7 +23,7 @@ export const Equipo = () => {
         </div>
 
 
-        <div className="mt-4 mx-20 text-[14px] sm:mx-40 md:text-[16px] text-justify">
+        <div className="mt-4 mx-10 text-[14px] sm:mx-40 md:text-[16px] text-justify">
           <h2 className="font-bold pt-4">Misión:</h2>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident consectetur voluptate porro ducimus nulla voluptatum voluptas adipisci animi, odit laboriosam laborum, facilis mollitia, quod fugit eos. Nihil, accusamus! Minus, voluptate.</p>
           <h2 className="font-bold mt-4 border-t-2 pt-4">Visión:</h2>
