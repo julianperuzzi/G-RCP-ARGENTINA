@@ -6,7 +6,7 @@ export const Teoria = () => {
     <section className="flex justify-center items-center bg-zinc-900 p-4">
       <div className="sm:flex justify-center items-center mb-4 ">
         <div className="md:w-1/3 text-center">
-          <img src={imgLibreria} alt="Librería de Primeros Auxilios" className="w-1/2 sm:w-full  h-auto rounded-lg pb-0 mx-auto" />
+          {/* <img src={imgLibreria} alt="Librería de Primeros Auxilios" className="w-1/2 sm:w-full  h-auto rounded-lg pb-0 mx-auto" /> */}
         </div>
         <div className="p-4">
           <h2 className="text-3xl font-bold text-white mb-2">Librería de Primeros Auxilios</h2>

@@ -11,7 +11,7 @@ export const Certificacion = () => {
           <a href="/enlace-a-mas-informacion" className="mt-2 inline-block bg-orange-400 hover:bg-black text-white font-bold py-2 px-4">Conocer más</a>
         </div>
         <div className="md:w-1/3  text-center">
-          <img src={imgCert} alt="alt" className="w-1/2 sm:w-full h-auto rounded-lg pb-0 mx-auto" />
+          {/* <img src={imgCert} alt="alt" className="w-1/2 sm:w-full h-auto rounded-lg pb-0 mx-auto" /> */}
         </div>
       </div>
     </section>
