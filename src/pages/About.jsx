@@ -12,7 +12,7 @@ import React from 'react'
 export const About = () => {
   return (
     <>
-      <div className="lg:flex lg:gap-8 px-4 pt-6">
+      <div className="lg:flex lg:gap-8 px-4 pt-1">
       <MainArticle/>
       <NewContainer/>
       </div>
