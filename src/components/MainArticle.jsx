@@ -21,7 +21,7 @@ export const MainArticle = () => {
 
       <div className='flex-1  pt-2'>
         <p className='text-[13px] mb-5 sm:text-[15px]'>En G-RCP, nos centramos en la formación en primeros auxilios y en situaciones de riesgo. Capacitamos a individuos y empresas para actuar con confianza y eficacia en momentos críticos, garantizando la seguridad y el bienestar de todos.</p>
-        <Link to="/Nosotros" className='bg-SoftRed w-[185px] h-[48px] uppercase text-white hover:bg-black inline-block text-center content-center'>Read More</Link>
+        <Link to="/Nosotros" className='bg-SoftRed w-[185px] h-[48px] uppercase text-white hover:bg-black inline-block text-center content-center'>Leer Más</Link>
       </div>
       
 
