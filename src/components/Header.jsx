@@ -22,7 +22,7 @@ const Navbar = ({ handleLinkClick, menuClicked, setMenuClicked }) => {
           <img className='w-8 h-8 mb-[87px]' src={closeBtn} onClick={handleClick} alt="" />
         </li>
         <li className='mb-8 sm:mb-0'>
-          <Link className='hover:text-SoftRed sm:text-4' to="/" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Home</Link>
+          <Link className='hover:text-SoftRed sm:text-4' to="/" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Inicio</Link>
         </li>
         <li className='mb-8 sm:mb-0'>
           <Link className='hover:text-SoftRed' to="/News" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Blog</Link>
@@ -48,7 +48,7 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 50;
+      const isScrolled = window.scrollY > 1;
       setScrolled(isScrolled);
     };
 
