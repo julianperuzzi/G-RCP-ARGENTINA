@@ -12,8 +12,8 @@ import React from 'react'
 export const About = () => {
   return (
     <>
-      
-      <div className="xl:flex xl:gap-8 px-4 pt-1">
+
+      <div className="xl:flex xl:gap-8 px-4 pt-1 ">
       <MainArticle/>
       <Blog/>
       </div>
@@ -23,7 +23,7 @@ export const About = () => {
       <Teoria/>
       <ListonInfinito/>
 
-      
+
     </>
   )
 }

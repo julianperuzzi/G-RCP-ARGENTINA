@@ -9,8 +9,13 @@ import { Equipo } from './pages/Equipo';
 import { EscuelasPage } from './pages/EscuelasPage';
 import BlogPage from './pages/BlogPage';
 
+
+
+
+
 function App() {
   return (
+    <aside>
     <Router>
       <Header />
       <ScrollToTop />
@@ -22,6 +27,7 @@ function App() {
       </Routes>
       <Footer />
     </Router>
+    </aside>
   );
 }
 
