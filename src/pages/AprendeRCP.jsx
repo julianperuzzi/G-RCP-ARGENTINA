@@ -25,11 +25,9 @@ const AprendeRCP = () => {
           La RCP (Reanimación Cardiopulmonar) es una técnica vital que puede salvar vidas durante emergencias cardíacas. Al realizar RCP de manera adecuada, puedes mantener la circulación de la sangre y el suministro de oxígeno al cerebro hasta que llegue ayuda médica profesional.
         </p>
         <section className='my-4'>
-        <iframe width="500" height="300" src="https://www.youtube.com/embed/wbp_AdGkWPM" title="¿Cómo realizar la maniobra de RCP?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe  width="100%" height="352" src="https://www.youtube.com/embed/wbp_AdGkWPM" title="¿Cómo realizar la maniobra de RCP?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </section>
 
-
-        <iframe width="1072" height="603" src="https://www.youtube.com/embed/wbp_AdGkWPM" title="¿Cómo realizar la maniobra de RCP?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
 
       <div className="mb-8">
