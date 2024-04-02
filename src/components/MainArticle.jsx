@@ -10,7 +10,7 @@ export const MainArticle = () => {
 
       <picture>
         <source  srcSet={imageDesktop} />
-       <img src={imageMobile} alt="imagen" />
+       <img src={imageMobile} alt="imagen"/>
       </picture>
 
     <div className=' sm:flex'>

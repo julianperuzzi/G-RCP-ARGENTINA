@@ -1,7 +1,7 @@
 
 import { MainArticle } from "../components/MainArticle"
-import { NewContainer } from "../components/NewContainer"
-import { ArticleContainer } from "../components/ArticleContainer"
+import { Blog } from "../components/Blog"
+import { Servicios } from "../components/Servicios"
 import { Equipo } from "./Equipo"
 import { Certificacion } from "../components/Certificacion"
 import { Teoria } from "../components/Teoria"
@@ -12,12 +12,18 @@ import React from 'react'
 export const About = () => {
   return (
     <>
-      <div className="lg:flex lg:gap-8 px-4 pt-1">
+
+      
+
+      <div className="xl:flex xl:gap-8 px-4 pt-1">
       <MainArticle/>
-      <NewContainer/>
+      <Blog/>
       </div>
+
+
+      <Servicios/>
       {/* <ListonInfinito/> */}
-      <ArticleContainer/>
+      
       <Certificacion/>
       <Teoria/>
     </>
