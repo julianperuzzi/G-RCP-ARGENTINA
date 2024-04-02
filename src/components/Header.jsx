@@ -34,6 +34,9 @@ const Navbar = ({ handleLinkClick, menuClicked, setMenuClicked }) => {
           <Link className='hover:text-SoftRed' to="/Escuelas" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Escuelas</Link>
         </li>
         <li className='mb-8 sm:mb-0'>
+          <Link className='hover:text-SoftRed' to="/rcp" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Aprende RCP</Link>
+        </li>
+        <li className='mb-8 sm:mb-0'>
           <Link className='hover:text-SoftRed' to="#" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Categories</Link>
         </li>
       </ul>

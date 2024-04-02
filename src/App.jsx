@@ -8,6 +8,7 @@ import { About } from './pages/About';
 import { Equipo } from './pages/Equipo';
 import { EscuelasPage } from './pages/EscuelasPage';
 import BlogPage from './pages/BlogPage';
+import AprendeRCP from './pages/AprendeRCP';
 
 
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/Nosotros" element={<Equipo />} />
         <Route path="/Escuelas" element={<EscuelasPage />} />
         <Route path="/News" element={<BlogPage />} />
+        <Route path="/rcp" element={<AprendeRCP />} />
       </Routes>
       <Footer />
     </Router>
