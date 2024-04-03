@@ -8,10 +8,7 @@ const AprendeRCP = () => {
   return (
     <div className="container mx-auto px-4 py-4">
       <h1 className="text-3xl font-bold mb-4">Aprende RCP</h1>
-      <div className="mb-8">
-        <h2 className="text-xl font-bold mb-2">Mapa de Desfibriladores en Argentina</h2>
-        <MapaDesfibriladores />
-      </div>
+      
 
       <div className="mb-8">
         <h2 className="text-xl font-bold mb-2">¿Por qué es importante saber hacer RCP?</h2>
@@ -30,6 +27,15 @@ const AprendeRCP = () => {
           El DEA es un dispositivo portátil que puede administrar una descarga eléctrica controlada para restablecer el ritmo cardíaco normal en caso de paro cardíaco repentino. Aprender cómo usar un DEA correctamente puede mejorar significativamente las posibilidades de supervivencia durante una emergencia cardíaca.
         </p>
       </div>
+
+
+      <div className="mb-8">
+        <h2 className="text-xl font-bold mb-2">Mapa de Desfibriladores en Argentina</h2>
+        <MapaDesfibriladores />
+      </div>
+
+
+      
       
        <div className="mb-8 flex flex-col items-center justify-center">
          <h2 className="text-xl font-bold mb-8">Ritmo RCP</h2>
