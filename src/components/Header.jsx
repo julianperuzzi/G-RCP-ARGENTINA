@@ -34,10 +34,10 @@ const Navbar = ({ handleLinkClick, menuClicked, setMenuClicked }) => {
           <Link className='hover:text-SoftRed' to="/Escuelas" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Escuelas</Link>
         </li>
         <li className='mb-8 sm:mb-0'>
-          <Link className='hover:text-SoftRed' to="/rcp" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Aprende RCP</Link>
+          <Link className='hover:text-red-700 text-red-400' to="/rcp" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Aprende RCP</Link>
         </li>
         <li className='mb-8 sm:mb-0'>
-          <Link className='hover:text-SoftRed' to="#" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Categories</Link>
+          <Link className='hover:text-SoftRed' to="/Servicios" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Servicios</Link>
         </li>
       </ul>
       <img className={`${menuClicked ? '' : 'hidden'}  cursor-pointer sm:hidden pr-4`} src={burgerMenu} onClick={handleClick} alt="" />
