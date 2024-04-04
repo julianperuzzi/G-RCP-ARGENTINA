@@ -27,7 +27,6 @@ const serviciosData = [
     info: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae repellat dolorum voluptas eius tempore natus animi eum aliquam nisi optio numquam mollitia cupiditate est, corrupti suscipit placeat accusamus ut unde!',
   },
 ];
-
 const ServiciosPages = () => {
   const [selectedService, setSelectedService] = useState(null);
 
@@ -40,7 +39,7 @@ const ServiciosPages = () => {
   };
 
   return (
-    <section className="bg-stone-400 my-4 p-3">
+    <section className="bg-zinc-400 my-4 p-3">
       <h1 className="text-white text-4xl pt-4 pl-3c font-bold pl-6">Servicios</h1>
       <div className="p-2">
         {serviciosData.map((service) => (
@@ -49,34 +48,40 @@ const ServiciosPages = () => {
             className="bg-white shadow-lg flex items-center p-4 my-2 transition-transform duration-200 ease-in-out hover:bg-slate-800 hover:text-white cursor-pointer"
             onClick={() => handleServiceClick(service.id)}
           >
-            <div className="w-40 overflow-hidden ">
+            <div className="w-40 overflow-hidden">
               <img src={service.image} alt="" className="w-full h-full" />
             </div>
             <div className="ml-4">
               <p className="text-GrisClaro text-3xl font-bold mb-2">{service.id}</p>
-              <h2 className="font-bold text-xl mb-2 ">{service.title}</h2>
+              <h2 className="font-bold text-xl mb-2">{service.title}</h2>
               <p className="text-GrisClaro text-sm">{service.description}</p>
             </div>
           </article>
         ))}
       </div>
       {selectedService && (
-        <div className="fixed top-0 left-0 w-full h-full  bg-opacity-10 backdrop-blur-md flex justify-center items-center z-50 ">
+        <div className="fixed top-0 left-0 w-full h-full bg-opacity-10 backdrop-blur-md flex justify-center items-center z-50">
           <div className="bg-white p-8 md:w-1/2 md:mx-auto mx-2">
             <h2 className="text-2xl font-bold mb-4">{serviciosData[selectedService - 1].title}</h2>
             <img src={serviciosData[selectedService - 1].image} alt="" className="w-full h-40 object-cover mb-4 rounded-lg" />
             <p className="text-gray-700 text-xl mb-4">{serviciosData[selectedService - 1].description}</p>
             <p className="text-gray-700 mb-4">{serviciosData[selectedService - 1].info}</p>
-            <Link to={`/servicios/${selectedService}`} className=" hover:bg-black bg-orange-500 text-white font-bold py-3 px-5 ">
-              Contactanos
-            </Link>
-            <button className="bg-gray-300 text-white justify-end font-bold py-2 px-4 ml-40" onClick={handleCloseModal}>
-              Cerrar x
-            </button>
-            <Link to={`/servicios`} className=" text-gray-400 px-5">
-              Conocer más+
-            </Link>
-          </div>
+            <div className="flex flex-col">
+              <Link to={`/servicios/${selectedService}`} className="hover:bg-black bg-orange-500 text-white font-bold py-3 px-5 mb-2 w-1/2 text-center">
+                Contactanos
+              </Link>
+              
+              </div>
+              <div className="flex justify-between">
+              <Link to={`/servicios`} className="text-gray-400 py-3 px-5 w-1/2 text-center ">
+                Conocer más+
+              </Link>
+              <button className="bg-gray-300 text-white font-bold px-4 w-1/3 " onClick={handleCloseModal}>
+                Cerrar x
+              </button>
+              </div>
+            </div>
+          
         </div>
       )}
     </section>

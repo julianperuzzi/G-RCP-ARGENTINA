@@ -5,7 +5,7 @@ import primerosAuxiliosImage from '../assets/Primeros-Auxilios.jpg';
 
 const BlogPage = () => {
   return (
-    <div className="container mx-auto py-8 ">
+    <div className="container mx-auto pb-8 ">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-bold mb-4">La Importancia Vital de Saber RCP</h2>
