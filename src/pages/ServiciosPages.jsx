@@ -40,8 +40,8 @@ const ServiciosPages = () => {
 
   return (
     <section className="bg-zinc-400 my-4 p-3">
+      <div className="p-2 md:w-2/3 md:mx-auto">
       <h1 className="text-white text-4xl pt-4 pl-3c font-bold pl-6">Servicios</h1>
-      <div className="p-2">
         {serviciosData.map((service) => (
           <article
             key={service.id}
