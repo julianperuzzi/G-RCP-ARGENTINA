@@ -71,8 +71,11 @@ const ServiciosPages = () => {
               Contactanos
             </Link>
             <button className="bg-gray-300 text-white justify-end font-bold py-2 px-4 ml-40" onClick={handleCloseModal}>
-              Cerrar
+              Cerrar x
             </button>
+            <Link to={`/servicios`} className=" text-gray-400 px-5">
+              Conocer más+
+            </Link>
           </div>
         </div>
       )}
