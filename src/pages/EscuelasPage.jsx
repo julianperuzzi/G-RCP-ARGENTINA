@@ -1,6 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
 
 export const EscuelasPage = () => {
+  const [offsetY, setOffsetY] = useState(0);
+
+  const handleScroll = () => {
+    setOffsetY(window.pageYOffset);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const planesData = [
     {
       id: 'A',
@@ -74,8 +86,8 @@ export const EscuelasPage = () => {
     <div className="mx-auto py-8 p-4">
       <h1 className="text-3xl font-bold mb-8">Planes de Capacitación para Escuelas</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {planesData.map(plan => (
-          <div key={plan.id} className=" bg-slate-200 shadow-md rounded-md p-6 mb-4">
+        {planesData.map((plan, index) => (
+          <div key={plan.id} className={`bg-slate-200 shadow-md rounded-md p-6 mb-4 ${offsetY > index * 100 ? 'zoom-in' : ''}`}>
             <h2 className="text-xl font-bold mb-2">{plan.title}</h2>
             <p className="text-gray-700 mb-4">Dirigido a: {plan.targetAudience}</p>
             <ul className="list-disc list-inside">
@@ -90,5 +102,3 @@ export const EscuelasPage = () => {
     </div>
   );
 };
-
-

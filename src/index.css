@@ -10,3 +10,24 @@
   .heart {
     animation: pulse 0.8s infinite;
   }
+
+  .fade-in {
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out;
+  }
+  
+  .fade-in.show {
+    opacity: 1;
+  }
+
+
+  .zoom-in {
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .zoom-in:hover {
+    transform: scale(1.05);
+  }
+ 
+
+  

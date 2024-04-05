@@ -14,31 +14,31 @@ const Navbar = ({ handleLinkClick, menuClicked, setMenuClicked }) => {
     <>
       <div className={`${menuClicked ? 'hidden' : 'fixed inset-0 bg-black bg-opacity-20 backdrop-blur-md'} top-0 left-0 w-1/2 h-full z-10`} onClick={handleClick}></div>
 
-      <ul className={`${menuClicked ? 'hidden' : ''} fixed bg-white backdrop-filter backdrop-blur-md top-0 right-0 w-1/2 p-[24px] h-full text-[18px] sm:flex sm:items-center sm:place-content-around sm:p-0 sm:h-auto sm:relative sm:text-[16px] z-20`}>
-        <li className={`${menuClicked ? 'hidden' : ''} cursor-pointer sm:hidden  flex place-content-end`}>
+      <ul className={`${menuClicked ? 'hidden' : ''} fixed bg-white backdrop-filter backdrop-blur-md top-0 right-0 w-1/2 p-[24px] h-full text-[18px] lg:flex lg:items-center lg:place-content-around lg:p-0 lg:h-auto lg:relative lg:text-[16px] z-20`}>
+        <li className={`${menuClicked ? 'hidden' : ''} cursor-pointer lg:hidden  flex place-content-end`}>
           <img className='w-8 h-8 mb-[87px]' src={closeBtn} onClick={handleClick} alt="" />
         </li>
-        <li className='mb-8 sm:mb-0'>
-          <Link className='hover:text-SoftRed sm:text-4' to="/" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Inicio</Link>
+        <li className='mb-8 lg:mb-0'>
+          <Link className='hover:text-SoftRed' to="/" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Inicio</Link>
         </li>
-        <li className='mb-8 sm:mb-0'>
+        <li className='mb-8 lg:mb-0'>
           <Link className='hover:text-SoftRed' to="/News" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Blog</Link>
         </li>
-        <li className='mb-8 sm:mb-0'>
+        <li className='mb-8 lg:mb-0'>
           <Link className='hover:text-SoftRed' to="/Nosotros" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Nosotros</Link>
         </li>
-        <li className='mb-8 sm:mb-0'>
+        <li className='mb-8 lg:mb-0'>
           <Link className='hover:text-SoftRed' to="/Escuelas" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Escuelas</Link>
         </li>
-        <li className='mb-8 sm:mb-0'>
+        <li className='mb-8 lg:mb-0'>
           <Link className='hover:text-red-700 text-red-400' to="/rcp" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Aprende RCP</Link>
         </li>
-        <li className='mb-8 sm:mb-0'>
+        <li className='mb-8 lg:mb-0'>
           <Link className='hover:text-SoftRed' to="/Servicios" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Servicios</Link>
         </li>
-        <img className={`md:w-[110px] `} src={logoAfterScroll} alt="logo" />
+        <img className={`lg:w-[90px] `} src={logoAfterScroll} alt="logo" />
       </ul>
-      <img className={`${menuClicked ? '' : 'hidden'}  cursor-pointer sm:hidden pr-4`} src={burgerMenu} onClick={handleClick} alt="" />
+      <img className={`${menuClicked ? '' : 'hidden'}  cursor-pointer lg:hidden pr-4`} src={burgerMenu} onClick={handleClick} alt="" />
     </>
   );
 };
@@ -54,7 +54,7 @@ const Header = () => {
     <header className={`flex place-content-between items-center border-b-2 sticky top-0 z-30 `} style={{ backgroundColor: 'rgba(255, 255, 255, 1)' }}>
       
       <Link to="/">
-        <img className={`md:w-[110px] w-[60px] m-2`} src={logoBeforeScroll} alt="logo" />
+        <img className={`md:w-[90px] w-[60px] m-2`} src={logoBeforeScroll} alt="logo" />
       </Link>
       <Navbar handleLinkClick={handleLinkClick} menuClicked={menuClicked} setMenuClicked={setMenuClicked} />
     </header>
