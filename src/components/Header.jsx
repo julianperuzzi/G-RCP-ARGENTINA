@@ -20,21 +20,21 @@ const Navbar = ({ handleLinkClick, menuClicked, setMenuClicked }) => {
         </li>
         <li className='mb-8 lg:mb-0'>
           <Link className='hover:text-SoftRed' to="/" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Inicio</Link>
-        </li>
-        <li className='mb-8 lg:mb-0'>
-          <Link className='hover:text-SoftRed' to="/News" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Blog</Link>
-        </li>
-        <li className='mb-8 lg:mb-0'>
-          <Link className='hover:text-SoftRed' to="/Nosotros" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Nosotros</Link>
-        </li>
-        <li className='mb-8 lg:mb-0'>
-          <Link className='hover:text-SoftRed' to="/Escuelas" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Escuelas</Link>
-        </li>
+        </li>        
         <li className='mb-8 lg:mb-0'>
           <Link className='hover:text-red-700 text-red-400' to="/rcp" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Aprende RCP</Link>
         </li>
         <li className='mb-8 lg:mb-0'>
           <Link className='hover:text-SoftRed' to="/Servicios" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Servicios</Link>
+        </li>
+        <li className='mb-8 lg:mb-0'>
+          <Link className='hover:text-SoftRed' to="/Escuelas" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Escuelas</Link>
+        </li>
+        <li className='mb-8 lg:mb-0'>
+          <Link className='hover:text-SoftRed' to="/Nosotros" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Nosotros</Link>
+        </li>
+        <li className='mb-8 lg:mb-0'>
+          <Link className='hover:text-SoftRed' to="/News" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Blog</Link>
         </li>
         <img className={`lg:w-[90px] `} src={logoAfterScroll} alt="logo" />
       </ul>
@@ -54,7 +54,7 @@ const Header = () => {
     <header className={`flex place-content-between items-center border-b-2 sticky top-0 z-30 `} style={{ backgroundColor: 'rgba(255, 255, 255, 1)' }}>
       
       <Link to="/">
-        <img className={`md:w-[90px] w-[60px] m-2`} src={logoBeforeScroll} alt="logo" />
+        <img className={`md:w-[90px] w-[60px] ml-6 m-2`} src={logoBeforeScroll} alt="logo" />
       </Link>
       <Navbar handleLinkClick={handleLinkClick} menuClicked={menuClicked} setMenuClicked={setMenuClicked} />
     </header>

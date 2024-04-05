@@ -26,14 +26,12 @@ export const About = () => {
       const serviciosPos = document.getElementById('servicios').getBoundingClientRect().top;
       const certificacionPos = document.getElementById('certificacion').getBoundingClientRect().top;
       const teoriaPos = document.getElementById('teoria').getBoundingClientRect().top;
-      const listonInfinitoPos = document.getElementById('liston-infinito').getBoundingClientRect().top;
 
       setIsVisible({
         mainArticle: mainArticlePos < windowHeight,
         servicios: serviciosPos < windowHeight,
         certificacion: certificacionPos < windowHeight,
         teoria: teoriaPos < windowHeight,
-        listonInfinito: listonInfinitoPos < windowHeight
       });
     };
 
@@ -62,9 +60,6 @@ export const About = () => {
 
       <div id="teoria" className={` px-4 pt-1 ${isVisible.teoria ? 'fade-in show' : 'fade-in'}`}>
         <Teoria/>
-      </div>
-
-      <div id="liston-infinito" className={`xl:flex xl:gap-8 px-4 pt-1 ${isVisible.listonInfinito ? 'fade-in show' : 'fade-in'}`}>
         <ListonInfinito/>
       </div>
     </>

@@ -10,9 +10,9 @@ export const Equipo = () => {
 
   return (
     <aside className="px-4 py-6 bg-gray-900 text-white">
-      <div className="container">
+      <div className='xl:w-2/3 xl:mx-auto' >
         <img src={otroLogo} alt="Otro logo de la empresa" className="mx-auto mb-4" style={{ maxWidth: '300px' }} />
-        <div className="flex items-center justify-center bg-gray-100 p-4 mb-4">
+        <div className="flex items-center justify-center bg-gray-100 p-4 mb-4 mx-auto sm:mx-40">
           <img src={empresaLogo} alt="Logo de la empresa" className="w-24 h-24 mr-4" />
           <div>
             <h2 className="text-4xl font-bold mb-2 text-AzulOscuro">Nosotros</h2>
@@ -21,24 +21,21 @@ export const Equipo = () => {
         </div>
 
         <div className="mt-4 mx-10 text-[14px] sm:mx-40 md:text-[16px] text-justify">
-          <h2 className="font-bold pt-4">Misión:</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident consectetur voluptate porro ducimus nulla voluptatum voluptas adipisci animi, odit laboriosam laborum, facilis mollitia, quod fugit eos. Nihil, accusamus! Minus, voluptate.</p>
-          <h2 className="font-bold mt-4 border-t-2 pt-4">Visión:</h2>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam itaque quisquam eligendi culpa fuga quis, aliquid voluptas nesciunt laborum reprehenderit excepturi recusandae repellat veniam alias earum eveniet unde necessitatibus!</p>
-          <h2 className="font-bold mt-4 border-t-2 pt-4">Objetivo:</h2>
-          <p>Buscamos ser participes y generadores de acciones preventivas para la comunidad en general para acabar (o al menos disminuir) las epidemias de las que poco se habla: EL AHOGAMIENTO Y LA MUERTE SÚBITA..</p>
+          <h2 className="font-bold pt-4 text-xl pb-2">Misión:</h2>
+          <p className="text-l">Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident consectetur voluptate porro ducimus nulla voluptatum voluptas adipisci animi, odit laboriosam laborum, facilis mollitia, quod fugit eos. Nihil, accusamus! Minus, voluptate.</p>
+          <h2 className="font-bold mt-4 border-t-2 pt-4 pb-2 text-xl">Visión:</h2>
+          <p className="text-l">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam itaque quisquam eligendi culpa fuga quis, aliquid voluptas nesciunt laborum reprehenderit excepturi recusandae repellat veniam alias earum eveniet unde necessitatibus!</p>
+          <h2 className="font-bold mt-4 border-t-2 pt-4 text-xl pb-2">Objetivo:</h2>
+          <p className="text-l">Buscamos ser participes y generadores de acciones preventivas para la comunidad en general para acabar (o al menos disminuir) las epidemias de las que poco se habla: EL AHOGAMIENTO Y LA MUERTE SÚBITA.</p>
         </div>
       </div>
 
       <div className="flex text-center justify-center ">
-        <h2 className="text-3xl font-bold mb-2">Nuestro Equipo</h2>
+        <h2 className="text-3xl font-bold mb-3 mt-6 xl:mt-32">Nuestro Equipo</h2>
       </div>
 
-
-
-
       {mostrarMiembros && (
-        <div className="flex flex-wrap justify-center gap-8">
+        <div className="flex flex-wrap justify-center gap-8 lg:w-2/3 lg:mx-auto">
           {/* Aquí van los miembros del equipo */}
           <figure className="md:flex bg-gray-100 rounded-xl p-8 md:p-0 w-full shadow-lg">
             <img
