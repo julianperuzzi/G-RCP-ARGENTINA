@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import img3 from '../assets/julian perfil.png';
-import img1 from '../assets/jisu perfil.jpeg';
+import img3 from '../assets/perfil equipo/julian perfil.png';
+import img2 from '../assets//perfil equipo/feli perfil.jpeg';
+import img1 from '../assets//perfil equipo/jisu perfil.jpeg';
 import empresaLogo from '../assets/logo white g rcp.pptx.svg';
 import otroLogo from '../assets/lodo dark g rcp.pptx.svg';
+import { Link } from 'react-router-dom';
 
 
 export const Equipo = () => {
@@ -59,7 +61,7 @@ export const Equipo = () => {
           <figure className="md:flex bg-gray-100 rounded-xl p-8 md:p-0 w-full shadow-lg">
             <img
               className="w-24 h-24 md:w-48 md:h-auto md:rounded rounded-full mx-auto"
-              src={img3}
+              src={img2}
               alt="Equipo"
             />
             <div className="pt-6 md:p-4 text-center md:text-left space-y-4">
@@ -108,10 +110,10 @@ export const Equipo = () => {
         </button>
       </div>
 
-      <div className="text-center">
-        <button className="bg-orange-500 hover:bg-black text-white font-bold py-2 px-4 my-6 shadow">
+      <div className="text-center my-8">
+        <Link to="/Contacto" className="bg-orange-500 hover:bg-black text-white font-bold py-2 px-4 my-6 shadow">
           Contáctanos
-        </button>
+        </Link>
       </div>
     </aside>
   );

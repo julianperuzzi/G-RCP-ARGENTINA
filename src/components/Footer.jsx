@@ -13,7 +13,7 @@ export const Footer = () => {
       <div className="container mx-auto flex flex-wrap justify-between relative z-10">
         {/* Primera columna */}
         <div className="w-full sm:w-auto mb-4 sm:mb-0 border-b-2 border-zinc-300 pb-2">
-          <h3 className="font-bold mb-2">Contacto</h3>
+          <a href="/Contacto" className="text-white hover:text-gray-400 font-bold">Contacto</a>
           <ul>
             <li><a href="/nosotros" className="text-white hover:text-gray-400">Nosotros</a></li>
             <li><a href="/informacion-legal" className="text-white hover:text-gray-400">Información Legal</a></li>
@@ -33,7 +33,7 @@ export const Footer = () => {
         <div className="w-full sm:w-auto mb-4 sm:mb-0 border-b-2 border-zinc-300 pb-2">
           <h3 className="font-bold mb-2">Redes Sociales</h3>
           <ul>
-            <li><a href="https://www.instagram.com" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faInstagram} /> Instagram</a></li>
+            <li><a href="https://www.instagram.com/gruporcpsa/" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faInstagram} /> Instagram</a></li>
             <li><a href="https://www.facebook.com" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faFacebook} /> Facebook</a></li>
             <li><a href="https://wa.me" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faWhatsapp} /> Whatsapp</a></li>
             <li><a href="https://www.youtube.com" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faYoutube} /> Youtube</a></li>

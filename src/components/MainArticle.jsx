@@ -1,6 +1,5 @@
 import React from 'react'
 //selector de imagenes el de 641 es si la pantalla tiene como minimo 641 coloca cierta imagen
-import imageMobile from '../assets/imagen cuadrada.jpg'
 import imageDesktop from '../assets/imagen recatacngular.jpg'
 import { Link } from 'react-router-dom';
 
@@ -8,9 +7,8 @@ export const MainArticle = () => {
   return (
     <section className='mb-12 lg:w-3/4'>
 
-      <picture>
-        <source  srcSet={imageDesktop} />
-       <img src={imageMobile} alt="imagen"/>
+      <picture className='shadow-2xl'>
+       <img src={imageDesktop} alt="imagen" />
       </picture>
 
     <div className=' sm:flex'>

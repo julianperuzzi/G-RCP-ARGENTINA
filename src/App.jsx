@@ -10,6 +10,9 @@ import { EscuelasPage } from './pages/EscuelasPage';
 import BlogPage from './pages/BlogPage';
 import AprendeRCP from './pages/AprendeRCP';
 import ServiciosPages from './pages/ServiciosPages';
+import Biblioteca from './pages/Biblioteca';
+import CertificacionOficial from './pages/CertificacionOficial';
+import Contacto from './pages/Contacto';
 
 
 
@@ -32,6 +35,9 @@ function App() {
         <Route path="/News" element={<BlogPage />} />
         <Route path="/rcp" element={<AprendeRCP />} />
         <Route path="/Servicios" element={<ServiciosPages />} />
+        <Route path="/Biblioteca" element={<Biblioteca />} />
+        <Route path="/Certificacion" element={<CertificacionOficial />} />
+        <Route path="/Contacto" element={<Contacto />} />
       </Routes>
       <Footer />
     </Router>

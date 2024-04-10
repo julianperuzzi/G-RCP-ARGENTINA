@@ -15,7 +15,7 @@ import Imagen11 from "../assets/liston clientes/11.png";
 const ListonInfinito = () => {
   return (
     <aside className="lg:w-2/3 md:mx-auto mt-4 z-10">
-      <h2 className=" text-3xl  text-gray-700 font-bold mx-4">Clientes</h2>
+      <h2 className=" text-3xl  text-gray-700 font-bold mx-4 text-center">Clientes</h2>
     <div className="md:mb-4 mt-3">
       <Marquee direction="right">
         <img src={Imagen1} alt="Logo 1" className="w-32 px-3" />
@@ -31,7 +31,7 @@ const ListonInfinito = () => {
 
       </Marquee>
       </div>
-      <div>
+      <div className="md:mb-4 mt-5">
       <Marquee direction="left">
         <img src={Imagen6} alt="Logo 6" className="w-32 px-3" />
         <img src={Imagen7} alt="Logo 7" className="w-32 px-3" />
