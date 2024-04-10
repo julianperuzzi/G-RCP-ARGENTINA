@@ -28,7 +28,7 @@ const Contacto = () => {
   };
 
   return (
-    <div className="container mx-auto py-8 relative">
+    <div className="container mx-auto py-8 relative px-4">
       <h1 className="text-3xl font-bold text-center mb-6">Contacto</h1>
       <div className="backdrop absolute top-0 left-0 w-full h-full bg-gray-600 bg-opacity-50 z-10" style={{ display: enviado ? 'block' : 'none' }}></div>
       {enviado && (
