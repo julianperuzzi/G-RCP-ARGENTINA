@@ -23,7 +23,7 @@ function App() {
         <Route path="/Nosotros" element={<Equipo />} />
         <Route path="/Escuelas" element={<EscuelasPage />} />
         <Route path="/News" element={<BlogPage />} />
-        <Route path="/rcp" element={<AprendeRCP />} />
+        <Route path="https://grcp-arg.website/rcp" element={<AprendeRCP />} />
         <Route path="/Servicios" element={<ServiciosPages />} />
         <Route path="/Biblioteca" element={<Biblioteca />} />
         <Route path="/Certificacion" element={<CertificacionOficial />} />
