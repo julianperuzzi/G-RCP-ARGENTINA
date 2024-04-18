@@ -1,7 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ScrollToTop from './components/ScrollToTop'; // componente para ir al copmienzo
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Importamos BrowserRouter como Router
+import ScrollToTop from './components/ScrollToTop';
 import Header from './components/Header';
 import { Footer } from './components/Footer';
 import { About } from './pages/About';
@@ -14,17 +13,8 @@ import Biblioteca from './pages/Biblioteca';
 import CertificacionOficial from './pages/CertificacionOficial';
 import Contacto from './pages/Contacto';
 
-
-
-
-
 function App() {
-
-    
-
-
   return (
-    <aside>
     <Router>
       <Header />
       <ScrollToTop />
@@ -38,10 +28,11 @@ function App() {
         <Route path="/Biblioteca" element={<Biblioteca />} />
         <Route path="/Certificacion" element={<CertificacionOficial />} />
         <Route path="/Contacto" element={<Contacto />} />
+        {/* Puedes eliminar esta ruta porque "/*" coincide con cualquier ruta, por lo que esta ruta nunca será alcanzada */}
+        {/* <Route path="/*" element={<About />} /> */}
       </Routes>
       <Footer />
     </Router>
-    </aside>
   );
 }
 
