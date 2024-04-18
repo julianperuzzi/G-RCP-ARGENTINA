@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'; // Importamos BrowserRouter como Router
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'; // Importamos BrowserRouter como Router
 import ScrollToTop from './components/ScrollToTop';
 import Header from './components/Header';
 import { Footer } from './components/Footer';
@@ -15,7 +15,7 @@ import Contacto from './pages/Contacto';
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Header />
       <ScrollToTop />
       <Routes>
@@ -32,7 +32,7 @@ function App() {
         {/* <Route path="/*" element={<About />} /> */}
       </Routes>
       <Footer />
-    </BrowserRouter>
+    </Router>
   );
 }
 
