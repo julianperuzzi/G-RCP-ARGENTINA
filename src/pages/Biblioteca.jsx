@@ -38,7 +38,7 @@ const Biblioteca = () => {
     {
       titulo: 'Atragantamiento en las personas adultas',
       descripcion: 'A veces gestos sencillos cobran una gran importancia. Ante una obstrucción de las vías respiratorias hay acciones que pueden aliviar a la persona que la sufre. Ante un atragantamiento sigue las indicaciones que te mostramos en esta infografía.',
-      linkDescarga: 'https://grcp-arg.website/assets/biblioteca pdf/atragantamiento_adultos_infografia (1).pdf',
+      linkDescarga: 'https://github.com/julianperuzzi/G-RCP-ARGENTINA/blob/fa4085d0df7c00185c3805774d300c6ded5e0a9d/src/assets/biblioteca%20pdf/atragantamiento_adultos_infografia%20(1).pdf',
       imagen: imgAtragantamiento
     },
     {
