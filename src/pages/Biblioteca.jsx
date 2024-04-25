@@ -11,7 +11,7 @@ const Recurso = ({ titulo, descripcion, linkDescarga, imagen }) => (
     <img src={imagen} alt={titulo} className="w-full mb-4 rounded-lg" />
     <h3 className="text-xl font-bold mb-2">{titulo}</h3>
     <p className="mb-4">{descripcion}</p>
-    <Link to={linkDescarga} className="text-blue-500 hover:underline" download>Descargar documento</Link>
+    <a href={linkDescarga} className="text-blue-500 hover:underline" download>Descargar documento</a>
   </div>
 );
 
