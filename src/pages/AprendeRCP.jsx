@@ -17,7 +17,7 @@ const AprendeRCP = () => {
         </p>
         <section className='my-4'>
           <h2 className="text-xl font-bold mb-2">Cómo hacer RCP</h2>
-          <iframe width="100%" height="352" src="https://www.youtube.com/embed/wbp_AdGkWPM" title="¿Cómo realizar la maniobra de RCP?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe width="100%" height="352" src="https://www.youtube.com/embed/wbp_AdGkWPM" title="¿Cómo realizar la maniobra de RCP?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" className='lg:h-96' allowfullscreen></iframe>
         </section>
       </div>
 
