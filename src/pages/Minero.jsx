@@ -5,15 +5,15 @@ import { Link } from 'react-router-dom';
 
 const Minero = () => {
   return (
-    <div className="container mx-auto py-8 px-4 bg-slate-800 text-white">
+    <div className=" py-8 px-4 bg-slate-800 text-white">
       <h2 className="text-4xl font-bold mb-8 text-center">Bienestar Minero</h2>
       
       {/* Sección "Proyecto de Bienestar Integral para Empresas Mineras" */}
-      <div className="mb-12">
-        <h3 className="text-2xl font-bold mb-4 text-slate-300">Proyecto de Bienestar Integral para Empresas Mineras</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="mb-12 lg:w-2/3 mx-auto">
+        <h3 className="text-2xl font-bold mb-4 text-slate-300 text-center">Proyecto de Bienestar Integral para Empresas Mineras</h3>
+        <div className="">
           {/* Imagen con efecto de fade in */}
-          <img src={workerImage} alt="Trabajador" className="shadow-lg animate-fade-in" />
+          <img src={workerImage} alt="Trabajador" className="shadow-lg animate-fade-in lg:max-w-[800px] mx-auto lg:mb-6" />
           {/* Contenido */}
           <div className="flex flex-col justify-center">
             <p className="text-lg mb-4">
@@ -33,9 +33,9 @@ const Minero = () => {
       </div>
 
       {/* Sección "Público Objetivo" */}
-      <div className="mb-12">
+      <div className="mb-12 lg:w-2/3 mx-auto">
         <h2 className="text-3xl font-bold mb-4">Público Objetivo</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="">
           {/* Contenido */}
           <div className="flex flex-col justify-center">
             <p className="text-lg mb-4">
@@ -49,9 +49,9 @@ const Minero = () => {
       </div>
 
       {/* Sección "Objetivos" */}
-      <div className="mb-12">
+      <div className="mb-12 lg:w-2/3 mx-auto">
         <h2 className="text-3xl font-bold mb-4">Objetivos</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="">
           {/* Contenido */}
           <div className="flex flex-col justify-center">
             <ul className="list-decimal pl-6">
@@ -65,11 +65,11 @@ const Minero = () => {
       </div>
 
       {/* Sección "Calidad de Vida" */}
-      <div>
+      <div className='lg:w-2/3 mx-auto'>
         <h2 className="text-3xl font-bold mb-4">Calidad de Vida</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="">
           {/* Imagen con efecto de fade in */}
-          <img src={cprImage} alt="Capacitación en RCP" className="shadow-lg animate-fade-in" />
+          
           {/* Contenido */}
           <div className="flex flex-col justify-center">
             <p className="text-lg mb-4">
@@ -84,6 +84,7 @@ const Minero = () => {
             <p className="text-lg">
               Días de campo: Finalmente hablamos de cómo integrar todo el contenido dentro de un plan de respuesta inmediata y la invitación para generar zonas cardio protegidas.
             </p>
+            <img src={cprImage} alt="Capacitación en RCP" className="shadow-lg animate-fade-in lg:max-w-[800px] mx-auto lg:mb-6" />
           </div>
         </div>
       </div>
