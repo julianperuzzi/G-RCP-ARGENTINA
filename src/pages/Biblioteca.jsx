@@ -20,31 +20,31 @@ const Biblioteca = () => {
     {
       titulo: 'RCP básica',
       descripcion: 'En esta infografía te mostramos las maniobras con las que podrás sustituir la circulación y la respiración, mantener las funciones cerebrales y conseguir la recuperación de la víctima que está en parada cardiorespiratoria. Ante una parada sigue estos pasos. Es más sencillo de lo que parece.',
-      linkDescarga: 'https://grcp-arg.website/assets/biblioteca pdf/rcp_basica_infografia (1).pdf',
+      linkDescarga: 'https://drive.google.com/file/d/1Dxub0HyAJFlmk63wI9IgxDLcAokWR5Vz/view?usp=sharing',
       imagen: imgRCPBasica
     },
     {
       titulo: 'Posición lateral de seguridad',
       descripcion: '¿Sabías que hay una posición en la que una persona inconsciente aguanta mejor hasta que llegan los servicios de emergencia? Se llama Posición Lateral de Seguridad y en esta infografía te enseñamos cómo hacerla.',
-      linkDescarga: 'https://grcp-arg.website/assets/biblioteca pdf/posicion_lateral_seguridad_infografia (1).pdf',
+      linkDescarga: 'https://drive.google.com/file/d/1wQpnu05632C1Y3nLgcdooXwhNqtxv4mX/view?usp=sharing',
       imagen: imgPosicionLateral
     },
     {
       titulo: 'Cadena de supervivencia',
       descripcion: 'La cadena de supervivencia es la secuencia de acciones que tenemos que realizar a la hora de atender a una persona que ha sufrido una parada cardiorrespiratoria. Seguirla puede salvar una vida. Esta infografía la detalla de forma muy visual.',
-      linkDescarga: 'https://grcp-arg.website/assets/biblioteca pdf/cadena_supervivencia_infografia.pdf',
+      linkDescarga: 'https://drive.google.com/file/d/11UkOGyo57ALFTSZZJwj9451G7ijXncDM/view?usp=sharing',
       imagen: imgCadenaSupervivencia
     },
     {
       titulo: 'Atragantamiento en las personas adultas',
       descripcion: 'A veces gestos sencillos cobran una gran importancia. Ante una obstrucción de las vías respiratorias hay acciones que pueden aliviar a la persona que la sufre. Ante un atragantamiento sigue las indicaciones que te mostramos en esta infografía.',
-      linkDescarga: 'src/assets/biblioteca pdf/atragantamiento_adultos_infografia (1).pdf',
+      linkDescarga: 'https://drive.google.com/file/d/1TS3qFBg4wVnULXqmm5_ahgGhbuCVlre0/view?usp=sharing',
       imagen: imgAtragantamiento
     },
     {
       titulo: 'Tabla resumen RCP básica',
       descripcion: 'Crees que a ti no puede pasarte, pero en cualquier momento puedes encontrarte ante una persona que está sufriendo una parada cardiorrespiratoria. En esta tabla resumen sobre la RCP Básica te mostramos los principales pasos a seguir y las diferencias más significativas entre adultos, niños y lactantes.',
-      linkDescarga: 'https://grcp-arg.website/assets/biblioteca pdf/tabla_rcp.pdf',
+      linkDescarga: 'https://drive.google.com/file/d/1eY5uXrnwNl5Ke0YuEqIKVzczzlmPAkg5/view?usp=sharing',
       imagen: imgTablaResumenRCP
     }
   ];
