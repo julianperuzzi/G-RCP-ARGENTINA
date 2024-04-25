@@ -44,7 +44,7 @@ export const Footer = () => {
         {/* Cuarta columna */}
         <div className="w-full sm:w-auto">
           <p>&copy; 2024 All rights reserved</p>
-          <p className="mt-4">Desarrollo Julian Peruzzi</p>
+          <p className="mt-4">Desarrollo Julian Peruzzi | <a href="https://www.linkedin.com/in/julianperuzzi/" className="text-white hover:text-gray-400">LinkedIn</a></p>
         </div>
       </div>
     </footer>
