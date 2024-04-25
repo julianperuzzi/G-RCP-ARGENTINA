@@ -13,6 +13,7 @@ import Biblioteca from './pages/Biblioteca';
 import CertificacionOficial from './pages/CertificacionOficial';
 import Contacto from './pages/Contacto';
 import NotFoundPage from './pages/NotFoundPage'; // Importa la página de error 404 o coming soon
+import Minero from './pages/Minero';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/Biblioteca" element={<Biblioteca />} />
         <Route path="/Certificacion" element={<CertificacionOficial />} />
         <Route path="/Contacto" element={<Contacto />} />
+        <Route path="/Mineras" element={<Minero />} />
         {/* Ruta para manejar cualquier ruta no definida */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

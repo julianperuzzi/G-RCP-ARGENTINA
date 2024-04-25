@@ -28,6 +28,9 @@ const Navbar = ({ handleLinkClick, menuClicked, setMenuClicked }) => {
           <Link className='hover:text-SoftRed' to="/Servicios" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Servicios</Link>
         </li>
         <li className='mb-8 lg:mb-0'>
+          <Link className='hover:text-SoftRed' to="/Mineras" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Mineras</Link>
+        </li>
+        <li className='mb-8 lg:mb-0'>
           <Link className='hover:text-SoftRed' to="/Escuelas" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Escuelas</Link>
         </li>
         <li className='mb-8 lg:mb-0'>
