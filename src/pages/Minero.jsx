@@ -1,6 +1,7 @@
 import React from 'react';
 import workerImage from '../assets/img mineras/bienestar minero.jpg'; // Importa la imagen del trabajador
 import cprImage from '../assets/img mineras/calidad de vida.jpg'; // Importa la imagen de RCP
+import { Link } from 'react-router-dom';
 
 const Minero = () => {
   return (
@@ -11,8 +12,8 @@ const Minero = () => {
       <div className="mb-12">
         <h3 className="text-2xl font-bold mb-4 text-slate-300">Proyecto de Bienestar Integral para Empresas Mineras</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Imagen */}
-          <img src={workerImage} alt="Trabajador" className=" shadow-lg" />
+          {/* Imagen con efecto de fade in */}
+          <img src={workerImage} alt="Trabajador" className="shadow-lg animate-fade-in" />
           {/* Contenido */}
           <div className="flex flex-col justify-center">
             <p className="text-lg mb-4">
@@ -67,8 +68,8 @@ const Minero = () => {
       <div>
         <h2 className="text-3xl font-bold mb-4">Calidad de Vida</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Imagen */}
-          <img src={cprImage} alt="Capacitación en RCP" className=" shadow-lg" />
+          {/* Imagen con efecto de fade in */}
+          <img src={cprImage} alt="Capacitación en RCP" className="shadow-lg animate-fade-in" />
           {/* Contenido */}
           <div className="flex flex-col justify-center">
             <p className="text-lg mb-4">
@@ -89,7 +90,7 @@ const Minero = () => {
 
       {/* Botón flotante de contacto */}
       <div className="fixed bottom-6 right-4">
-        <a href="/contacto" className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">Contacto</a>
+        <Link to="/Contacto" className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">Contacto</Link>
       </div>
     </div>
   );
