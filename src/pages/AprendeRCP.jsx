@@ -6,7 +6,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons'; // Icono de corazó
 
 const AprendeRCP = () => {
   return (
-    <div className="container mx-auto px-4 py-4">
+    <div className="container mx-auto px-4 py-4 lg:w-2/3">
       <h1 className="text-3xl font-bold mb-4">Aprende RCP</h1>
       
 
@@ -35,24 +35,22 @@ const AprendeRCP = () => {
       </div>
 
 
+
+      <div className="mb-4">
+       <h2 className="text-xl font-bold mb-2">Llamada de Emergencia</h2>
+         <p className="text-gray-700 mb-4">
+         Es importante conocer el número de emergencias médicas en Argentina. Si presencias una emergencia cardíaca, llama al <strong>107</strong> para recibir asistencia médica urgente.
+         </p>
+       <a href="tel:107" className="bg-red-600 text-white font-bold py-3 px-6 hover:bg-black my-4">
+        Llamar al 107
+      </a>
+        </div>
+
       
-      
-       <div className="mb-8 flex flex-col items-center justify-center">
+      <div className="mb-8 flex flex-col items-center justify-center">
          <h2 className="text-xl font-bold mb-8">Ritmo RCP</h2>
          <FontAwesomeIcon icon={faHeart} className="text-red-500 heart h-32" />
         </div>
-
-
-      <div className="mb-4">
-        <h2 className="text-xl font-bold mb-2">Llamada de Emergencia</h2>
-        <p className="text-gray-700">
-          Es importante conocer el número de emergencias médicas en Argentina. Si presencias una emergencia cardíaca, llama al <strong>107</strong> para recibir asistencia médica urgente.
-        </p>
-        <button className=" bg-red-600 text-white font-bold py-3 px-6  hover:bg-black my-4">
-          Llamar al 107
-        </button>
-      </div>
-
 
 
       <div>
