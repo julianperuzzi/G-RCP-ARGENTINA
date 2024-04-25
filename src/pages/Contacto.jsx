@@ -30,7 +30,7 @@ const Contacto = () => {
   };
 
   return (
-    <div className="container mx-auto py-8 relative px-4">
+    <div className="container mx-auto py-8 relative px-4 animate-fade-in">
       <h1 className="text-3xl font-bold text-center mb-6">Comunicate con Nosotros</h1>
       <div className="backdrop absolute top-0 left-0 w-full h-full bg-gray-600 bg-opacity-50 z-10" style={{ display: enviado ? 'block' : 'none' }}></div>
       {enviado && (
@@ -60,7 +60,7 @@ const Contacto = () => {
       <div className="text-center mt-8">
       <p className="mb-4 text-gray-700">o</p>
         <p className="mb-4 text-gray-700">¿Prefieres contactarnos por WhatsApp?</p>
-        <a href="https://wa.me/tu_numero_de_telefono" target="_blank" rel="noopener noreferrer" className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md inline-block">
+        <a href="https://wa.me/+5492645270774" target="_blank" rel="noopener noreferrer" className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md inline-block">
           <FontAwesomeIcon icon={faWhatsapp} className="mr-2" /> {/* Icono de WhatsApp */}
           Contactar por WhatsApp
         </a>

@@ -12,7 +12,7 @@ const Navbar = ({ handleLinkClick, menuClicked, setMenuClicked }) => {
 
   return (
     <>
-      <div className={`${menuClicked ? 'hidden' : 'fixed inset-0 bg-black bg-opacity-20 backdrop-blur-md'} top-0 left-0 w-1/2 h-full z-10`} onClick={handleClick}></div>
+      <div className={`${menuClicked ? 'hidden' : 'fixed inset-0 bg-black bg-opacity-20 backdrop-blur-md animate-fade-in'} top-0 left-0 w-1/2 h-full z-10`} onClick={handleClick}></div>
 
       <ul className={`${menuClicked ? 'hidden' : ''} fixed bg-white backdrop-filter backdrop-blur-md top-0 right-0 w-1/2 p-[24px] h-full text-[18px] lg:flex lg:items-center lg:place-content-around lg:p-0 lg:h-auto lg:relative lg:text-[16px] z-20`}>
         <li className={`${menuClicked ? 'hidden' : ''} cursor-pointer lg:hidden  flex place-content-end`}>

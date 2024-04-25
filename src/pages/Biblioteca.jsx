@@ -7,7 +7,7 @@ import imgAtragantamiento from '../assets/imagenes biblioteca/atragantamiento_ad
 import imgTablaResumenRCP from '../assets/imagenes biblioteca/tabla_rcp.webp';
 
 const Recurso = ({ titulo, descripcion, linkDescarga, imagen }) => (
-  <div className="bg-white rounded-lg shadow-md p-6 mb-6 mx-2">
+  <div className="bg-white rounded-lg shadow-md p-6 mb-6 mx-2 animate-fade-in">
     <img src={imagen} alt={titulo} className="w-full mb-4 rounded-lg" />
     <h3 className="text-xl font-bold mb-2">{titulo}</h3>
     <p className="mb-4">{descripcion}</p>

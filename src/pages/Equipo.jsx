@@ -11,7 +11,7 @@ export const Equipo = () => {
   const [mostrarMiembros, setMostrarMiembros] = useState(false);
 
   return (
-    <aside className="px-4 py-6 bg-gray-900 text-white">
+    <aside className="px-4 py-6 bg-gray-900 text-white animate-fade-in">
       <div className='xl:w-2/3 xl:mx-auto' >
         <img src={otroLogo} alt="Otro logo de la empresa" className="mx-auto mb-4" style={{ maxWidth: '300px' }} />
         <div className="flex items-center justify-center bg-gray-100 p-4 mb-4 mx-auto sm:mx-40">

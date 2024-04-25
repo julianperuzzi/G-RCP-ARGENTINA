@@ -83,7 +83,7 @@ export const EscuelasPage = () => {
   ];
 
   return (
-    <div className="mx-auto py-8 p-4">
+    <div className="mx-auto py-8 p-4 animate-fade-in">
       <h1 className="text-3xl font-bold mb-8">Planes de Capacitación para Escuelas</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {planesData.map((plan, index) => (

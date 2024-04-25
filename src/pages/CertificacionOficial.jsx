@@ -3,9 +3,9 @@ import imgCertificado from '../assets/IMG certificacion/Certificados  RCP Compan
 
 const CertificacionOficial = () => {
   return (
-    <section className="py-12 bg-gray-100">
+    <section className="py-12 bg-gray-100 animate-fade-in">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between">
+        <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-5">
           <div className="lg:w-1/2 mb-8 lg:mb-0">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">Entrega de Certificación Oficial Avalada por Organismos Especializados</h2>
             <p className="text-lg text-gray-700 mb-6">

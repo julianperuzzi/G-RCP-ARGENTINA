@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 
 export const About = () => {
   return (
-    <>
+    <aside className='animate-fade-in'>
       <div id="main-article" className={`xl:flex xl:gap-8 px-4 pt-1 `}>
         <MainArticle />
         <Blog />
@@ -41,6 +41,6 @@ export const About = () => {
       <div id="teoria" className={` px-4 pt-1 my-10`}>
         <ListonInfinito />
       </div>
-    </>
+    </aside>
   );
 };

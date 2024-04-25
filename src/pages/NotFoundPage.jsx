@@ -3,7 +3,7 @@ import underDevelopmentImage from '../assets/under-development.jpg'; // Importa 
 import { Link } from 'react-router-dom';
 const NotFoundPage = () => {
   return (
-    <div className="flex justify-center items-center ">
+    <div className="flex justify-center items-center animate-fade-in">
       <div className="text-center">
         <img src={underDevelopmentImage} alt="En desarrollo" className="mx-auto my-8" style={{ maxWidth: '400px' }} />
         <h2 className="text-4xl font-bold text-orange-600 mb-4">En desarrollo</h2>
