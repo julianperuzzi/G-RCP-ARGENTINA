@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faWhatsapp, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
 
 import backgroundImage from '../assets/fondo oscuro.png';
 
@@ -13,10 +14,10 @@ export const Footer = () => {
       <div className="container mx-auto flex flex-wrap justify-between relative z-10">
         {/* Primera columna */}
         <div className="w-full sm:w-auto mb-4 sm:mb-0 border-b-2 border-zinc-300 pb-2">
-          <a href="/Contacto" className="text-white hover:text-gray-400 font-bold">Contacto</a>
+          <Link to="/Contacto" className="text-white hover:text-gray-400 font-bold">Contacto</Link> {/* Cambia a Link */}
           <ul>
-            <li><a href="/nosotros" className="text-white hover:text-gray-400">Nosotros</a></li>
-            <li><a href="/informacion-legal" className="text-white hover:text-gray-400">Información Legal</a></li>
+            <li><Link to="/nosotros" className="text-white hover:text-gray-400">Nosotros</Link></li> {/* Cambia a Link */}
+            <li><Link to="/informacion-legal" className="text-white hover:text-gray-400">Información Legal</Link></li> {/* Cambia a Link */}
           </ul>
         </div>
         
@@ -24,8 +25,8 @@ export const Footer = () => {
         <div className="w-full sm:w-auto mb-4 sm:mb-0 border-b-2 border-zinc-300 pb-2">
           <h3 className="font-bold mb-2">Experiencias</h3>
           <ul>
-            <li><a href="/clientes" className="text-white hover:text-gray-400">Clientes</a></li>
-            <li><a href="/lugares" className="text-white hover:text-gray-400">Lugares</a></li>
+            <li><Link to="/clientes" className="text-white hover:text-gray-400">Clientes</Link></li> {/* Cambia a Link */}
+            <li><Link to="/lugares" className="text-white hover:text-gray-400">Lugares</Link></li> {/* Cambia a Link */}
           </ul>
         </div>
 

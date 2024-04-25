@@ -24,9 +24,9 @@ export const Equipo = () => {
 
         <div className="mt-4 mx-10 text-[14px] sm:mx-40 md:text-[16px] text-justify">
           <h2 className="font-bold pt-4 text-xl pb-2">Misión:</h2>
-          <p className="text-l">Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident consectetur voluptate porro ducimus nulla voluptatum voluptas adipisci animi, odit laboriosam laborum, facilis mollitia, quod fugit eos. Nihil, accusamus! Minus, voluptate.</p>
+          <p className="text-l">Nuestra misión es capacitar a instituciones educativas y empresas en técnicas de reanimación cardiopulmonar (RCP), primeros auxilios, soporte vital básico y manejo de desfibriladores externos automáticos (DEA). Nos comprometemos a brindar conocimientos actualizados y prácticos que permitan a los participantes responder de manera efectiva ante emergencias médicas, salvaguardando vidas y promoviendo entornos seguros y preparados para actuar en situaciones críticas.</p>
           <h2 className="font-bold mt-4 border-t-2 pt-4 pb-2 text-xl">Visión:</h2>
-          <p className="text-l">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam itaque quisquam eligendi culpa fuga quis, aliquid voluptas nesciunt laborum reprehenderit excepturi recusandae repellat veniam alias earum eveniet unde necessitatibus!</p>
+          <p className="text-l">Nos visualizamos como líderes en la capacitación en RCP, primeros auxilios, soporte vital básico y manejo de DEA para instituciones educativas y empresas.Aspiramos a ser reconocidos por nuestra calidad en la formación, contribuyendo a la creación de una sociedad más preparada y comprometida con la seguridad y el bienestar de sus miembros. Nuestra visión es un futuro donde todos los centros educativos y empresas cuenten con personal capacitado para responder eficazmente ante emergencias médicas, reduciendo así el riesgo de lesiones graves y salvando vidas.</p>
           <h2 className="font-bold mt-4 border-t-2 pt-4 text-xl pb-2">Objetivo:</h2>
           <p className="text-l">Buscamos ser participes y generadores de acciones preventivas para la comunidad en general para acabar (o al menos disminuir) las epidemias de las que poco se habla: EL AHOGAMIENTO Y LA MUERTE SÚBITA.</p>
         </div>

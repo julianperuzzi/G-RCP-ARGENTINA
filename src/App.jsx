@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom'; // Importamos BrowserRouter como Router
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import Header from './components/Header';
 import { Footer } from './components/Footer';
@@ -12,6 +12,7 @@ import ServiciosPages from './pages/ServiciosPages';
 import Biblioteca from './pages/Biblioteca';
 import CertificacionOficial from './pages/CertificacionOficial';
 import Contacto from './pages/Contacto';
+import NotFoundPage from './pages/NotFoundPage'; // Importa la página de error 404 o coming soon
 
 function App() {
   return (
@@ -28,8 +29,8 @@ function App() {
         <Route path="/Biblioteca" element={<Biblioteca />} />
         <Route path="/Certificacion" element={<CertificacionOficial />} />
         <Route path="/Contacto" element={<Contacto />} />
-        {/* Puedes eliminar esta ruta porque "/*" coincide con cualquier ruta, por lo que esta ruta nunca será alcanzada */}
-        {/* <Route path="/*" element={<About />} /> */}
+        {/* Ruta para manejar cualquier ruta no definida */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
     </Router>
