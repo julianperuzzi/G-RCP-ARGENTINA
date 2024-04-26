@@ -61,13 +61,13 @@ const ServiciosPages = () => {
         {serviciosData.map((service) => (
           <article
             key={service.id}
-            className="bg-white shadow-lg flex items-center p-4 my-2 hover:bg-orange-600 hover:text-white cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
+            className="bg-white shadow-lg flex items-center p-3 my-2 hover:bg-orange-600 hover:text-white cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
             onClick={() => handleServiceClick(service.id)}
           >
             <div className="">
-              <img src={selectedService === service.id ? service.imageAfter : service.imageBefore} alt="" className="w-60 lg:w-40" /> {/* Mostrar la segunda imagen si el servicio está seleccionado */}
+              <img src={selectedService === service.id ? service.imageAfter : service.imageBefore} alt="" className=" max-w-32 lg:w-40" /> {/* Mostrar la segunda imagen si el servicio está seleccionado */}
             </div>
-            <div className="ml-4">
+            <div className="ml-4 ">
               <p className="text-gray-300 text-3xl font-bold mb-2">0{service.id}</p>
               <h2 className="font-bold text-xl mb-2">{service.title}</h2>
               <p className="text-sm">{service.description}</p>
