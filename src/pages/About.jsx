@@ -23,7 +23,7 @@ export const About = () => {
       </div>
 
       <section id="aprende-rcp" className=" px-4 py-4 text-center shadow-lg mx-4 mt-10">
-        <h2 className="text-3xl font-bold mb-4">Aprende RCP con nosotros</h2>
+        <h2 className="text-3xl font-bold mb-4">APRENDE RCP CON NOSOTROS</h2>
         <p className="text-lg mb-4">Aprende las técnicas de Reanimación Cardiopulmonar (RCP) con nuestros contenido. Geolocaliza todos los DEA de Argentina</p>
         <Link to="/rcp" className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded inline-block">
           Aprende RCP
