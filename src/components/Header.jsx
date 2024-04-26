@@ -27,18 +27,17 @@ const Navbar = ({ handleLinkClick, menuClicked, setMenuClicked }) => {
         <li className='mb-8 lg:mb-0'>
           <Link className='hover:text-SoftRed' to="/Servicios" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Servicios</Link>
         </li>
-        <li className='mb-8 lg:mb-0'>
-          <Link className='hover:text-SoftRed' to="/Mineras" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Mineras</Link>
-        </li>
-        <li className='mb-8 lg:mb-0'>
-          <Link className='hover:text-SoftRed' to="/Escuelas" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Escuelas</Link>
-        </li>
+        
         <li className='mb-8 lg:mb-0'>
           <Link className='hover:text-SoftRed' to="/Nosotros" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Nosotros</Link>
         </li>
         <li className='mb-8 lg:mb-0'>
-          <Link className='hover:text-SoftRed' to="/News" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Blog</Link>
+          <Link className=' text-blue-900 hover:text-SoftRed' to="/Contacto" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Contactanos</Link>
         </li>
+        <li className='mb-8 lg:mb-0'>
+          <Link className='hover:text-SoftRed' to="/Mineras" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Binestar Minero</Link>
+        </li>
+        
         <img className={`lg:w-[90px] `} src={logoAfterScroll} alt="logo" />
       </ul>
       <img className={`${menuClicked ? '' : 'hidden'}  cursor-pointer lg:hidden pr-4`} src={burgerMenu} onClick={handleClick} alt="" />

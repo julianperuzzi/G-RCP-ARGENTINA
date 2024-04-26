@@ -2,7 +2,7 @@ import React from 'react';
 import { MainArticle } from "../components/MainArticle";
 import { Blog } from "../components/Blog";
 import { Servicios } from "../components/Servicios";
-import { Equipo } from "./Equipo";
+import { Nosotros } from "./Nosotros";
 import { Certificacion } from "../components/Certificacion";
 import { Teoria } from "../components/Teoria";
 import ListonInfinito from "../components/ListonInfinito";
@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 
 export const About = () => {
   return (
-    <aside className='animate-fade-in'>
+    <aside className='animate-fade-in lg:mx-6'>
       <div id="main-article" className={`xl:flex xl:gap-8 px-4 pt-1 `}>
         <MainArticle />
         <Blog />

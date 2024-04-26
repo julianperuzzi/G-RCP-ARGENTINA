@@ -1,50 +1,43 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
-import img1 from '../assets/img servicios/Fomentando Héroes en las Aulas (1).png';
-import img2 from '../assets/img servicios/G - R C P DEPORTISTAS.png';
-import img3 from '../assets/img servicios/G - R C P EMPRESAS.png';
 
 export const Servicios = () => {
   return (
-    <section className="my-4 p-3">
-      <h1 className="text-4xl text-center pt-4 pl-3c font-bold pl-6">Servicios</h1>
-      <div className="lg:flex lg:gap-10 p-2">
-        
-        <Link to="/Servicios" className="w-full">
-          <article className="bg-white shadow-2xl flex items-center p-4 my-4 hover:scale-105 hover:bg-gray-900 hover:text-white transition-transform duration-200 ease-in-out">
-            <div className="w-40 overflow-hidden">
-              <img src={img1} alt="" className="w-full h-full" />
-            </div>
+    <section className="my-4 p-3 bg-gray-100">
+      <h1 className="text-4xl text-center pt-4 pl-6 font-bold">Servicios</h1>
+      <div className="flex  lg:gap-10 p-2 overflow-x-auto">
+        <Link to="/Servicios" className="flex-shrink-0">
+          <article className="bg-white shadow-md rounded-md flex items-center p-4 m-4 hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 max-w-52">
             <div className="ml-4">
-              <p className="text-GrisClaro text-3xl font-bold mb-2">01</p>
-              <h2 className="font-bold text-xl mb-2 hover:text-SoftOrange cursor-pointer">Servicio para Escuelas</h2>
-              <p className="text-GrisClaro text-sm">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+              <h2 className="font-bold text-xl mb-2 hover:text-SoftOrange cursor-pointer">Servicios para Instituciones Educativas</h2>
+              <p className="text-gray-700 text-sm">Ofrecemos programas y capacitaciones adaptadas a las necesidades de escuelas y colegios para promover la seguridad y el bienestar de estudiantes y personal educativo.</p>
             </div>
           </article>
         </Link>
 
-        <Link to="/Servicios" className="w-full">
-          <article className="bg-white shadow-2xl flex items-center p-4 my-4 hover:scale-105 hover:bg-gray-900 hover:text-white transition-transform duration-300 ease-in-out">
-            <div className="w-40 overflow-hidden">
-              <img src={img2} alt="" className="w-full h-full" />
-            </div>
+        <Link to="/Servicios" className="flex-shrink-0">
+          <article className="bg-white shadow-md rounded-md flex items-center p-4 m-4 hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 max-w-52">
             <div className="ml-4">
-              <p className="text-GrisClaro text-3xl font-bold mb-2">02</p>
-              <h2 className="font-bold text-xl mb-2 hover:text-SoftOrange cursor-pointer">Servicio para Deportistas</h2>
-              <p className="text-GrisClaro text-sm">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+              <h2 className="font-bold text-xl mb-2 hover:text-SoftOrange cursor-pointer">Servicios para Empresas</h2>
+              <p className="text-gray-700 text-sm">Proporcionamos soluciones integrales de capacitación y gestión de emergencias para empresas, con el objetivo de promover la seguridad y el bienestar en el lugar de trabajo.</p>
             </div>
           </article>
         </Link>
 
-        <Link to="/Servicios" className="w-full">
-          <article className="bg-white shadow-2xl flex items-center p-4 mt-4 hover:scale-105 hover:bg-gray-900 hover:text-white transition-transform duration-300 ease-in-out">
-            <div className="w-40 overflow-hidden">
-              <img src={img3} alt="" className="w-full h-full" />
-            </div>
+        <Link to="/Servicios" className="flex-shrink-0">
+          <article className="bg-white shadow-md rounded-md flex items-center p-4 m-4 hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 max-w-52">
             <div className="ml-4">
-              <p className="text-GrisClaro text-3xl font-bold mb-2">03</p>
-              <h2 className="font-bold text-xl mb-2 hover:text-SoftOrange cursor-pointer">Servicio para Empresas</h2>
-              <p className="text-GrisClaro text-sm">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+              <h2 className="font-bold text-xl mb-2 hover:text-SoftOrange cursor-pointer">Servicios para Grupos Deportivos</h2>
+              <p className="text-gray-700 text-sm">Diseñamos programas de capacitación y entrenamiento en primeros auxilios y RCP específicamente adaptados, con el objetivo de promover la seguridad y el rendimiento deportivo.</p>
+            </div>
+          </article>
+        </Link>
+
+        <Link to="/Servicios" className="flex-shrink-0">
+          <article className="bg-white shadow-md rounded-md flex items-center p-4 m-4 hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 max-w-52">
+            <div className="ml-4">
+              <h2 className="font-bold text-xl mb-2 hover:text-SoftOrange cursor-pointer">Servicios para la Comunidad</h2>
+              <p className="text-gray-700 text-sm">Brindamos programas de capacitación en primeros auxilios y RCP abiertos a la comunidad en general, con el objetivo de empoderar a las personas para actuar en situaciones de emergencia y salvar vidas.</p>
             </div>
           </article>
         </Link>
@@ -52,4 +45,3 @@ export const Servicios = () => {
     </section>
   );
 };
-

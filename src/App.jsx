@@ -4,7 +4,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Header from './components/Header';
 import { Footer } from './components/Footer';
 import { About } from './pages/About';
-import { Equipo } from './pages/Equipo';
+import { Nosotros } from './pages/Nosotros';
 import { EscuelasPage } from './pages/EscuelasPage';
 import BlogPage from './pages/BlogPage';
 import AprendeRCP from './pages/AprendeRCP';
@@ -16,13 +16,13 @@ import NotFoundPage from './pages/NotFoundPage'; // Importa la página de error 
 import Minero from './pages/Minero';
 
 function App() {
-  return (
+  return (  
     <Router>
       <Header />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<About />} />
-        <Route path="/Nosotros" element={<Equipo />} />
+        <Route path="/Nosotros" element={<Nosotros />} />
         <Route path="/Escuelas" element={<EscuelasPage />} />
         <Route path="/News" element={<BlogPage />} />
         <Route path="/rcp" element={<AprendeRCP />} />
