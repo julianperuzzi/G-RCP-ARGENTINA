@@ -1,13 +1,11 @@
 import React from 'react';
-import imgCert from '../assets/7013436_currency_business_certification_certificate_finance_icon.svg';
-import ListonInfinito from './ListonInfinito';
-import logoFac from '../assets/logo fac.webp';
+import logoFac from '../assets/LOGO DE CERTIFICACION.jpg';
 import { Link } from 'react-router-dom';
 
 
 export const Certificacion = () => {
   return (
-    <section className="flex justify-center items-center bg-slate-100 mb-4">
+    <section className="flex justify-center items-center shadow-xl mb-4">
       <div className="sm:flex lg:w-2/3 justify-right  items-center mb-4">
         <div className="p-4">
           <h2 className="text-3xl font-bold mb-2">CERTIFICACION OFICIAL</h2>
