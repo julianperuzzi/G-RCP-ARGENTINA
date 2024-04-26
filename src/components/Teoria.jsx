@@ -10,7 +10,7 @@ export const Teoria = () => {
           <h2 className="text-3xl font-bold text-white mb-2">BIBLIOTECA DE PRIMEROS AUXILIOS</h2>
           <p className="text-white">Aquí encontrarás toda la teoría necesaria para aprender primeros auxilios y cómo actuar en situaciones de emergencia.</p>
           <p className="text-gray-300">No dudes en explorar nuestra amplia colección de recursos para estar preparado ante cualquier eventualidad.</p>
-          <Link to="/Biblioteca" className="mt-2 inline-block bg-orange-400 hover:bg-black text-white font-bold py-2 px-4">Explorar Bibiolteca</Link>
+          <Link to="/Biblioteca" className="mt-2 inline-block bg-orange-400 hover:bg-black text-white font-bold py-2 px-4">Explorar Bibliolteca</Link>
         </div>
       </div>
     </section>
