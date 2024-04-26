@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
 export const Servicios = () => {
   return (
     <section className="my-4 lg:w-max bg-gray-100 mx-auto">
-      <h1 className="text-4xl text-center pt-4 pl-6 font-bold">Servicios</h1>
+      <h1 className="text-4xl text-center pt-4 pl-6 font-bold">SERVICIOS</h1>
       <div className="flex  lg:gap-10 p-2 overflow-x-auto">
         <Link to="/Servicios" className="flex-shrink-0 ">
           <article className="bg-white shadow-md rounded-md flex items-center p-4 m-4 hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 max-w-56 lg:max-w-80 h-80">
