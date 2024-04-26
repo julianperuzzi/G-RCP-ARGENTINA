@@ -53,7 +53,7 @@ const Header = () => {
   };
 
   return (
-    <header className={`flex place-content-between items-center border-b-2 sticky top-0 z-30 `} style={{ backgroundColor: 'rgba(255, 255, 255, 1)' }}>
+    <header className={`flex place-content-between items-center border-b-2 sticky top-0 z-30 lg:px-4 `} style={{ backgroundColor: 'rgba(255, 255, 255, 1)' }}>
       
       <Link to="/">
         <img className={`md:w-[90px] w-[60px] ml-6 m-2`} src={logoBeforeScroll} alt="logo" />
