@@ -12,32 +12,32 @@ const serviciosData = [
   {
     id: 1,
     title: 'Capacitaciones para Instituciones Educativas',
-    description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-    info: 'Ofrecemos programas y capacitaciones adaptadas a las necesidades de escuelas y colegios para promover la seguridad y el bienestar de estudiantes y personal educativo.',
+    description: 'Potenciamos la seguridad y el bienestar en entornos educativos con programas adaptados a escuelas y colegios.',
+    info: 'Nuestros programas y capacitaciones están diseñados específicamente para cubrir las necesidades de instituciones educativas. Brindamos formación en primeros auxilios y RCP, promoviendo una cultura de prevención y respuesta efectiva en situaciones de emergencia.',
     imageBefore: img1Before,
     imageAfter: img1After,
   },
   {
     id: 2,
     title: 'Capacitaciones para Grupos Deportivos',
-    description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-    info: 'Diseñamos programas de capacitación y entrenamiento en primeros auxilios y RCP específicamente adaptados para atletas y equipos deportivos, con el objetivo de promover la seguridad y el rendimiento deportivo.',
+    description: 'Impulsamos la seguridad y el rendimiento deportivo con capacitaciones diseñadas para atletas y equipos deportivos.',
+    info: 'Diseñamos programas de capacitación y entrenamiento en primeros auxilios y RCP específicamente adaptados para atletas y equipos deportivos. Nuestros cursos están enfocados en brindar conocimientos prácticos y habilidades que pueden marcar la diferencia en situaciones de emergencia durante la práctica deportiva.',
     imageBefore: img2Before,
     imageAfter: img2After,
   },
   {
     id: 3,
     title: 'Capacitaciones Empresariales',
-    description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-    info: 'Proporcionamos soluciones integrales de capacitación y gestión de emergencias para empresas, con el objetivo de promover la seguridad y el bienestar en el lugar de trabajo.',
+    description: 'Facilitamos soluciones integrales de capacitación y gestión de emergencias para empresas.',
+    info: 'Nuestros programas se enfocan en la formación del personal en medidas de prevención, respuesta y atención en situaciones de emergencia, contribuyendo así a la protección del capital humano y los recursos empresariales. Promovemos un entorno laboral seguro y preparado para enfrentar contingencias.',
     imageBefore: img3Before,
     imageAfter: img3After,
   },
   {
     id: 4,
     title: 'Capacitación para Comunidad General',
-    description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-    info: 'Brindamos programas de capacitación en primeros auxilios y RCP abiertos a la comunidad en general, con el objetivo de empoderar a las personas para actuar en situaciones de emergencia y salvar vidas.',
+    description: 'Empoderamos a la comunidad con programas de capacitación en primeros auxilios y RCP.',
+    info: 'Brindamos conocimientos esenciales y habilidades prácticas para responder eficazmente ante emergencias médicas. Nuestros cursos están diseñados para capacitar a personas de todas las edades y perfiles, promoviendo una cultura de seguridad y solidaridad en la sociedad.',
     imageBefore: img4Before,
     imageAfter: img4After,
   },
@@ -65,7 +65,7 @@ const ServiciosPages = () => {
             onClick={() => handleServiceClick(service.id)}
           >
             <div className="w-40 overflow-hidden">
-              <img src={selectedService === service.id ? service.imageAfter : service.imageBefore} alt="" className="w-full h-full" /> {/* Mostrar la segunda imagen si el servicio está seleccionado */}
+              <img src={selectedService === service.id ? service.imageAfter : service.imageBefore} alt="" className="w-28 lg:w-96" /> {/* Mostrar la segunda imagen si el servicio está seleccionado */}
             </div>
             <div className="ml-4">
               <p className="text-gray-300 text-3xl font-bold mb-2">0{service.id}</p>
