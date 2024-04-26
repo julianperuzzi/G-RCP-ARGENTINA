@@ -35,7 +35,7 @@ const Navbar = ({ handleLinkClick, menuClicked, setMenuClicked }) => {
           <Link className=' text-blue-900 hover:text-SoftRed' to="/Contacto" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Contactanos</Link>
         </li>
         <li className='mb-8 lg:mb-0'>
-          <Link className='hover:text-SoftRed' to="/Mineras" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Binestar Minero</Link>
+          <Link className='hover:text-SoftRed' to="/Mineras" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Bienestar Minero</Link>
         </li>
         
         <img className={`lg:w-[90px] `} src={logoAfterScroll} alt="logo" />
