@@ -35,9 +35,9 @@ export const Footer = () => {
           <h3 className="font-bold mb-2">Redes Sociales</h3>
           <ul>
             <li><a href="https://www.instagram.com/gruporcpsa/" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faInstagram} /> Instagram</a></li>
-            <li><a href="https://www.facebook.com" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faFacebook} /> Facebook</a></li>
+            <li><a href="" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faFacebook} /> Facebook</a></li>
             <li><a href="https://wa.me/+5492645270774" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faWhatsapp} /> Whatsapp</a></li>
-            <li><a href="https://www.youtube.com" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faYoutube} /> Youtube</a></li>
+            <li><a href="" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faYoutube} /> Youtube</a></li>
           </ul>
         </div>
 
