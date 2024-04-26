@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 export const Teoria = () => {
   return (
-    <section className="flex justify-center items-center bg-zinc-900 ">
-      <div className="sm:flex lg:w-2/3 justify-right items-center mb-4">
+    <section className="flex justify-center items-center bg-zinc-900">
+      <div className="sm:flex lg:w-2/3 justify-right items-center my-8 ">
         <div className="p-4">
           <h2 className="text-3xl font-bold text-white mb-2">BIBLIOTECA DE PRIMEROS AUXILIOS</h2>
           <p className="text-white">Aquí encontrarás toda la teoría necesaria para aprender primeros auxilios y cómo actuar en situaciones de emergencia.</p>
