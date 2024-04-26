@@ -14,10 +14,13 @@ import CertificacionOficial from './pages/CertificacionOficial';
 import Contacto from './pages/Contacto';
 import NotFoundPage from './pages/NotFoundPage'; // Importa la página de error 404 o coming soon
 import Minero from './pages/Minero';
+import { SpeedInsights } from "@vercel/speed-insights/react"
+
 
 function App() {
   return (  
     <Router>
+      <SpeedInsights/>
       <Header />
       <ScrollToTop />
       <Routes>
