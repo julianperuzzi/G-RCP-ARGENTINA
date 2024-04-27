@@ -22,7 +22,7 @@ const Navbar = ({ handleLinkClick, menuClicked, setMenuClicked }) => {
           <Link className='hover:text-SoftRed' to="/" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Inicio</Link>
         </li>        
         <li className='mb-8 lg:mb-0'>
-          <Link className='hover:text-red-700 text-red-400' to="/rcp" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Aprende RCP</Link>
+          <Link className='hover:text-SoftRed' to="/rcp" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Aprende RCP</Link>
         </li>
         <li className='mb-8 lg:mb-0'>
           <Link className='hover:text-SoftRed' to="/Servicios" onClick={() => { handleLinkClick(); setMenuClicked(true); }}>Servicios</Link>
