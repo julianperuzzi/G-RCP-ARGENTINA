@@ -60,7 +60,7 @@ const Contacto = () => {
       <div className="text-center mt-8">
       <p className="mb-4 text-gray-700">o</p>
         <p className="mb-4 text-gray-700">¿Prefieres contactarnos por WhatsApp?</p>
-        <a href="https://wa.me/+5492645270774" target="_blank" rel="noopener noreferrer" className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md inline-block">
+        <a href="https://wa.me/+5492645667981" target="_blank" rel="noopener noreferrer" className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md inline-block">
           <FontAwesomeIcon icon={faWhatsapp} className="mr-2" /> {/* Icono de WhatsApp */}
           Contactar por WhatsApp
         </a>

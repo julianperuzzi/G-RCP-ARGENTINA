@@ -7,7 +7,7 @@ import img2After from '../assets/img servicios/servicio para deportistas 16-9.pn
 import img3Before from '../assets/img servicios/G - R C P EMPRESAS.png';
 import img3After from '../assets/img servicios/servicio para empresas 16-9.png';
 import img4Before from '../assets/img servicios/G - R C P Comunidad 1.jpg';
-import img4After from '../assets/img servicios/G - R C P Comunidad.jpg';
+import img4After from '../assets/img servicios/servicio para comunidad 16-9.png';
 const serviciosData = [
   {
     id: 1,
