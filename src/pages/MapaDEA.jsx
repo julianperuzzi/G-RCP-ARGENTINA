@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+
 
 const MapaDEA = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
@@ -29,7 +32,7 @@ const MapaDEA = () => {
         className="mx-auto block"
       ></iframe>
 
-      <p className="text-lg mt-4 text-gray-700 ml-8">Si tenes información de otro DEA añadila aquí</p>
+      <p className="text-lg mt-4 text-gray-700 ml-8">Si tienes información de otro DEA, añádela aquí:</p>
 
       <button
         className="bg-orange-500 text-white font-bold py-2 px-4 my-4 ml-8"
@@ -54,8 +57,9 @@ const MapaDEA = () => {
           <button
             type="button"
             onClick={abrirWhatsApp}
-            className="bg-green-500 text-white font-bold py-2 px-4 "
+            className="bg-green-500 text-white font-bold py-2 px-4 flex items-center"
           >
+            <FontAwesomeIcon icon={faWhatsapp} className="mr-2" /> {/* Utiliza el icono de Font Awesome */}
             Enviar por WhatsApp
           </button>
         </form>
