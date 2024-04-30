@@ -6,9 +6,9 @@ const MapaDEA = () => {
 
   // Función para abrir WhatsApp con el mensaje predefinido
   const abrirWhatsApp = () => {
-    const mensaje = `Hola, te contacto para informarte sobre la ubicación de un DEA. La dirección es: ${ubicacionDEA}. Agradezco tu atención. Saludos.`;
+    const mensaje = `Hola, te contacto para informarte sobre la ubicación de un DEA. La dirección es: *${ubicacionDEA}*. Agradezco tu atención. Saludos.`;
 
-    const numero = '5492645667981'; // Número de teléfono en formato internacional
+    const numero = '5492645636968'; // Número de teléfono en formato internacional
 
     window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`, '_blank');
   };
