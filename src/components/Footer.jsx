@@ -34,7 +34,7 @@ export const Footer = () => {
         <div className="w-full sm:w-auto mb-4 sm:mb-0 border-b-2 border-zinc-300 pb-2">
           <h3 className="font-bold mb-2">Redes Sociales</h3>
           <ul>
-            <li><a href="https://www.instagram.com/gruporcpsa/" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faInstagram} /> Instagram</a></li>
+            <li><a href="https://www.instagram.com/grcp_arg/" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faInstagram} /> Instagram</a></li>
             <li><a href="" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faFacebook} /> Facebook</a></li>
             <li><a href="https://wa.me/+5492645667981" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faWhatsapp} /> Whatsapp</a></li>
             <li><a href="" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faYoutube} /> Youtube</a></li>
