@@ -14,10 +14,12 @@ import CertificacionOficial from './pages/CertificacionOficial';
 import Contacto from './pages/Contacto';
 import NotFoundPage from './pages/NotFoundPage'; // Importa la página de error 404 o coming soon
 import Minero from './pages/Minero';
+import MapaDEA from './pages/MapaDEA';
 
 
 import { SpeedInsights } from "@vercel/speed-insights/react"
 import { Analytics } from "@vercel/analytics/react"
+
 
 
 function App() {
@@ -38,6 +40,7 @@ function App() {
         <Route path="/Certificacion" element={<CertificacionOficial />} />
         <Route path="/Contacto" element={<Contacto />} />
         <Route path="/Mineras" element={<Minero />} />
+        <Route path="/MapaDEA" element={<MapaDEA/>} />
         {/* Ruta para manejar cualquier ruta no definida */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
