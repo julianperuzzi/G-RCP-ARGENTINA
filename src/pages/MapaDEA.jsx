@@ -29,6 +29,8 @@ const MapaDEA = () => {
         className="mx-auto block"
       ></iframe>
 
+      <p className="text-lg mt-4 text-gray-700 ml-8">Si tenes información de otro DEA añadila aquí</p>
+
       <button
         className="bg-orange-500 text-white font-bold py-2 px-4 my-4 ml-8"
         onClick={() => setMostrarFormulario(!mostrarFormulario)}
