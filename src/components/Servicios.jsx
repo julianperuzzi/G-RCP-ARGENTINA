@@ -5,7 +5,7 @@ export const Servicios = () => {
   return (
     <section className="my-4 lg:w-max bg-gray-100 mx-auto">
       <h2 className="text-3xl text-center pt-4 pl-6 font-bold">SERVICIOS</h2>
-      <div className="grid grid-cols-2 gap-6 lg:grid-cols-4 p-2 py-4">
+      <div className="grid grid-cols-2 gap-6 lg:grid-cols-4 p-2 py-4 md:px-4">
         <Link to="/Servicios" className="flex-shrink-0">
           <article className="bg-white shadow-md rounded-md flex flex-col justify-between p-4 hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 h-full">
 
