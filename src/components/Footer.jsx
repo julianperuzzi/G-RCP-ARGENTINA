@@ -11,7 +11,7 @@ export const Footer = () => {
       <div className="absolute inset-0 z-0">
         <img src={backgroundImage} alt="background" className="w-full h-full object-cover opacity-10" style={{ filter: 'brightness(40%) blur(5px)' }} />
       </div>
-      <div className="container mx-auto flex flex-wrap justify-between relative z-10">
+      <div className="container mx-auto flex flex-wrap justify-between relative z-10 lg:w-2/3">
         {/* Primera columna */}
         <div className="w-full sm:w-auto mb-4 sm:mb-0 border-b-2 border-zinc-300 pb-2">
           <Link to="/Contacto" className="text-white hover:text-gray-400 font-bold">Contacto</Link> {/* Cambia a Link */}
