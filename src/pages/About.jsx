@@ -9,12 +9,12 @@ import { Link } from 'react-router-dom';
 
 export const About = () => {
   return (
-    <aside className='animate-fade-in lg:mx-6'>
-      <div id="main-article" className={`xl:flex xl:gap-8 px-4 pt-1 `}>
+    <aside className='animate-fade-in mx-auto xl:w-3/4 '>
+      <div id="main-article" className={`px-4 pt-1`}>
         <MainArticle />
-        <Blog />
       </div>
 
+      
     
       <div id="servicios" className={`xl:flex xl:gap-8 px-4 pt-1 my-10 `}>
         <Servicios />
@@ -50,6 +50,12 @@ export const About = () => {
       <div id="teoria" className={` px-4 pt-1 my-10`}>
         <ListonInfinito />
       </div>
+
+      <div id="main-article" className={`px-4 pt-1 `}>
+      <Blog />
+      </div>
+
+      
     </aside>
   );
 };
