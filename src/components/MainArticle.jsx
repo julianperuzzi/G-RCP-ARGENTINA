@@ -23,7 +23,7 @@ export const MainArticle = () => {
 
   return (
     <section className='mb-4 mx-auto relative'>
-      <div className='relative flex justify-start sm:items-center bg-AzulOscuro h-screen md:h-[700px]'>
+      <div className='relative flex justify-start sm:items-center bg-AzulOscuro h-svh '>
         <div 
           className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${fade ? 'opacity-100' : 'opacity-0'}`} 
           style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
