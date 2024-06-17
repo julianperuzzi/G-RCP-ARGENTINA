@@ -23,12 +23,12 @@ export const MainArticle = () => {
 
   return (
     <section className='mb-4 mx-auto relative'>
-      <div className='relative flex justify-start items-center bg-AzulOscuro h-screen md:h-[700px]'>
+      <div className='relative flex justify-start sm:items-center bg-AzulOscuro h-screen md:h-[700px]'>
         <div 
           className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${fade ? 'opacity-100' : 'opacity-0'}`} 
           style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
         ></div>
-        <div className='absolute flex flex-col text-white p-4 xl:px-28 md:px-218 items-start text-left z-10'>
+        <div className='absolute flex flex-col text-white p-4 xl:px-28 md:px-8 text-left mt-10 sm:mt-0 z-10'>
           <h1 className='text-[40px] font-bold sm:text-[50px] leading-none mb-5 sm:w-3/4 w-5/6 '>
             G-RCP: Capacitación en Primeros Auxilios
           </h1>
