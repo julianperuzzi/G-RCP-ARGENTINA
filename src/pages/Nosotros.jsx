@@ -18,7 +18,7 @@ export const Nosotros = () => {
   return (
     <aside className="px-4 pb-6 bg-gray-900 text-white animate-fade-in">
 
-<div className=' h-screen flex justify-center items-center flex-col'>
+<div className=' h-svh flex justify-center items-center flex-col'>
 <h2 className=' text-center text-4xl sm:text-6xl font-bold text-slate-300 md:w-2/3'> Grupo de Rescate, Capacitaión y Prevención</h2>
 <img src={otroLogo} alt="Otro logo de la empresa" className="mx-auto my-8" style={{ maxWidth: '50vh' }} />
 </div>
