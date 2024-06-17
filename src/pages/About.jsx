@@ -8,18 +8,18 @@ import { Link } from 'react-router-dom';
 
 export const About = () => {
   return (
-    <aside className='animate-fade-in mx-auto xl:w-3/4 '>
-      <div id="main-article" className={``}>
+    <aside className='animate-fade-in mx-auto'>
+      <div id="main-article" className={` `}>
         <MainArticle />
       </div>
 
       
-    
-      <div id="servicios" className={`xl:flex shadow-2xl mt-16 mx-4`}>
+    <aside className='mx-4 md:w-5/6 md:mx-auto'>
+      <div id="servicios" className={`xl:flex shadow-2xl mt-16 o`}>
         <Servicios />
       </div>
 
-      <section id="aprende-rcp" className="px-4 py-4 mx-4 mt-10 bg-zinc-900 text-white  shadow-xl ">
+      <section id="Nuestros Recursos" className="px-4 py-4 mt-10 bg-zinc-900 text-white shadow-xl ">
 
         <div className='lg:w-2/3 mx-auto lg:my-8 my-4'>
         <h2 className="text-4xl text-center font-bold mb-16">NUESTROS RECURSOS</h2>  
@@ -64,7 +64,7 @@ export const About = () => {
       <div id="main-article" className={`shadow-2xl my-8`}>
       <Blog />
       </div>
-
+      </aside>
       
     </aside>
   );

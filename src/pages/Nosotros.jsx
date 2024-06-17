@@ -3,82 +3,85 @@ import img3 from '../assets/perfil equipo/julian perfil.png';
 import img2 from '../assets//perfil equipo/feli perfil.jpeg';
 import img1 from '../assets//perfil equipo/jisu perfil.jpeg';
 import empresaLogo from '../assets/logo g.rcp sin letras.svg';
-import otroLogo from '../assets/lodo dark g rcp.pptx.svg';
+import otroLogo from '../assets/logo dark g rcp.pptx.svg';
 import { Link } from 'react-router-dom';
+
+import misionImage from '../assets/rcpimagen.jpeg'; // Imagen para la misión
+import visionImage from '../assets/rcpimagen.jpeg'; // Imagen para la visión
+import objetivoImage from '../assets/rcpimagen.jpeg'; // Imagen para el objetivo
+
 
 
 export const Nosotros = () => {
   const [mostrarMiembros, setMostrarMiembros] = useState(false);
 
   return (
-    <aside className="px-4 py-6 bg-gray-900 text-white animate-fade-in">
+    <aside className="px-4 pb-6 bg-gray-900 text-white animate-fade-in">
 
-
-<img src={otroLogo} alt="Otro logo de la empresa" className="mx-auto my-8" style={{ maxWidth: '300px' }} />
-
+<div className=' h-screen flex justify-center items-center flex-col'>
+<h2 className=' text-center text-4xl sm:text-6xl font-bold text-slate-300 md:w-2/3'> Grupo de Rescate, Capacitaión y Prevención</h2>
+<img src={otroLogo} alt="Otro logo de la empresa" className="mx-auto my-8" style={{ maxWidth: '50vh' }} />
+</div>
 {/* //---------------------------------------------------------------- */}
 
 
 
-<div className="mx-auto mt-8 ">
-
-
-
-  <div className='flex mx-auto justify-center'>
-      <img src={empresaLogo} alt="Logo de la empresa" className="w-32 h-auto " />
-      <div className='pl-3'>
-      <h2 className="text-4xl font-bold my-2">Nosotros</h2>
-      <p className="text-lg max-w-prose">
-        Somos una empresa comprometida con la seguridad y el bienestar de la comunidad.
-      </p>
+<div className="mx-auto mt-8">
+      <div className='flex mx-auto justify-center'>
+        <img src={empresaLogo} alt="Logo de la empresa" className="w-32 h-auto" />
+        <div className='pl-3'>
+          <h2 className="text-4xl font-bold my-2">Nosotros</h2>
+          <p className="text-lg max-w-prose">
+            Somos una empresa comprometida con la seguridad y el bienestar de la comunidad.
+          </p>
+        </div>
       </div>
-      </div>
-
-
-
 
       <div className="sm:w-2/3 mx-auto mt-16 text-left">
-        <div className="mt-12 text-lg md:text-xl text-justify  p-4">
-
-         <div className=' bg-slate-700 rounded-xl p-6 my-8 shadow-xl '>
-          <h2 className="font-bold text-3xl mb-4 text-center">Misión</h2>
-          <p className="mb-8">
-            Nuestra misión es capacitar a instituciones educativas y empresas en técnicas de
-            reanimación cardiopulmonar (RCP), primeros auxilios, soporte vital básico y manejo de
-            desfibriladores externos automáticos (DEA). Nos comprometemos a brindar conocimientos
-            actualizados y prácticos que permitan a los participantes responder de manera efectiva
-            ante emergencias médicas, salvaguardando vidas y promoviendo entornos seguros y
-            preparados para actuar en situaciones críticas.
-          </p>
+        <div className="mt-12 text-lg md:text-xl p-4">
+          {/* Sección Misión */}
+          <div className="flex flex-col md:flex-row p-6 my-8 items-center">
+            <img src={misionImage} alt="Misión" className="w-full md:w-1/2 h-auto mb-4 md:mb-0 md:mr-8" />
+            <div>
+              <h2 className="font-bold md:text-5xl text-2xl mb-4 md:text-left">Misión</h2>
+              <p className="">
+                Nuestra misión es capacitar a instituciones educativas y empresas en técnicas de
+                reanimación cardiopulmonar (RCP), primeros auxilios, soporte vital básico y manejo de
+                desfibriladores externos automáticos (DEA). 
+              </p>
+            </div>
           </div>
 
-
-
-          <div className=' bg-slate-700 rounded-xl p-6 my-8 shadow-xl '>
-          <h2 className="font-bold text-3xl mb-4 text-center">Visión</h2>
-          <p className="mb-8">
-            Nos visualizamos como líderes en la capacitación en RCP, primeros auxilios, soporte
-            vital básico y manejo de DEA para instituciones educativas y empresas. Aspiramos a ser
-            reconocidos por nuestra calidad en la formación, contribuyendo a la creación de una
-            sociedad más preparada y comprometida con la seguridad y el bienestar de sus miembros.
-            Nuestra visión es un futuro donde todos los centros educativos y empresas cuenten con
-            personal capacitado para responder eficazmente ante emergencias médicas, reduciendo así
-            el riesgo de lesiones graves y salvando vidas.
-          </p>
+          {/* Sección Visión */}
+          <div className="flex flex-col md:flex-row-reverse p-6 my-8 items-center">
+            <img src={visionImage} alt="Visión" className="w-full md:w-1/2 h-auto mb-4 md:mb-0 md:ml-8" />
+            <div>
+              <h2 className="font-bold md:text-5xl text-2xl mb-4 md:text-left">Visión</h2>
+              <p className="">
+                Nos visualizamos como líderes en la capacitación en RCP, primeros auxilios, soporte
+                vital básico y manejo de DEA para instituciones educativas y empresas. Aspiramos a ser
+                reconocidos por nuestra calidad en la formación, contribuyendo a la creación de una
+                sociedad más preparada y comprometida con la seguridad y el bienestar de sus miembros.
+                
+              </p>
+            </div>
           </div>
 
-
-          <div className=' bg-slate-700 rounded-xl p-6 my-8 shadow-xl '>
-          <h2 className="font-bold text-3xl mb-4 text-center">Objetivo</h2>
-          <p className="mb-8">
-            Buscamos ser partícipes y generadores de acciones preventivas para la comunidad en
-            general para acabar (o al menos disminuir) las epidemias de las que poco se habla: EL
-            AHOGAMIENTO Y LA MUERTE SÚBITA.
-          </p>
-          </div>      
+          {/* Sección Objetivo */}
+          <div className="flex flex-col md:flex-row p-6 my-8 items-center">
+            <img src={objetivoImage} alt="Objetivo" className="w-full md:w-1/2 h-auto mb-4 md:mb-0 md:mr-8" />
+            <div>
+              <h2 className="font-bold md:text-5xl text-2xl mb-4 md:text-left">Objetivo</h2>
+              <p className="">
+                Buscamos ser partícipes y generadores de acciones preventivas para la comunidad en
+                general para acabar (o al menos disminuir) las epidemias de las que poco se habla: el
+                Ahogamiento y la Muerte Súbita.
+              </p>
+            </div>
+          </div>
         </div>
-      </div>  
       </div>
+    </div>
       
 
 

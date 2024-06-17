@@ -12,7 +12,7 @@ export const Certificacion = () => {
           <h3 className="text-xl font-bold mb-2">Entrega de Certificación Oficial Avalada por Organismos Especializados</h3>
           <p className="text-gray-700 mb-2">Garantizamos estándares de excelencia en formación para primeros auxilios, rescate y técnicas médicas. Al obtener nuestra certificación, los participantes demuestran competencia validada por expertos en el campo, reflejando nuestro compromiso con la seguridad y el bienestar. Seguimos comprometidos en brindar capacitación de calidad para enfrentar cualquier emergencia con profesionalismo.</p>
           <Link to="/Certificacion" className="mt-2 inline-block bg-orange-400 hover:bg-black text-white font-bold py-2 px-4">Conocer más</Link>
-          <div className='lg:w-1/3 mt-3 w-80 mx-auto'> {/* Añadí mx-auto para centrar la imagen */}
+          <div className='lg:w-1/3 mt-3 w-3/4 md:w-1/2 mx-auto'> {/* Añadí mx-auto para centrar la imagen */}
             <img src={logoFac} alt="Logo de FAC"/>
           </div>
         </div>
