@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import image1 from '../assets/ImagenesMain/ImgMain1.jpg'; // Reemplaza con tus imágenes
 import image2 from '../assets/ImagenesMain/ImgMain2.jpg';
-import image3 from '../assets/ImagenesMain/ImgMain3.jpg';
+import image3 from '../assets/ImagenesMain/ImgMain3.png';
 import { Link } from 'react-router-dom';
 
 export const MainArticle = () => {

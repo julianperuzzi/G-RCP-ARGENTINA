@@ -6,9 +6,9 @@ import empresaLogo from '../assets/logo g.rcp sin letras.svg';
 import otroLogo from '../assets/logo dark g rcp.pptx.svg';
 import { Link } from 'react-router-dom';
 
-import misionImage from '../assets/rcpimagen.jpeg'; // Imagen para la misión
-import visionImage from '../assets/rcpimagen.jpeg'; // Imagen para la visión
-import objetivoImage from '../assets/rcpimagen.jpeg'; // Imagen para el objetivo
+import misionImage from '../assets/imgMision,etc/Captura de pantalla 2023-07-28 005936.png'; // Imagen para la misión
+import visionImage from '../assets/imgMision,etc/rcpimagen.jpeg'; // Imagen para la visión
+import objetivoImage from '../assets/imgMision,etc/Captura de pantalla 2023-07-28 005840.png'; // Imagen para el objetivo
 
 
 
