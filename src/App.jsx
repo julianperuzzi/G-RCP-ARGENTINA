@@ -15,10 +15,11 @@ import Contacto from './pages/Contacto';
 import NotFoundPage from './pages/NotFoundPage'; // Importa la página de error 404 o coming soon
 import Minero from './pages/Minero';
 import MapaDEA from './pages/MapaDEA';
-
+import ContactButton from './components/ContactButton';
 
 import { SpeedInsights } from "@vercel/speed-insights/react"
 import { Analytics } from "@vercel/analytics/react"
+
 
 
 
@@ -29,6 +30,7 @@ function App() {
       <SpeedInsights/>
       <Header />
       <ScrollToTop />
+      
       <Routes>
         <Route path="/" element={<About />} />
         <Route path="/Nosotros" element={<Nosotros />} />
@@ -44,6 +46,7 @@ function App() {
         {/* Ruta para manejar cualquier ruta no definida */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      <ContactButton />
       <Footer />
     </Router>
   );

@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 
 export const Blog = () => {
   return (
-    <aside className="bg-DarkBlue text-white p-5">
+    <aside className="bg-DarkBlue  text-white p-5">
+      <div className=' lg:w-3/4 justify-center items-center mx-auto'>
       <h1 className="text-SoftOrange text-4xl font-bold cursor-default">BLOG</h1>
       <article className="border-b-2 border-white py-7 last:border-none">
         <Link to="/News">
@@ -23,6 +24,8 @@ export const Blog = () => {
         </Link>
         <p className="text-15px">Los primeros auxilios previenen complicaciones graves y salvan vidas antes de la ayuda profesional, esencial en emergencias.</p>
       </article>
+      </div>
     </aside>
+
   );
 };

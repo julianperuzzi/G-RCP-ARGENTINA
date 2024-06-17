@@ -14,7 +14,7 @@ import Imagen11 from "../assets/liston clientes/11.png";
 
 const ListonInfinito = () => {
   return (
-    <aside className=" md:mx-auto mt-4 z-10">
+    <aside className=" md:mx-auto mt-4 ">
       <h2 className=" text-3xl  text-gray-700 font-bold mx-4 text-center">RESPALDO</h2>
     <div className="md:mb-4 mt-3">
       <Marquee direction="right">
