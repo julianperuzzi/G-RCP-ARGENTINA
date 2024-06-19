@@ -51,7 +51,7 @@ export const About = () => {
         
       </section>
 
-      <div id="certificacion" className={`xl:flex xl:gap-8 px-4 pt-1 my-8`}>
+      <div id="certificacion" className={`xl:flex xl:gap-8 pt-1 my-8`}>
         <Certificacion />
       </div>
 
