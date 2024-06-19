@@ -89,10 +89,7 @@ const Minero = () => {
         </div>
       </div>
 
-      {/* Botón flotante de contacto */}
-      <div className="fixed bottom-6 right-4">
-        <Link to="/Contacto" className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">Contacto</Link>
-      </div>
+      
     </div>
   );
 };
