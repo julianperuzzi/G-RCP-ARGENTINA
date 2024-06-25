@@ -13,6 +13,7 @@ import Biblioteca from './pages/Biblioteca';
 import CertificacionOficial from './pages/CertificacionOficial';
 import Contacto from './pages/Contacto';
 import NotFoundPage from './pages/NotFoundPage'; // Importa la página de error 404 o coming soon
+import RcpGame from './pages/RcpGame'; // El nuevo componente del juego
 import Minero from './pages/Minero';
 import MapaDEA from './pages/MapaDEA';
 import ContactButton from './components/ContactButton';
@@ -32,6 +33,7 @@ function App() {
       <ScrollToTop />
       
       <Routes>
+        <Route path="/rcp-game" element={<RcpGame/>} />
         <Route path="/" element={<About />} />
         <Route path="/Nosotros" element={<Nosotros />} />
         <Route path="/Escuelas" element={<EscuelasPage />} />
