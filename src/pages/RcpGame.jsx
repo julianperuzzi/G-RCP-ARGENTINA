@@ -56,25 +56,26 @@ const RcpGame = () => {
   };
 
   return (
-    <div className="relative flex flex-col items-center justify-center h-screen bg-gradient-to-r from-rose-400 to-orange-300 ">
+    <div className="relative flex flex-col items-center h-screen bg-gradient-to-r from-rose-400 to-orange-300 ">
       {!gameStarted && (
-        <div className="absolute  transform items-center text-center mx-4">
+        <div className="absolute mt-40 transform items-center text-center  mx-4">
+          <FontAwesomeIcon icon={faHeart} size="5x" className="text-white mb-4" />
           <h1 className="text-4xl font-bold text-white mb-4">Bienvenido al Juego de RCP</h1>
-          <p className="text-white mb-4 text-xl">Haz clic en el corazón para practicar RCP con el ritmo correcto (80-120 ppm).</p>
+          <p className="text-white mb-4 text-xl">Reglas: Haz clic en el corazón para practicar RCP con el ritmo correcto (80-120 ppm).</p>
           <button className="bg-orange-500 text-white text-xl px-4 py-2 rounded hover:bg-black" onClick={handleStartGame}>
             Iniciar Juego
           </button>
         </div>
       )}
       {gameStarted && (
-        <>
+        <di className="mx-4">
           <div className="absolute top-4 md:top-10 left-4 md:left-32 text-2xl font-bold text-white select-none">
             Contador: {count}
           </div>
           <div className="absolute top-4 md:top-10 right-4 md:right-32 text-2xl text-white select-none">
             Ritmo: {rate} ppm
           </div>
-          <div className={`text-4xl font-bold px-4 py-2 rounded mb-10 select-none mx-4 ${feedback === '¡Buen Ritmo!' ? 'bg-green-600' : 'bg-red-500'} text-white transition-opacity duration-300 ease-in-out ${feedback ? 'opacity-100' : 'opacity-0'}`}>
+          <div className={`text-4xl font-bold px-4 py-2 rounded mb-10 mt-32 text-center select-none mx-4 ${feedback === '¡Buen Ritmo!' ? 'bg-green-600' : 'bg-red-500'} text-white transition-opacity duration-300 ease-in-out ${feedback ? 'opacity-100' : 'opacity-0'}`}>
               {feedback}
             </div>
           <div className="flex flex-col items-center justify-center text-center">
@@ -97,7 +98,7 @@ const RcpGame = () => {
             </div>
             
           </div>
-        </>
+        </di>
       )}
     </div>
   );
