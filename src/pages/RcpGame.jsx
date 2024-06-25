@@ -56,7 +56,7 @@ const RcpGame = () => {
   };
 
   return (
-    <div className="relative flex flex-col items-center justify-center h-screen bg-gradient-to-r from-sky-900 to-sky-400 ">
+    <div className="relative flex flex-col items-center justify-center h-screen bg-gradient-to-r from-rose-400 to-orange-300 ">
       {!gameStarted && (
         <div className="absolute  transform items-center text-center mx-4">
           <h1 className="text-4xl font-bold text-white mb-4">Bienvenido al Juego de RCP</h1>
