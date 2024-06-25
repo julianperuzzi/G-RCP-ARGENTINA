@@ -61,7 +61,7 @@ const RcpGame = () => {
         <div className="absolute  transform items-center text-center mx-4">
           <h1 className="text-4xl font-bold text-white mb-4">Bienvenido al Juego de RCP</h1>
           <p className="text-white mb-4 text-xl">Haz clic en el corazón para practicar RCP con el ritmo correcto (80-120 ppm).</p>
-          <button className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-black" onClick={handleStartGame}>
+          <button className="bg-orange-500 text-white text-xl px-4 py-2 rounded hover:bg-black" onClick={handleStartGame}>
             Iniciar Juego
           </button>
         </div>
