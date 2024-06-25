@@ -74,7 +74,7 @@ const RcpGame = () => {
           <div className="absolute top-4 md:top-10 right-4 md:right-32 text-2xl text-white select-none">
             Ritmo: {rate} ppm
           </div>
-          <div className={`text-4xl font-bold px-4 py-2 rounded mb-10 select-none ${feedback === '¡Sigue así, Buen Ritmo!' ? 'bg-green-600' : 'bg-red-500'} text-white transition-opacity duration-300 ease-in-out ${feedback ? 'opacity-100' : 'opacity-0'}`}>
+          <div className={`text-4xl font-bold px-4 py-2 rounded mb-10 select-none mx-4 ${feedback === '¡Sigue así, Buen Ritmo!' ? 'bg-green-600' : 'bg-red-500'} text-white transition-opacity duration-300 ease-in-out ${feedback ? 'opacity-100' : 'opacity-0'}`}>
               {feedback}
             </div>
           <div className="flex flex-col items-center justify-center text-center">
