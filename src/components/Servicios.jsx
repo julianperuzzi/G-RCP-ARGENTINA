@@ -1,52 +1,58 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import imagenFondo from '../assets/imgMision,etc/Captura de pantalla 2023-07-28 005936.png'; // Reemplaza con tu imagen de fondo
+import { Parallax } from 'react-parallax';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
-export const Servicios = () => {
+ export const Servicios = () => {
+
+
+
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: true });
+  }, []);
+
   return (
-    <section className=" lg:w-max bg-gray-100 mx-auto py-8">
-      <h2 className="text-3xl text-center pt-4 pl-6 font-bold py-8">SERVICIOS</h2>
-      <div className="grid grid-cols-2 gap-6 lg:grid-cols-4 p-2 py-4 md:px-4">
+    <div className="" data-aos="fade-right">
+      <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center text-slate-700">Servicios de G-RCP Argentina</h2>
 
-        <Link to="/Servicios" className="flex-shrink-0">
-          <article className="bg-white shadow-md rounded-md flex flex-col justify-between p-4 hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 h-full">
-            <div className="">
-              <h2 className="font-bold text-xl mb-2 hover:text-SoftOrange cursor-pointer">Instituciones Educativas</h2>
-              <p className="text-gray-700 text-sm">Ofrecemos programas y capacitaciones adaptadas a las necesidades de escuelas y colegios.</p>
-            </div>
-            <p className="text-blue-700 text-sm pt-4 self-end">Más Información Aquí</p>
-          </article>
-        </Link>
+      {/* Servicios */}
+      <Link to="/Servicios" >
+      <div className="bg-white shadow-lg overflow-hidden flex md:flex-row flex-col-reverse hover:scale-105 transition duration-500 md:h-96">
+      
+        <div className="p-4 md:w-1/2">
+        <h3 className='text-2xl font-bold mb-2 text-orange-500'>Nuestros Servicios</h3>
+          <p className="text-gray-700 text-lg mb-4">
+            Ofrecemos soluciones integrales de capacitación en primeros auxilios y RCP adaptadas a diferentes sectores:
+          </p>
+          <ul className="text-left text-gray-700 text-lg">
+            <li className="mb-1">
+              <strong>Instituciones Educativas</strong>
+            </li>
+            <li className="mb-1">
+              <strong>Empresas</strong>
+            </li>
+            <li className="mb-1">
+              <strong>Grupos Deportivos</strong>
+            </li>
+            <li className="mb-1">
+              <strong>Comunidad</strong>
+            </li>
+          </ul>
+          <p className="text-blue-700 text-lg pt-6">
+            <Link to="/Servicios">Más Información Aquí</Link>
+          </p>
+        </div>
+        <div>
 
-        <Link to="/Servicios" className="flex-shrink-0">
-          <article className="bg-white shadow-md rounded-md flex flex-col justify-between p-4 hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 h-full">
-            <div className="">
-              <h2 className="font-bold text-xl mb-2 hover:text-SoftOrange cursor-pointer">Empresas</h2>
-              <p className="text-gray-700 text-sm">Proporcionamos soluciones integrales de capacitación y gestión de emergencias para empresas.</p>
-            </div>
-            <p className="text-blue-700 text-sm pt-4 self-end">Más Información Aquí</p>
-          </article>
-        </Link>
-
-        <Link to="/Servicios" className="flex-shrink-0">
-          <article className="bg-white shadow-md rounded-md flex flex-col justify-between p-4 hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 h-full">
-            <div className="">
-              <h2 className="font-bold text-xl mb-2 hover:text-SoftOrange cursor-pointer">Grupos Deportivos</h2>
-              <p className="text-gray-700 text-sm">Diseñamos programas de capacitación y entrenamiento en primeros auxilios y RCP específicamente adaptados.</p>
-            </div>
-            <p className="text-blue-700 text-sm pt-4 self-end">Más Información Aquí</p>
-          </article>
-        </Link>
-
-        <Link to="/Servicios" className="flex-shrink-0">
-          <article className="bg-white shadow-md rounded-md flex flex-col justify-between p-4 hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 h-full">
-            <div className="">
-              <h2 className="font-bold text-xl mb-2 hover:text-SoftOrange cursor-pointer">Comunidad</h2>
-              <p className="text-gray-700 text-sm">Brindamos programas de capacitación en primeros auxilios y RCP abiertos a la comunidad en general.</p>
-            </div>
-            <p className="text-blue-700 text-sm pt-4 self-end">Más Información Aquí</p>
-          </article>
-        </Link>
       </div>
-    </section>
+        <Link to="/Servicios" className="md:w-1/2">
+          <img src={imagenFondo} alt="Imagen de Fondo" className="w-full object-cover" />
+        </Link>
+        
+      </div>
+      </Link>
+    </div>
   );
 };
