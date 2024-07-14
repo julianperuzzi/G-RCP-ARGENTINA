@@ -3,7 +3,7 @@ import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import ScrollToTop from './components/ScrollToTop';
 import Header from './components/Header';
 import { Footer } from './components/Footer';
-import { About } from './pages/About';
+import { Home } from './pages/Home';
 import { Nosotros } from './pages/Nosotros';
 import { EscuelasPage } from './pages/EscuelasPage';
 import BlogPage from './pages/BlogPage';
@@ -34,7 +34,7 @@ function App() {
       
       <Routes>
         <Route path="/rcp-game" element={<RcpGame/>} />
-        <Route path="/" element={<About />} />
+        <Route path="/" element={<Home />} />
         <Route path="/Nosotros" element={<Nosotros />} />
         <Route path="/Escuelas" element={<EscuelasPage />} />
         <Route path="/News" element={<BlogPage />} />
