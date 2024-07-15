@@ -42,7 +42,7 @@ export const Baner = () => {
   <img src={imagenFondo1} alt="Imagen de Fondo" className="w-full object-cover" />
     
   </div>
-  <div className="md:w-2/3 md:pl-4 md:border-l-2 border-SoftRed pl-0 mt-4 md:mt-0">
+  <div className="md:w-2/3 md:pl-4 border-l-2 border-SoftRed pl-4 mt-4 md:mt-0">
     <h3 className="text-3xl font-bold mb-2 ">G-RCP Argentina</h3>
     <p className="text-lg ">
       G-RCP Argentina se especializa en capacitación en Reanimación Cardiopulmonar (RCP) y protocolos de emergencia, adaptados a diversos sectores como instituciones educativas, empresas, grupos deportivos y la comunidad en general.
