@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
-import Header from './components/Header';
+import Navbar from './components/Navbar';
 import { Footer } from './components/Footer';
 import { Home } from './pages/Home';
 import { Nosotros } from './pages/Nosotros';
@@ -29,7 +29,7 @@ function App() {
     <Router>
       <Analytics/>
       <SpeedInsights/>
-      <Header />
+      <Navbar />
       <ScrollToTop />
       
       <Routes>
