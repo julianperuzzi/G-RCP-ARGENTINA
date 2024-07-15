@@ -80,13 +80,13 @@ const ServiciosPages = () => {
   };
 
   return (
-    <section className="my-4 p-3 animate-fade-in bg-slate-100">
+    <section className="p-3 animate-fade-in bg-gray-100">
       <div className="p-2 md:w-2/3 md:mx-auto">
         <h1 className="text-zinc-900 text-4xl pt-4 pl-3c font-bold pl-6">Servicios</h1>
         {serviciosData.map((service) => (
           <article
             key={service.id}
-            className="bg-white shadow-lg flex items-center p-3 my-2 hover:bg-orange-600 hover:text-white cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
+            className="bg-white shadow-lg flex items-center p-3 my-2 hover:bg-gray-800 hover:text-white cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
             onClick={() => handleServiceClick(service.id)}
           >
             <div className="">
@@ -107,7 +107,7 @@ const ServiciosPages = () => {
       </div>
       {selectedService && (
         <div className="fixed top-0 left-0 w-full h-full bg-opacity-50 backdrop-blur-md flex justify-center items-center z-50">
-          <div ref={modalRef} className="bg-white p-8 md:w-1/2 md:mx-auto mx-2 overflow-y-auto max-h-full rounded-lg">
+          <div ref={modalRef} className="bg-slate-50 p-8 md:w-1/2 md:mx-auto mx-2 overflow-y-auto max-h-[90svh] my-10 rounded-lg">
             <h2 className="text-2xl font-bold mb-4">{serviciosData[selectedService - 1].title}</h2>
             <img
               src={serviciosData[selectedService - 1].imageAfter}
