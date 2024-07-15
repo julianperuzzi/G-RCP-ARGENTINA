@@ -15,11 +15,11 @@ import 'aos/dist/aos.css';
 
   return (
     <div className="" data-aos="fade-right">
-      <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center text-slate-700">Servicios de G-RCP Argentina</h2>
+      <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center text-slate-800">Servicios de G-RCP Argentina</h2>
 
       {/* Servicios */}
       <Link to="/Servicios" >
-      <div className="bg-white shadow-lg overflow-hidden flex md:flex-row flex-col-reverse hover:scale-105 transition duration-500 md:h-96">
+      <div className="bg-white md:shadow-lg overflow-hidden flex md:flex-row flex-col-reverse hover:scale-105 transition duration-500 md:h-96">
       
         <div className="p-4 md:w-1/2">
         <h3 className='text-2xl font-bold mb-2 text-orange-500'>Nuestros Servicios</h3>
