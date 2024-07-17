@@ -58,7 +58,7 @@ function RCPPractice() {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
       <div className="w-full h-32">
-      {flash ? <div className="w-full h-32 bg-sky-500"></div> : <div className="w-full h-32 bg-sky-200"></div>}
+      {flash ? <div className="w-full h-32 bg-green-500"></div> : <div className="w-full h-32 bg-green-400/30"></div>}
       </div>
       <h1 className="text-4xl font-bold mt-16 mb-6 text-gray-900 dark:text-gray-100">
         Practica RCP
@@ -78,7 +78,7 @@ function RCPPractice() {
       <div className="text-xl text-gray-700 dark:text-gray-300 mb-16">
         Conteo de pulsaciones: {pulseCount}
       </div>
-      {flash ? <div className="w-full h-32 bg-sky-500"></div> : <div className="w-full h-32 bg-sky-200"></div>}
+      {flash ? <div className="w-full h-32 bg-green-500"></div> : <div className="w-full h-32 bg-green-400/30"></div>}
     </div>
   );
 }
