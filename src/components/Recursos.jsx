@@ -41,7 +41,7 @@ const Recursos = () => {
       <div className='lg:w-2/3 mx-auto lg:my-8 my-4 border-t-2 border-gray-700 pt-4' data-aos="fade-up">
         <h2 className="text-2xl font-bold mb-4">Ritmo RCP</h2>
         <p className="text-lg mb-4 text-gray-300">Utiliza este recurso para practicar RCP, escuchando un tono o música para encontrar el ritmo correcto</p>
-        <Link to="/Biblioteca" className="mt-2 inline-block bg-orange-400 hover:bg-black text-white font-bold py-2 px-4 transition-all duration-300 ease-in-out shadow-lg">
+        <Link to="/practica-rcp" className="mt-2 inline-block bg-orange-400 hover:bg-black text-white font-bold py-2 px-4 transition-all duration-300 ease-in-out shadow-lg">
           Ritmo RCP
         </Link>
       </div>
