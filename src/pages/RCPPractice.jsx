@@ -56,7 +56,7 @@ function RCPPractice() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center  bg-gray-100 dark:bg-gray-900 ">
+    <div className="flex flex-col justify-center items-center  bg-gray-100 dark:bg-gray-900 py-8">
       <div className="w-full h-32">
       {flash ? <div className="w-full h-32 bg-green-500"></div> : <div className="w-full h-32 bg-green-400/30"></div>}
       </div>
