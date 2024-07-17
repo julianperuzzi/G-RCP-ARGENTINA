@@ -61,7 +61,7 @@ function RCPPractice() {
       {flash ? <div className="w-full h-32 bg-green-500"></div> : <div className="w-full h-32 bg-green-400/30"></div>}
       </div>
       <div className="px-4 text-center">
-      <h1 className="text-4xl font-bold mt-16 mb-6 text-gray-900 dark:text-gray-100">
+      <h1 className="text-4xl font-bold mt-16 mb-6 text-gray-900 dark:text-orange-100">
         Practica RCP
       </h1>
       <p className="mb-4 text-lg text-gray-700 dark:text-gray-300">
@@ -69,7 +69,7 @@ function RCPPractice() {
       </p>
       <button
         onClick={togglePlay}
-        className="px-6 py-3 rounded-md text-lg font-medium transition bg-orange-500 text-white hover:bg-sky-700 mb-4"
+        className="px-6 py-3 rounded-md text-lg font-medium transition bg-green-500 text-white hover:bg-orange-500 mb-4"
       >
         {isPlaying ? 'Detener' : 'Iniciar'} Pulsaciones
       </button>
