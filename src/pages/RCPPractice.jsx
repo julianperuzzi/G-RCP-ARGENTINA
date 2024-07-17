@@ -56,19 +56,20 @@ function RCPPractice() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center  bg-gray-100 dark:bg-gray-900 h-svh">
+    <div className="flex flex-col items-center justify-center  bg-gray-100 dark:bg-gray-900 h-svh ">
       <div className="w-full h-32">
       {flash ? <div className="w-full h-32 bg-green-500"></div> : <div className="w-full h-32 bg-green-400/30"></div>}
       </div>
+      <div className="px-4 text-center">
       <h1 className="text-4xl font-bold mt-16 mb-6 text-gray-900 dark:text-gray-100">
         Practica RCP
       </h1>
       <p className="mb-4 text-lg text-gray-700 dark:text-gray-300">
-        Utiliza este recurso para practicar RCP, escuchando un tono o música para encontrar el ritmo correcto.
+        Utiliza este recurso para practicar RCP
       </p>
       <button
         onClick={togglePlay}
-        className="px-6 py-3 rounded-md text-lg font-medium transition bg-blue-600 text-white hover:bg-blue-700 mb-4"
+        className="px-6 py-3 rounded-md text-lg font-medium transition bg-orange-500 text-white hover:bg-sky-700 mb-4"
       >
         {isPlaying ? 'Detener' : 'Iniciar'} Pulsaciones
       </button>
@@ -77,6 +78,7 @@ function RCPPractice() {
       </div>
       <div className="text-xl text-gray-700 dark:text-gray-300 mb-16">
         Conteo de pulsaciones: {pulseCount}
+      </div>
       </div>
       {flash ? <div className="w-full h-32 bg-green-500"></div> : <div className="w-full h-32 bg-green-400/30"></div>}
     </div>
