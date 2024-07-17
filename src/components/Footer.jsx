@@ -7,7 +7,7 @@ import backgroundImage from '../assets/fondo oscuro.png';
 
 export const Footer = () => {
   return (
-    <footer className="bg-Azul bg-AzulOscuro text-white py-8 p-2 mt-2 pl-6 relative">
+    <footer className="bg-Azul bg-AzulOscuro text-white py-8 p-2  pl-6 relative">
       <div className="absolute inset-0 z-0">
         <img src={backgroundImage} alt="background" className="w-full h-full object-cover opacity-10" style={{ filter: 'brightness(40%) blur(5px)' }} />
       </div>
