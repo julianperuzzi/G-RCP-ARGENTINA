@@ -28,8 +28,8 @@ export const Nosotros = () => {
         strength={700}
         bgImageStyle={{ objectFit: 'cover' }}
       >
-        <div className="flex flex-col items-center text-center justify-center md:mt-24 mt-10" data-aos="zoom-in">
-        <p className="my-2 text-2xl px-10 text-white border-b border-gray-400 pt-2 "> GRCP ARGENTINA
+        <div className="flex flex-col items-center text-center justify-center md:mt-24" data-aos="zoom-in">
+        <p className="text-2xl px-10 text-white border-b border-gray-400 "> GRCP ARGENTINA
           </p>
           <h2 className={`lg:text-5xl text-3xl font-bold p-4 bg-clip-text md:w-2/3 text-white`}>
           GRUPO DE RESCATE,
