@@ -11,11 +11,11 @@ const Recursos = () => {
   return (
     <section id="Recursos" className="px-4 py-4 mt-10 bg-gradient-to-r from-slate-900 to-gray-900 text-white shadow-2xl">
       <div className='lg:w-2/3 mx-auto lg:my-8 my-4' data-aos="fade-up">
-        <h2 className="text-4xl text-center font-bold mb-16">Nuestros Recursos</h2>
+        <h2 className="text-4xl text-center font-bold mb-16 uppercase">Recursos</h2>
       </div>
 
       <div className='lg:w-2/3 mx-auto lg:my-8 my-4' data-aos="fade-up">
-        <h2 className="text-2xl font-bold mb-4">Aprende RCP con Nosotros</h2>
+        <h2 className="text-2xl font-bold mb-4">Aprende RCP </h2>
         <p className="text-lg mb-4 text-gray-300">Aprende las técnicas de Reanimación Cardiopulmonar (RCP) con nuestros contenidos.</p>
         <Link to="/rcp" className="bg-orange-400 hover:bg-black text-white font-bold py-2 px-4 inline-block transition-all duration-300 ease-in-out shadow-lg">
           Aprende RCP
