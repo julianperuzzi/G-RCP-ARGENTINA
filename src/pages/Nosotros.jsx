@@ -23,12 +23,12 @@ export const Nosotros = () => {
   return (
     <aside className="pb-6 bg-white text-black animate-fade-in">
       <Parallax
-        className="bg-center md:h-[50vh] h-[50vh]"
+        className="bg-center md:h-[50vh] h-[40vh]"
         bgImage={fondo}
         strength={700}
         bgImageStyle={{ objectFit: 'cover' }}
       >
-        <div className="flex flex-col items-center text-center justify-center md:mt-24" data-aos="zoom-in">
+        <div className="flex flex-col items-center text-center justify-center md:mt-24 py-10 md:py-0" data-aos="zoom-in">
         <p className="text-2xl px-10 text-white border-b border-gray-400 "> GRCP ARGENTINA
           </p>
           <h2 className={`lg:text-5xl text-3xl font-bold p-4 bg-clip-text md:w-2/3 text-white`}>
@@ -60,7 +60,7 @@ export const Nosotros = () => {
           <div className="mt-8 text-lg md:text-xl p-4 md:w-10/12 mx-auto">
             {/* Sección Misión */}
             <div className="flex flex-col md:flex-row p-6 my-8 items-center card" data-aos="fade-up">
-              <img src={misionImage} alt="Misión" className="w-full md:w-1/2 h-96 mb-4 md:mb-0 md:mr-8  shadow-md" />
+              <img src={misionImage} alt="Misión" className="w-full md:w-1/2 md:h-96 h-40 mb-4 md:mb-0 md:mr-8  shadow-md" />
               <div className="card-content">
                 <h2 className="font-bold md:text-5xl text-2xl mb-4 md:text-left">Misión</h2>
                 <p className="">
