@@ -32,9 +32,7 @@ function Navbar({ darkMode, toggleDarkMode }) {
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         <Link
           to="/"
-          className={`font-bold hover:text-white hover:scale-105 transition duration-300 md:text-2xl text-lg bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-orange-300 ${
-            darkMode ? 'text-gray-300' : 'text-gray-800'
-          }`}
+          className={`font-bold hover:text-white hover:scale-105 transition duration-300 md:text-2xl text-lg bg-clip-text text-sky-500 `}
         >
           G-RCP ARGENTINA
         </Link>
