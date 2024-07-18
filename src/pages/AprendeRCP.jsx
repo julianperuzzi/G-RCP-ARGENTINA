@@ -7,7 +7,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons'; // Icono de corazó
 const AprendeRCP = () => {
   return (
     <div className="container mx-auto px-4 py-4 lg:w-2/3 animate-fade-in">
-      <h1 className="text-3xl font-bold mb-4">Aprende RCP</h1>
+      <h1 className="text-4xl font-bold my-6 uppercase  border-b-2 border-orange-600 pb-4">Aprende RCP</h1>
       
 
       <div className="mb-8">
