@@ -28,7 +28,7 @@ export const Baner = () => {
           <h1 className={`lg:text-8xl text-5xl font-bold p-6 bg-clip-text text-transparent ${darkMode ? 'bg-gradient-to-r from-sky-600 to-orange-400' : 'bg-gradient-to-r from-yellow-300 to-yellow-600'} hover:scale-105 transition duration-700`}>
             G-RCP ARGENTINA
           </h1>
-          <p className="my-2 text-xl px-10 text-white border-t border-gray-400 pt-4">
+          <p className="my-2 text-xl px-10 text-white border-t border-gray-400 pt-4 uppercase">
             Capacitación, Prevención y Salvamento en Emergencias
           </p>
         </div>
