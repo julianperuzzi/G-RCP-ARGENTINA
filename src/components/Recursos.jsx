@@ -11,7 +11,7 @@ const Recursos = () => {
   return (
     <section id="Recursos" className="px-4 py-4 mt-10 bg-gradient-to-r from-slate-900 to-gray-900 text-white shadow-2xl">
       <div className='lg:w-2/3 mx-auto lg:my-8 my-4' data-aos="fade-up">
-        <h2 className="text-4xl text-center font-bold mb-16 uppercase">Recursos</h2>
+        <h2 className="text-4xl text-center font-bold mb-16 uppercase border-b-2 border-orange-200 pb-4">Recursos</h2>
       </div>
 
       <div className='lg:w-2/3 mx-auto lg:my-8 my-4' data-aos="fade-up">
