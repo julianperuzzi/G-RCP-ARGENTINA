@@ -14,8 +14,19 @@ const images = [
   { src: 'https://i.pinimg.com/736x/ee/ea/e6/eeeae653c3eb39b89a18e193d24c06c0.jpg', alt: '' },
   { src: 'https://i.pinimg.com/736x/00/06/b1/0006b1ec76c532c23485ea714a4c887c.jpg', alt: '' },
   { src: 'https://i.pinimg.com/736x/87/d5/ed/87d5edfa447743db668927230bfb527c.jpg', alt: '' },
-  // Agrega más imágenes según sea necesario
-
+  { src: 'https://i.pinimg.com/736x/aa/ca/41/aaca4167f4aca19bf3b7622bed7fbe27.jpg', alt: '' },
+  // marca de 12
+  { src: 'https://i.pinimg.com/736x/59/75/f3/5975f34e5b65a9410286d67df69593a4.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/f4/0d/b8/f40db836d652dfc0a6156cb26eedc915.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/77/b5/82/77b582fcf714c5a523dba694c5077158.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/d8/e4/dd/d8e4dd751aa29426ddd83dad9808c61c.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/a6/88/e2/a688e2ceb2ec551a00b0c8e462681eb8.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/44/33/a7/4433a7cd061e1d91da582a6727d610d4.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/92/66/73/926673bf814fd20d5280fac5e3d2474e.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/49/74/1b/49741b36a94b5d0d3534bc55ac7e29a3.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/90/70/4d/90704dd19971fbca845b5beb24f2ad68.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/13/aa/d6/13aad66d12d5f820e7f615353c2c3373.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/39/24/a8/3924a8bc7acbeec1a3dc5f00727fc418.jpg', alt: '' },
 ];
 
 const Galeria = () => {
