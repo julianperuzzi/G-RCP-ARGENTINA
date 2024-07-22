@@ -18,12 +18,13 @@ export const Home = () => {
   return (
     <aside className='animate-fade-in mx-auto '>
       <div id="main-article" className='md:mb-24 mb-16'>
+        
         <Baner />
       </div>
 
 
     <aside className=' md:w-5/6 md:mx-auto'>
-
+    
     <div id="servicios" className={`mx-4 my-16 `} >
       <Servicios />
     </div>
