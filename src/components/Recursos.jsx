@@ -27,7 +27,13 @@ const recursosData = [
     description: "Utiliza este recurso para practicar RCP, escuchando un tono o música para encontrar el ritmo correcto",
     link: "/practica-rcp",
     linkText: "Ritmo RCP",
-  }
+  },
+  {
+    title: "Galeria de Fotos",
+    description: "Visita nuestras galeria de fotos, puedes descargar la foto que mas te guste",
+    link: "/galeria",
+    linkText: "Galeria",
+  },
 ];
 
 const Recursos = () => {
