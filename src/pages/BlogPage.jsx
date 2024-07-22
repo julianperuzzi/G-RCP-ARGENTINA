@@ -1,7 +1,7 @@
 import React from 'react';
-import rcpImage from '../assets/Reanimación-cardiopulmonar-RCP.webp';
-import deaImage from '../assets/dea.jpg';
-import primerosAuxiliosImage from '../assets/Primeros-Auxilios.jpg';
+import rcpImage from '../assets/img blog/Reanimación-cardiopulmonar-RCP.webp';
+import deaImage from '../assets/img blog/dea.jpg';
+import primerosAuxiliosImage from '../assets/img blog/Primeros-Auxilios.jpg';
 
 const BlogPage = () => {
   return (

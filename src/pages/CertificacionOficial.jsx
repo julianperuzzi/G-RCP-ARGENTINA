@@ -1,5 +1,5 @@
 import React from 'react';
-import imgCertificado from '../assets/IMG certificacion/Certificados  RCP Company.png';
+import imgCertificado from '../assets/img certificacion/Certificados  RCP Company.png';
 
 const CertificacionOficial = () => {
   return (

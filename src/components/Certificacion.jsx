@@ -1,5 +1,5 @@
 import React from 'react';
-import logoFac from '../assets/LOGO DE CERTIFICACION.jpg';
+import logoFac from '../assets/img certificacion/LOGO DE CERTIFICACION.jpg';
 import { Link } from 'react-router-dom';
 
 

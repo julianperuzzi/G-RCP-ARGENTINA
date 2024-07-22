@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import Navbar from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -20,9 +20,14 @@ import ContactButton from './components/ContactButton';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 import RCPPractice from './pages/RCPPractice';
+import Galeria from './pages/Galeria';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    setDarkMode(true);
+  }, []);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -49,7 +54,7 @@ function App() {
           <Route path="/MapaDEA" element={<MapaDEA />} />
           <Route path="/rcp-game" element={<RcpGame />} />
           <Route path="/practica-rcp" element={<RCPPractice />} />
-          {/* Ruta para manejar cualquier ruta no definida */}
+          <Route path="/galeria" element={<Galeria />} /> {/* Nueva ruta */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <ContactButton />

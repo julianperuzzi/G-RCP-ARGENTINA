@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Importamos Link desde react-router-dom
-import imgRCPBasica from '../assets/imagenes biblioteca/rcp_basica_infografia.webp';
-import imgPosicionLateral from '../assets/imagenes biblioteca/posicion_lateral_seguridad_infografia.webp';
-import imgCadenaSupervivencia from '../assets/imagenes biblioteca/cadena_supervivencia_infografia.webp';
-import imgAtragantamiento from '../assets/imagenes biblioteca/atragantamiento_adultos_infografia.webp';
-import imgTablaResumenRCP from '../assets/imagenes biblioteca/tabla_rcp.webp';
+import imgRCPBasica from '../assets/img biblioteca/rcp_basica_infografia.webp';
+import imgPosicionLateral from '../assets/img biblioteca/posicion_lateral_seguridad_infografia.webp';
+import imgCadenaSupervivencia from '../assets/img biblioteca/cadena_supervivencia_infografia.webp';
+import imgAtragantamiento from '../assets/img biblioteca/atragantamiento_adultos_infografia.webp';
+import imgTablaResumenRCP from '../assets/img biblioteca/tabla_rcp.webp';
 
 const Recurso = ({ titulo, descripcion, linkDescarga, imagen }) => (
   <div className="bg-white rounded-lg shadow-md p-6 mb-6 mx-2 animate-fade-in">

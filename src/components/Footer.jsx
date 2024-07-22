@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faWhatsapp, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
 
-import backgroundImage from '../assets/fondo oscuro.png';
+import backgroundImage from '../assets/logos/fondo oscuro.png';
 
 export const Footer = () => {
   return (

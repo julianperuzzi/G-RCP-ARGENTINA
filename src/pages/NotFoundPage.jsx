@@ -1,5 +1,5 @@
 import React from 'react';
-import underDevelopmentImage from '../assets/under-development.jpg'; // Importa la imagen de "En desarrollo"
+import underDevelopmentImage from '../assets/img 404/under-development.jpg'; // Importa la imagen de "En desarrollo"
 import { Link } from 'react-router-dom';
 const NotFoundPage = () => {
   return (

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import imagenFondo from '../assets/ImagenesMain/ImgMain33.png'; 
-import imagenFondo1 from '../assets/logo white g rcp.pptx.svg'; 
+import imagenFondo from '../assets/img main/ImgMain33.png'; 
+import imagenFondo1 from '../assets/logos/logo white g rcp.pptx.svg'; 
 import { Parallax } from 'react-parallax';
 import AOS from 'aos';
 import 'aos/dist/aos.css'; 

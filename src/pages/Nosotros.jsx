@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import img3 from '../assets/perfil equipo/julian perfil.png';
 import img2 from '../assets/perfil equipo/feli perfil.jpeg';
 import img1 from '../assets/perfil equipo/jisu perfil.jpeg';
-import empresaLogo from '../assets/logo g.rcp sin letras.svg';
-import fondo from '../assets/ImagenesMain/ImgMain1.jpg';
+import empresaLogo from '../assets/logos/logo g.rcp sin letras.svg';
+import fondo from '../assets/img main/ImgMain1.jpg';
 import { Link } from 'react-router-dom';
 import { Parallax } from 'react-parallax';
 import AOS from 'aos';
@@ -56,7 +56,7 @@ export const Nosotros = () => {
           <div className="mt-8 text-lg md:text-xl p-4 md:w-10/12 mx-auto">
             {/* Sección Misión */}
             <div className="flex flex-col md:flex-row p-6 my-8 items-center card" data-aos="fade-up">
-              <img src={misionImage} alt="Misión" className="w-full md:w-1/2 md:h-96 h-48 mb-4 md:mb-0 md:mr-8  shadow-md" />
+              <img src={misionImage} alt="Misión" className="w-full md:w-1/2 md:h-96 mb-4 md:mb-0 md:mr-8  shadow-md" />
               <div className="card-content">
                 <h2 className="font-bold md:text-5xl text-2xl mb-4 md:text-left">Misión</h2>
                 <p className="">
@@ -69,7 +69,7 @@ export const Nosotros = () => {
 
             {/* Sección Visión */}
             <div className="flex flex-col md:flex-row-reverse p-6 my-8 items-center card" data-aos="fade-up">
-              <img src={visionImage} alt="Visión" className="w-full md:w-1/2 md:h-96 h-48 mb-4 md:mb-0 md:ml-8  shadow-md" />
+              <img src={visionImage} alt="Visión" className="w-full md:w-1/2 md:h-96  mb-4 md:mb-0 md:ml-8  shadow-md" />
               <div className="card-content">
                 <h2 className="font-bold md:text-5xl text-2xl mb-4 md:text-left">Visión</h2>
                 <p className="">
@@ -83,7 +83,7 @@ export const Nosotros = () => {
 
             {/* Sección Objetivo */}
             <div className="flex flex-col md:flex-row p-6 my-8 items-center card" data-aos="fade-up">
-              <img src={objetivoImage} alt="Objetivo" className="w-full md:w-1/2 md:h-96 h-48 mb-4 md:mb-0 md:mr-8 shadow-md" />
+              <img src={objetivoImage} alt="Objetivo" className="w-full md:w-1/2 md:h-96 mb-4 md:mb-0 md:mr-8 shadow-md" />
               <div className="card-content">
                 <h2 className="font-bold md:text-5xl text-2xl mb-4 md:text-left">Objetivo</h2>
                 <p className="">
