@@ -33,7 +33,7 @@ const recursosData = [
     description: "Visita nuestras galeria de fotos, puedes descargar la foto que mas te guste",
     link: "/galeria",
     linkText: "Galeria",
-  },
+  }
 ];
 
 const Recursos = () => {
