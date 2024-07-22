@@ -55,7 +55,7 @@ const Galeria = () => {
                   className="w-full h-full object-cover shadow-lg rounded transform cursor-pointer"
                   onClick={() => openModal(image)}
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4 ">
+                <div className="absolute bottom-0 left-0 right-0 rounded bg-gradient-to-t from-sky-700 to-transparent p-4 ">
                   {/* <p className="text-white text-sm">{image.alt}</p> */}
                 </div>
               </div>
