@@ -3,9 +3,19 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const images = [
-  { src: 'https://i.pinimg.com/736x/76/40/73/764073fd2629f72689df6b96d9ea27c7.jpg'},
-  { src: 'https://i.pinimg.com/736x/a2/ba/a7/a2baa732bb15debb77ff64fc40b57c3d.jpg'},
-  // Añade más imágenes aquí
+  { src: 'https://i.pinimg.com/736x/76/40/73/764073fd2629f72689df6b96d9ea27c7.jpg',alt: ''},
+  { src: 'https://i.pinimg.com/736x/a2/ba/a7/a2baa732bb15debb77ff64fc40b57c3d.jpg',alt: ''},
+  { src: 'https://i.pinimg.com/736x/a5/50/9a/a5509ad5f947e60b481935962162ca14.jpg',alt: ''},
+  { src: 'https://i.pinimg.com/736x/c8/51/05/c85105c88063b4b34baa28cb4c301b10.jpg',alt: ''},
+  { src: 'https://i.pinimg.com/736x/db/10/d7/db10d75d32afe22a1e47c32e77d44868.jpg',alt: ''},
+  { src: 'https://i.pinimg.com/736x/66/a5/97/66a5978ef0238da862f60490b6983b67.jpg',alt: ''},
+  { src: 'https://i.pinimg.com/736x/db/66/67/db6667dadb028e67acd5b2f7d30e1683.jpg',alt: ''},
+  { src: 'https://i.pinimg.com/736x/fc/b6/cb/fcb6cb880cd2614490ea367a00d0fb78.jpg',alt: ''},
+  { src: 'https://i.pinimg.com/736x/ee/ea/e6/eeeae653c3eb39b89a18e193d24c06c0.jpg',alt: ''},
+  { src: 'https://i.pinimg.com/736x/00/06/b1/0006b1ec76c532c23485ea714a4c887c.jpg',alt: ''},
+  { src: 'https://i.pinimg.com/736x/87/d5/ed/87d5edfa447743db668927230bfb527c.jpg',alt: ''},
+  
+ 
 ];
 
 const Galeria = () => {
@@ -50,7 +60,7 @@ const Galeria = () => {
       </div>
 
       {selectedImage && (
-        <div className="fixed inset-0 bg-black backdrop-blur-lg bg-opacity-75 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black backdrop-blur-lg bg-opacity-65 flex items-center justify-center z-50">
           <div className="relative">
             <button
               className="absolute top-2 right-2 text-white bg-black px-2 text-2xl"
