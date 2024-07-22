@@ -3,23 +3,24 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const images = [
-  { src: 'https://i.pinimg.com/736x/76/40/73/764073fd2629f72689df6b96d9ea27c7.jpg',alt: ''},
-  { src: 'https://i.pinimg.com/736x/a2/ba/a7/a2baa732bb15debb77ff64fc40b57c3d.jpg',alt: ''},
-  { src: 'https://i.pinimg.com/736x/a5/50/9a/a5509ad5f947e60b481935962162ca14.jpg',alt: ''},
-  { src: 'https://i.pinimg.com/736x/c8/51/05/c85105c88063b4b34baa28cb4c301b10.jpg',alt: ''},
-  { src: 'https://i.pinimg.com/736x/db/10/d7/db10d75d32afe22a1e47c32e77d44868.jpg',alt: ''},
-  { src: 'https://i.pinimg.com/736x/66/a5/97/66a5978ef0238da862f60490b6983b67.jpg',alt: ''},
-  { src: 'https://i.pinimg.com/736x/db/66/67/db6667dadb028e67acd5b2f7d30e1683.jpg',alt: ''},
-  { src: 'https://i.pinimg.com/736x/fc/b6/cb/fcb6cb880cd2614490ea367a00d0fb78.jpg',alt: ''},
-  { src: 'https://i.pinimg.com/736x/ee/ea/e6/eeeae653c3eb39b89a18e193d24c06c0.jpg',alt: ''},
-  { src: 'https://i.pinimg.com/736x/00/06/b1/0006b1ec76c532c23485ea714a4c887c.jpg',alt: ''},
-  { src: 'https://i.pinimg.com/736x/87/d5/ed/87d5edfa447743db668927230bfb527c.jpg',alt: ''},
-  
- 
+  { src: 'https://i.pinimg.com/736x/76/40/73/764073fd2629f72689df6b96d9ea27c7.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/a2/ba/a7/a2baa732bb15debb77ff64fc40b57c3d.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/a5/50/9a/a5509ad5f947e60b481935962162ca14.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/c8/51/05/c85105c88063b4b34baa28cb4c301b10.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/db/10/d7/db10d75d32afe22a1e47c32e77d44868.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/66/a5/97/66a5978ef0238da862f60490b6983b67.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/db/66/67/db6667dadb028e67acd5b2f7d30e1683.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/fc/b6/cb/fcb6cb880cd2614490ea367a00d0fb78.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/ee/ea/e6/eeeae653c3eb39b89a18e193d24c06c0.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/00/06/b1/0006b1ec76c532c23485ea714a4c887c.jpg', alt: '' },
+  { src: 'https://i.pinimg.com/736x/87/d5/ed/87d5edfa447743db668927230bfb527c.jpg', alt: '' },
+  // Agrega más imágenes según sea necesario
+
 ];
 
 const Galeria = () => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [visibleImages, setVisibleImages] = useState(12);
 
   useEffect(() => {
     AOS.init({
@@ -36,12 +37,16 @@ const Galeria = () => {
     setSelectedImage(null);
   };
 
+  const loadMoreImages = () => {
+    setVisibleImages((prevVisibleImages) => prevVisibleImages + 12);
+  };
+
   return (
     <div className="bg-gray-100 dark:bg-slate-900 text-gray-800 dark:text-white min-h-screen px-2">
       <div className="container mx-auto py-8">
         <h3 className="text-4xl font-bold text-center mb-8 uppercase border-gray-600 border-b-2 pb-6">Galería</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-          {images.map((image, index) => (
+          {images.slice(0, visibleImages).map((image, index) => (
             <div key={index} className="relative " data-aos="fade-up">
               <div className='hover:scale-105 transition-transform duration-300'>
                 <img
@@ -57,6 +62,16 @@ const Galeria = () => {
             </div>
           ))}
         </div>
+        {visibleImages < images.length && (
+          <div className="text-center mt-8">
+            <button
+              onClick={loadMoreImages}
+              className="bg-orange-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-orange-600 transition"
+            >
+              Cargar más
+            </button>
+          </div>
+        )}
       </div>
 
       {selectedImage && (
