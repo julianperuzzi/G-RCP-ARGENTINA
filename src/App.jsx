@@ -54,7 +54,8 @@ function App() {
           <Route path="/MapaDEA" element={<MapaDEA />} />
           <Route path="/rcp-game" element={<RcpGame />} />
           <Route path="/practica-rcp" element={<RCPPractice />} />
-          <Route path="/galeria" element={<Galeria />} /> {/* Nueva ruta */}
+          <Route path="/galeria" element={<Galeria />} />
+          
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <ContactButton />
