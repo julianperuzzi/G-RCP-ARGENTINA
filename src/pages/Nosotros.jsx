@@ -29,7 +29,7 @@ export const Nosotros = () => {
         bgImageStyle={{ objectFit: 'cover' }}
       >
         <div className="flex flex-col items-center text-center justify-center md:mt-24 py-10 md:py-0" data-aos="zoom-in">
-        <p className="md:text-2xl text-l px-10 text-white border-b border-gray-400 "> GRCP ARGENTINA
+        <p className="md:text-2xl text-l px-10 text-white border-b border-gray-400 ">G-RCP ARGENTINA
           </p>
           <h2 className={`lg:text-5xl text-2xl font-bold p-4 bg-clip-text md:w-2/3 text-white`}>GRUPO DE RESCATE, CAPACITACIÓN Y PREVENCIÓN 
           </h2>
@@ -40,7 +40,7 @@ export const Nosotros = () => {
       </Parallax>
 
 
-      <div className="mx-auto mt-8">
+      <div className="mx-auto mt-8 ">
 
         <div className='flex mx-auto justify-center md:items-start items-center px-4'>
           <img src={empresaLogo} alt="Logo de la empresa" className="md:w-36 w-24 h-auto" />
@@ -55,7 +55,7 @@ export const Nosotros = () => {
         
           <div className="mt-8 text-lg md:text-xl p-4 md:w-10/12 mx-auto">
             {/* Sección Misión */}
-            <div className="flex flex-col md:flex-row p-6 my-8 items-center card" data-aos="fade-up">
+            <div className="flex flex-col md:flex-row p-6 my-8 items-center card md:border-b-2 md:border-slate-600/50 md:pb-16" data-aos="fade-up">
               <img src={misionImage} alt="Misión" className="w-full md:w-1/2 md:h-96 mb-4 md:mb-0 md:mr-8  shadow-md" />
               <div className="card-content">
                 <h2 className="font-bold md:text-5xl text-2xl mb-4 md:text-left">Misión</h2>
@@ -68,7 +68,7 @@ export const Nosotros = () => {
             </div>
 
             {/* Sección Visión */}
-            <div className="flex flex-col md:flex-row-reverse p-6 my-8 items-center card" data-aos="fade-up">
+            <div className="flex flex-col md:flex-row-reverse p-6 my-8 items-center card md:border-b-2 md:border-slate-600/50 md:pb-16" data-aos="fade-up">
               <img src={visionImage} alt="Visión" className="w-full md:w-1/2 md:h-96  mb-4 md:mb-0 md:ml-8  shadow-md" />
               <div className="card-content">
                 <h2 className="font-bold md:text-5xl text-2xl mb-4 md:text-left">Visión</h2>
@@ -82,7 +82,7 @@ export const Nosotros = () => {
             </div>
 
             {/* Sección Objetivo */}
-            <div className="flex flex-col md:flex-row p-6 my-8 items-center card" data-aos="fade-up">
+            <div className="flex flex-col md:flex-row p-6 my-8 items-center card md:border-b-2 md:border-slate-600/50 md:pb-16" data-aos="fade-up">
               <img src={objetivoImage} alt="Objetivo" className="w-full md:w-1/2 md:h-96 mb-4 md:mb-0 md:mr-8 shadow-md" />
               <div className="card-content">
                 <h2 className="font-bold md:text-5xl text-2xl mb-4 md:text-left">Objetivo</h2>
