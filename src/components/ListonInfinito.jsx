@@ -7,10 +7,11 @@ import Imagen4 from "../assets/liston clientes/4.png";
 import Imagen5 from "../assets/liston clientes/5.png";
 import Imagen6 from "../assets/liston clientes/6.png";
 import Imagen7 from "../assets/liston clientes/7.png";
-import Imagen8 from "../assets/liston clientes/8.png";
+import Imagen8 from "../assets/liston clientes/Liston de Marcas.png";
 import Imagen9 from "../assets/liston clientes/9.png";
 import Imagen10 from "../assets/liston clientes/10.png";
 import Imagen11 from "../assets/liston clientes/11.png";
+import Imagen12 from "../assets/liston clientes/Liston de Marcas (1).png";
 
 const ListonInfinito = () => {
   return (
@@ -35,16 +36,18 @@ const ListonInfinito = () => {
       <Marquee direction="left">
         <img src={Imagen6} alt="Logo 6" className="w-32 mx-4" />
         <img src={Imagen7} alt="Logo 7" className="w-32 mx-4" />
-       {/* <img src={Imagen8} alt="Logo 8" className="w-32 px-3" /> */}
+        <img src={Imagen8} alt="Logo 8" className="w-32 px-3" /> 
         <img src={Imagen9} alt="Logo 9" className="w-32 mx-4" />
         <img src={Imagen10} alt="Logo 10" className="w-32 mx-4" />
         <img src={Imagen11} alt="Logo 11" className="w-32 mx-4"/>
+        <img src={Imagen12} alt="Logo 12" className="w-32 mx-4"/>
         <img src={Imagen6} alt="Logo 6" className="w-32 mx-4" />
         <img src={Imagen7} alt="Logo 7" className="w-32 mx-4" />
-        {/* <img src={Imagen8} alt="Logo 8" className="w-32 px-3" /> */}
+        <img src={Imagen8} alt="Logo 8" className="w-32 px-3" />
         <img src={Imagen9} alt="Logo 9" className="w-32 mx-4" />
         <img src={Imagen10} alt="Logo 10" className="w-32 mx-4" />
         <img src={Imagen11} alt="Logo 11" className="w-32 mx-4" />
+        <img src={Imagen12} alt="Logo 12" className="w-32 mx-4"/>
 
       </Marquee>
       </div>
