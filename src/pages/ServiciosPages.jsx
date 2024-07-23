@@ -82,7 +82,7 @@ const ServiciosPages = () => {
   return (
     <section className="p-3 animate-fade-in bg-gray-100">
       <div className="p-2 md:w-2/3 md:mx-auto">
-        <h1 className="text-zinc-900 text-4xl pt-4 pl-3c font-bold pl-6">Servicios</h1>
+        <h1 className="text-zinc-900 text-4xl pt-4 font-bold py-6 my-6 border-b-2 border-slate-600" >Servicios</h1>
         {serviciosData.map((service) => (
           <article
             key={service.id}
@@ -117,22 +117,21 @@ const ServiciosPages = () => {
             {/* Mostrar la segunda imagen en la ventana desplegada */}
             <p className="text-gray-700 text-xl mb-4">{serviciosData[selectedService - 1].description}</p>
             <p className="text-gray-700 mb-4">{serviciosData[selectedService - 1].info}</p>
-            <div className="flex flex-col">
+            <div className="flex flex-row justify-between gap-2">
               <Link
                 to="/contacto"
-                className="hover:bg-black bg-orange-500 text-white font-bold py-3 px-5 mb-2 w-full text-center"
+                className="hover:bg-black bg-orange-500 text-white font-bold py-3 px-5 mb-2 w-2/3 text-center"
               >
                 Contactanos
               </Link>
-            </div>
-            <div className="flex justify-end mt-4">
+                      
               <button
-                className="bg-gray-300 text-white font-bold px-4 py-2 rounded-md"
+                className="bg-gray-300 text-white font-bold py-3 px-5 mb-2"
                 onClick={handleCloseModal}
               >
                 Cerrar
               </button>
-            </div>
+              </div> 
           </div>
         </div>
       )}
