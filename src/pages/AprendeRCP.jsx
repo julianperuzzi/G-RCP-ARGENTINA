@@ -57,15 +57,9 @@ const AprendeRCP = () => {
       </a>
         </div>
 
-      
-      <div className="mb-8 flex flex-col items-center justify-center">
-         <h2 className="text-xl font-bold mb-8">Ritmo RCP</h2>
-         <FontAwesomeIcon icon={faHeart} className="text-red-500 heart h-32" />
-        </div>
 
-
-      <div>
-        <h2 className="text-xl font-bold mb-2 flex items-center">Playlist Spotify RCP <FontAwesomeIcon icon={faSpotify} className="text-green-500 ml-2" /></h2>
+      <div className='my-16'>
+        <h2 className="text-xl font-bold mt-16 mb-6 flex items-center">Playlist Spotify RCP <FontAwesomeIcon icon={faSpotify} className="text-green-500 ml-2" /></h2>
         <iframe style={{ borderRadius: '12px' }} src="https://open.spotify.com/embed/playlist/0Zn5eFN54B1TEcgHGVxU9S?utm_source=generator" width="100%" height="352" frameBorder="0" allowFullScreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
       </div>
     </div>
