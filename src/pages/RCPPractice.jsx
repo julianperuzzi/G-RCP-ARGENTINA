@@ -16,7 +16,7 @@ function RCPPractice() {
     }
 
     if (isPlaying) {
-      const beatInterval = 60000 / 100; // 100 bpm -> 60000 ms / 100 beats
+      const beatInterval = 60000 / 110; // 110 bpm -> 60000 ms / 110 beats
       intervalRef.current = setInterval(playSound, beatInterval);
       timerRef.current = setInterval(() => {
         setElapsedTime((prev) => prev + 1);
