@@ -42,7 +42,7 @@ const Recursos = () => {
   }, []);
 
   return (
-    <section id="Recursos" className="px-4 py-4 mt-10 bg-gradient-to-r from-slate-800 to-gray-900 text-white shadow-2xl">
+    <section id="Recursos" className="px-4 py-4 mt-10 bg-gradient-to-r from-slate-800 to-gray-900 text-white shadow-2xl ">
       <div className='lg:w-2/3 mx-auto lg:my-8 my-4' data-aos="fade-up">
         <h2 className="text-4xl text-center font-bold md:mb-20 mb-16 uppercase border-b-2 border-orange-200 pb-6">Recursos</h2>
       </div>
@@ -52,7 +52,8 @@ const Recursos = () => {
           key={index}
           className={`lg:w-2/3 mx-auto lg:my-8 my-4 ${index !== 0 ? 'border-t-2 border-gray-700 pt-4' : ''}`}
           data-aos="fade-right"
-          data-aos-delay="300"
+          data-aos-delay="100"
+         
         >
           <h2 className="text-2xl font-bold mb-4">{recurso.title}</h2>
           <p className="text-lg mb-4 text-gray-300">{recurso.description}</p>
