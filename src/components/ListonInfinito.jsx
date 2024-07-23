@@ -11,7 +11,7 @@ import Imagen8 from "../assets/liston clientes/Liston de Marcas.png";
 import Imagen9 from "../assets/liston clientes/9.png";
 import Imagen10 from "../assets/liston clientes/10.png";
 import Imagen11 from "../assets/liston clientes/11.png";
-import Imagen12 from "../assets/liston clientes/Liston de Marcas (1).png";
+import Imagen12 from "../assets/liston clientes/Liston de Marcas (2).png";
 
 const ListonInfinito = () => {
   return (
