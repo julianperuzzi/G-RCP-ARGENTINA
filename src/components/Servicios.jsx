@@ -19,7 +19,7 @@ import 'aos/dist/aos.css';
 
       {/* Servicios */}
       <Link to="/Servicios" >
-      <div className="bg-white md:shadow-lg overflow-hidden flex md:flex-row flex-col-reverse hover:scale-105 transition duration-500 md:h-96">
+      <div className="bg-white md:shadow-2xl overflow-hidden flex md:flex-row flex-col-reverse hover:scale-105 transition duration-500 md:h-96">
       
         <div className="p-4 md:w-1/2">
         <h3 className='text-2xl font-bold mb-2 text-slate-700 uppercase'>Nuestros Servicios</h3>
