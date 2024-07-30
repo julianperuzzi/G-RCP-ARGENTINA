@@ -24,12 +24,12 @@ export const Baner = () => {
         strength={700}
         bgImageStyle={{ objectFit: 'cover' }}
       >
-        <div className="flex flex-col items-center text-center justify-center md:mt-24 mt-10" data-aos="zoom-in">
+        <div className="flex flex-col items-center text-center justify-center md:mt-16 mt-10" data-aos="zoom-in">
           <h1 className={`lg:text-8xl text-5xl font-bold p-6 bg-clip-text text-transparent ${darkMode ? 'bg-gradient-to-r from-sky-600 to-orange-400' : 'bg-gradient-to-r from-yellow-300 to-yellow-600'} hover:scale-105 transition duration-700`}>
             G-RCP ARGENTINA
           </h1>
           <p className="my-2 text-xl md:px-10 px-8 text-white border-t border-gray-400 pt-4 uppercase">
-            Capacitación, Prevención y Salvamento en Emergencias
+            Rescate, Capacitación  y Prevención
           </p>
         </div>
       </Parallax>
