@@ -28,7 +28,7 @@ export const Nosotros = () => {
         strength={700}
         bgImageStyle={{ objectFit: 'cover' }}
       >
-        <div className="flex flex-col items-center text-center justify-center md:mt-24 py-10 md:py-0" data-aos="zoom-in">
+        <div className="flex flex-col items-center text-center justify-center md:mt-16 py-10 md:py-0" data-aos="zoom-in">
         <p className="md:text-2xl text-l px-10 text-white border-b border-gray-400 ">G-RCP ARGENTINA
           </p>
           <h2 className={`lg:text-5xl text-2xl font-bold p-4 bg-clip-text md:w-2/3 text-white`}>GRUPO DE RESCATE, CAPACITACIÓN Y PREVENCIÓN 
