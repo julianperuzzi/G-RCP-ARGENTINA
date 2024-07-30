@@ -30,7 +30,7 @@ function Navbar() {
 
   return (
     <nav
-      className={`w-full sticky top-0 z-30 shadow-lg transition-all duration-500 ease-in-out content-center ${
+      className={`w-full sticky top-0 z-30 shadow-lg transition-all duration-300 ease-in-out content-center ${
         isHovered ? 'md:h-24' : 'md:h-14'
       } bg-slate-700`}
       onMouseEnter={handleMouseEnter}
@@ -114,7 +114,7 @@ function Navbar() {
       {/* apertura de boton menu en modo telefono */}
       {isOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-gray-900 backdrop-blur-md bg-opacity-75 z-40 flex justify-end transition-opacity duration-500 ease-in-out menu-overlay"
+          className="md:hidden fixed inset-0 bg-gray-900 backdrop-blur-md bg-opacity-75 z-40 flex justify-end transition-opacity duration-300 ease-in-out menu-overlay"
           onClick={handleOverlayClick} // Close menu on clicking overlay
         >
           <div
