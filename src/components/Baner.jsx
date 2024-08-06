@@ -19,12 +19,12 @@ export const Baner = () => {
   return (
     <section className='mb-4 mx-auto relative'>
        <Parallax
-        className="bg-center md:h-[50vh] h-[50vh]"
+        className="bg-center "
         bgImage={imagenFondo}
         strength={700}
         bgImageStyle={{ objectFit: 'cover' }}
       >
-        <div className="flex flex-col items-center text-center justify-center md:mt-16 mt-10" data-aos="zoom-in">
+        <div className="flex flex-col items-center text-center justify-center md:mt-16 mt-10 h-[50vh]" data-aos="zoom-in">
           <h1 className={`lg:text-8xl text-5xl font-bold p-6 bg-clip-text text-transparent ${darkMode ? 'bg-gradient-to-r from-sky-600 to-orange-400' : 'bg-gradient-to-r from-yellow-300 to-yellow-600'} hover:scale-105 transition duration-700`}>
             G-RCP ARGENTINA
           </h1>
