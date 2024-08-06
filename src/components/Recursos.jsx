@@ -38,30 +38,33 @@ const recursosData = [
 
 const Recursos = () => {
   useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
+    AOS.init({ duration: 500, once: true });
   }, []);
 
   return (
-    <section id="Recursos" className="px-4 py-4 mt-10 bg-gradient-to-r from-slate-800 to-gray-900 text-white shadow-2xl ">
-      <div className='lg:w-2/3 mx-auto lg:my-8 my-4' data-aos="fade-up">
-        <h2 className="text-4xl text-center font-bold md:mb-20 mb-16 uppercase border-b-2 border-orange-200 pb-6">Recursos</h2>
+    <section id="Recursos" className="px-4 py-4 mt-10 bg-gradient-to-r from-slate-800 to-gray-900 text-white shadow-2xl min-h-screen  ">
+
+      <div className='mx-auto md:my-8 my-4'>
+        <h2 className="text-4xl text-center font-bold md:mb-0 mb-16 uppercase ">Recursos</h2>
       </div>
 
+      <section className=' md:grid md:grid-cols-2 gap-4 md:w-10/12 md:mx-auto'>
       {recursosData.map((recurso, index) => (
         <div
           key={index}
-          className={`lg:w-2/3 mx-auto lg:my-8 my-4 ${index !== 0 ? 'border-t-2 border-gray-700 pt-4' : ''}`}
-          data-aos="fade-right"
-          data-aos-delay="100"
+          className="mx-auto my-2  md:w-10/12 border-b-2 border-gray-700 pb-4 mb-6 md:mb-0 "
+          data-aos="fade-up"
+          data-aos-delay={index * 50}
          
         >
-          <h2 className="text-2xl font-bold mb-4">{recurso.title}</h2>
-          <p className="text-lg mb-4 text-gray-300">{recurso.description}</p>
-          <Link to={recurso.link} className="bg-orange-400 hover:bg-black text-white font-bold py-2 px-4 inline-block transition-all duration-300 ease-in-out shadow-lg">
+          <h2 className="text-2xl font-bold md:mb-2 mb-4">{recurso.title}</h2>
+          <p className="text-lg mb-2 text-gray-300">{recurso.description}</p>
+          <Link to={recurso.link} className="bg-orange-400 hover:bg-black text-white font-bold py-1 px-3 inline-block transition-all duration-300 ease-in-out shadow-lg">
             {recurso.linkText}
           </Link>
         </div>
       ))}
+      </section>
     </section>
   );
 };
