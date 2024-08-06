@@ -16,25 +16,25 @@ export const Home = () => {
 
 
   return (
-    <aside className='animate-fade-in mx-auto'>
+    <aside className='animate-fade-in mx-auto '>
       <div id="main-article" className='md:mb-24 mb-16'>
         
         <Baner />
       </div>
 
 
-    <aside className=' md:w-5/6 md:mx-auto'>
+    <aside className='  md:mx-auto'>
     
-    <div id="servicios" className={`mx-4 my-16 border-t-2 border-slate-300 pt-10 `} >
+    <div id="servicios" className={`mx-4 my-16 border-t-2 border-slate-300 md:w-5/6 pt-10 md:mx-auto`} >
       <Servicios />
     </div>
 
-    <div id="recursos" className={` my-16 border-t-2 border-slate-300 pt-10  `} data-aos="fade-up">
+    <div id="recursos" className={` my-16 border-t-2 border-slate-300 pt-10  `} >
       <Recursos />
     </div>
       
 
-    <div id="certificacion" className={` mx-4 xl:flex xl:gap-8 border-t-2 border-slate-300 md:pt-16`}  data-aos="fade-up">
+    <div id="certificacion" className={` mx-4 xl:flex xl:gap-8 border-t-2 border-slate-300 md:pt-16 md:w-5/6 pt-10 md:mx-auto`}  data-aos="fade-up">
         <Certificacion />
     </div>
 
@@ -43,7 +43,7 @@ export const Home = () => {
         <ListonInfinito />
     </div>
 
-    <div id="blog" className={`shadow-2xl my-8 `} data-aos="fade-up">
+    <div id="blog" className={`shadow-2xl my-8 hidden`} data-aos="fade-up">
       <Blog />
     </div>
 
