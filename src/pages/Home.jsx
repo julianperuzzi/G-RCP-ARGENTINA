@@ -24,7 +24,7 @@ export const Home = () => {
 
     <aside className=' md:mx-auto'>
     
-    <div id="servicios" className={`mx-4 my-16 border-t-2 border-slate-300 md:w-5/6 pt-10 md:mx-auto`} >
+    <div id="servicios" className={`border-t-2 border-slate-300 `} data-aos="fade-up">
       <Servicios />
     </div>
 

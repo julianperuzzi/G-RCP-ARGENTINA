@@ -14,12 +14,11 @@ import 'aos/dist/aos.css';
   }, []);
 
   return (
-    <div className="" data-aos="fade-right">
-      <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center text-slate-800 uppercase">Servicios de G-RCP Argentina</h2>
+    <div className=" md:w-10/12 mx-auto mt-8 shadow-xl p-6 hover:scale-105 transition duration-500" >
+      <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center text-slate-800 uppercase">Servicios G-RCP Argentina</h2>
 
-      {/* Servicios */}
-      <Link to="/Servicios" >
-      <div className="bg-white md:shadow-2xl overflow-hidden flex md:flex-row flex-col-reverse hover:scale-105 transition duration-500 md:h-96">
+
+      <div className=" overflow-hidden flex md:flex-row flex-col-reverse  md:h-96">
       
         <div className="p-4 md:w-1/2">
         <h3 className='text-2xl font-bold mb-2 text-slate-700 uppercase'>Nuestros Servicios</h3>
@@ -40,9 +39,7 @@ import 'aos/dist/aos.css';
               <strong>Comunidad</strong>
             </li>
           </ul>
-          <p className="text-blue-700 text-lg pt-6">
-            <Link to="/Servicios">Más Información Aquí</Link>
-          </p>
+          <Link to="/servicios" className="mt-2 inline-block bg-orange-400 hover:bg-black text-white font-bold py-2 px-4 w-fit">Ir a Servicios</Link>
         </div>
         <div>
 
@@ -52,7 +49,6 @@ import 'aos/dist/aos.css';
         </Link>
         
       </div>
-      </Link>
     </div>
   );
 };

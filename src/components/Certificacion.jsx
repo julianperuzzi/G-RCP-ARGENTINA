@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export const Certificacion = () => {
   return (
-    <section className="flex flex-col justify-center  shadow-xl md:w-10/12 md:mx-auto p-6 bg-neutral-50 mt-4 min-h-[50vh] hover:scale-105 transition duration-300">
+    <section className="flex flex-col justify-center  shadow-xl md:w-10/12 md:mx-auto p-6 bg-white mt-4 min-h-[50vh] hover:scale-105 transition duration-300">
 
           <h2 className="text-4xl font-bold my-2 uppercase text-center ">Certificación</h2>
           <h3 className="text-xl font-bold mb-2 ">Entrega de Certificación</h3>
