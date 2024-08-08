@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -11,14 +10,6 @@ function Navbar() {
 
   const closeMenu = () => {
     setIsOpen(false);
-  };
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
   };
 
   const handleOverlayClick = (event) => {
@@ -30,16 +21,12 @@ function Navbar() {
 
   return (
     <nav
-      className={`w-full sticky top-0 z-30 shadow-lg transition-all duration-300 ease-in-out content-center ${
-        isHovered ? 'md:h-24' : 'md:h-14'
-      } bg-slate-700`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      className="w-full sticky top-0 z-30 shadow-lg transition-all duration-300 ease-in-out content-center md:bg-slate-700/70 bg-slate-700 py-2 md:backdrop-blur-xl"
     >
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         <Link
           to="/"
-          className={`font-bold hover:text-white hover:scale-105 transition duration-300 md:text-2xl text-lg bg-clip-text text-white`}
+          className={`font-bold hover:text-white hover:scale-105 transition duration-300 md:text-2xl text-xl bg-clip-text text-white`}
         >
           <span className="text-sky-400">G-RCP</span> ARGENTINA
         </Link>
@@ -75,7 +62,7 @@ function Navbar() {
           >
             Inicio
           </Link>
-          
+
           <Link
             to="/servicios"
             className="mx-2 px-4 py-2 transition-colors duration-300 text-gray-200 hover:bg-sky-600/75"
@@ -118,8 +105,8 @@ function Navbar() {
           onClick={handleOverlayClick} // Close menu on clicking overlay
         >
           <div
-            className="w-2/3 shadow-lg flex flex-col p-4 bg-gray-800 text-gray-100"
-            data-aos="fade-left"
+            className="w-2/3 shadow-lg flex flex-col p-4 bg-slate-600/50 backdrop-blur-xl text-gray-100"
+            data-aos="fade-left" 
           >
             <button onClick={toggleMenu} className="self-end mb-4">
               <svg
@@ -139,44 +126,45 @@ function Navbar() {
             </button>
 
             <Link
-            to="/"
-            className={`block px-1 py-2 font-bold border-b border-gray-400 mb-4`}
+              to="/"
+              className="block px-1 py-2 font-bold border-b border-gray-400 mb-4"
             >
-             G-RCP ARGENTINA
-             </Link>
+              G-RCP ARGENTINA
+            </Link>
 
             <Link
               to="/"
               onClick={closeMenu}
-              className="block px-4 py-2  hover:bg-gray-900"
+              className="block px-4 py-2 hover:bg-gray-900"
             >
               Inicio
             </Link>
-            
+
             <Link
               to="/servicios"
               onClick={closeMenu}
-              className="block px-4 py-2  hover:bg-gray-900"
+              className="block px-4 py-2 hover:bg-gray-900"
             >
               Servicios
             </Link>
             <Link
               to="/nosotros"
               onClick={closeMenu}
-              className="block px-4 py-2  hover:bg-gray-900"
+              className="block px-4 py-2 hover:bg-gray-900"
             >
               Nosotros
             </Link>
             <Link
               to="/rcp"
               onClick={closeMenu}
-              className="block px-4 py-2  hover:bg-gray-900"
+              className="block px-4 py-2 hover:bg-gray-900"
             >
               Aprende RCP
-            </Link><Link
+            </Link>
+            <Link
               to="/practica-rcp"
               onClick={closeMenu}
-              className="block px-4 py-2 0 hover:bg-gray-900"
+              className="block px-4 py-2 hover:bg-gray-900"
             >
               Ritmo RCP
             </Link>

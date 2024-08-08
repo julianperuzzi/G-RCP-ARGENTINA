@@ -56,31 +56,46 @@ function RCPPractice() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center  bg-gray-100 dark:bg-gray-900 py-8">
-      <div className="w-full h-32">
-      {flash ? <div className="w-full h-32 bg-green-500"></div> : <div className="w-full h-32 bg-green-400/30"></div>}
+    <div className="flex flex-col justify-center items-center bg-cyan-950 py-8 ">
+      <div className="w-full">
+        {flash ? (
+          <div className="w-full h-40 bg-white"></div>
+        ) : (
+          <div className="w-full h-40 bg-white/20"></div>
+        )}
       </div>
       <div className="px-4 text-center">
-      <h1 className="text-4xl font-bold mt-16 mb-6 text-gray-900 dark:text-orange-100">
-        Practica RCP
-      </h1>
-      <p className="mb-4 text-lg text-gray-700 dark:text-gray-300">
-        Utiliza este recurso para practicar RCP
-      </p>
-      <button
-        onClick={togglePlay}
-        className="px-6 py-3 rounded-md text-lg font-medium transition bg-green-500 text-white hover:bg-orange-500 mb-4"
-      >
-        {isPlaying ? 'Detener' : 'Iniciar'} Pulsaciones
-      </button>
-      <div className="text-xl text-gray-700 dark:text-gray-300 mb-4">
-        Tiempo transcurrido: {Math.floor(elapsedTime / 60)}:{elapsedTime % 60 < 10 ? '0' : ''}{elapsedTime % 60} minutos
+        <h2 className="text-5xl font-bold mt-16 mb-6 text-gray-100">
+          RITMO RCP
+        </h2>
+        <p className="mb-4 text-lg text-gray-100">
+          Utiliza este recurso para practicar RCP
+        </p>
+        <button
+          onClick={togglePlay}
+          className="px-6 py-3  text-lg font-medium transition bg-green-500 text-white hover:bg-orange-500 mb-4"
+        >
+          {isPlaying ? 'Detener' : 'Iniciar'} Pulsaciones
+        </button>
+        <div className="text-xl text-gray-50 mb-4">
+          Tiempo transcurrido: {Math.floor(elapsedTime / 60)}:
+          {elapsedTime % 60 < 10 ? '0' : ''}
+          {elapsedTime % 60} minutos
+        </div>
+        <div className="text-xl text-gray-50 mb-16">
+          Conteo de pulsaciones: {pulseCount}
+        </div>
+        
       </div>
-      <div className="text-xl text-gray-700 dark:text-gray-300 mb-16">
-        Conteo de pulsaciones: {pulseCount}
-      </div>
-      </div>
-      {flash ? <div className="w-full h-32 bg-green-500"></div> : <div className="w-full h-32 bg-green-400/30"></div>}
+      {flash ? (
+        <div className="w-full h-40 bg-green-500"> <h2 className="text-4xl font-bold my-16 text-white text-center">
+        GRCP ARGENTINA
+      </h2></div>
+      ) : (
+        <div className="w-full h-40 bg-green-400/30"> <h2 className="text-4xl font-bold my-16 text-white/70 text-center">
+        GRCP ARGENTINA
+      </h2></div>
+      )}
     </div>
   );
 }
