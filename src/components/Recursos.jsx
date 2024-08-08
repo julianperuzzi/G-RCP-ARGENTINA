@@ -33,7 +33,13 @@ const recursosData = [
     description: "Visita nuestras galeria de fotos, puedes descargar la foto que mas te guste",
     link: "/galeria",
     linkText: "Galeria",
-  }
+  },
+  {
+    title: "Juego Ritmo RCP",
+    description: "Juega a practicar el ritmo de RCP",
+    link: "/rcp-game",
+    linkText: "Juego RCP",
+  },
 ];
 
 const Recursos = () => {
