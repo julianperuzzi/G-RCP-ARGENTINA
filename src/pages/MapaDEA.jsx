@@ -18,12 +18,12 @@ const MapaDEA = () => {
 
   return (
     <div className="container mx-auto">
-      <h1 className="text-3xl font-bold text-center mt-8 mb-6">Geolocalización de DEA en Argentina</h1>
+      <h1 className="text-3xl font-bold text-center mt-8 mb-6 mx-2">Geolocalización de DEA en Argentina</h1>
       
       <iframe
         title="Mapa de Desfibriladores"
         src="https://www.google.com/maps/d/u/0/embed?mid=1kjiWpPktBA6XDvOoF_z9Ulabi1uBR6I&ehbc=2E312F&noprof=1"
-        width="90%"
+        width="100%"
         height="500"
         style={{ border: 0 }}
         allowFullScreen=""
