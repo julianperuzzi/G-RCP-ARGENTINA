@@ -1,42 +1,35 @@
+// src/pages/RealidadAumentada.jsx
 import React, { useEffect } from 'react';
 
 const RealidadAumentada = () => {
   useEffect(() => {
-    // Crear y cargar los scripts en orden correcto
-    const loadScript = (src) => {
-      return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = src;
-        script.async = true;
-        script.onload = resolve;
-        script.onerror = reject;
-        document.head.appendChild(script);
-      });
-    };
+    // Cargar scripts necesarios
+    const aframeScript = document.createElement('script');
+    aframeScript.src = 'https://aframe.io/releases/1.0.4/aframe.min.js';
+    aframeScript.async = true;
+    document.body.appendChild(aframeScript);
 
-    // Cargar A-Frame primero
-    loadScript('https://aframe.io/releases/1.0.4/aframe.min.js')
-      .then(() => {
-        // Luego cargar AR.js y scripts de gestos
-        return Promise.all([
-          loadScript('https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js'),
-          loadScript('https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js'),
-          loadScript('https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js')
-        ]);
-      })
-      .then(() => {
-        console.log('All scripts loaded successfully');
-      })
-      .catch((error) => {
-        console.error('Error loading scripts:', error);
-      });
+    const arjsScript = document.createElement('script');
+    arjsScript.src = 'https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js';
+    arjsScript.async = true;
+    document.body.appendChild(arjsScript);
 
-    // Limpiar los scripts al desmontar el componente
+    const gestureDetectorScript = document.createElement('script');
+    gestureDetectorScript.src = 'https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js';
+    gestureDetectorScript.async = true;
+    document.body.appendChild(gestureDetectorScript);
+
+    const gestureHandlerScript = document.createElement('script');
+    gestureHandlerScript.src = 'https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js';
+    gestureHandlerScript.async = true;
+    document.body.appendChild(gestureHandlerScript);
+
     return () => {
-      const scripts = document.querySelectorAll('script[src*="aframe"], script[src*="githack"]');
-      scripts.forEach(script => {
-        document.head.removeChild(script);
-      });
+      // Limpiar los scripts al desmontar el componente
+      document.body.removeChild(aframeScript);
+      document.body.removeChild(arjsScript);
+      document.body.removeChild(gestureDetectorScript);
+      document.body.removeChild(gestureHandlerScript);
     };
   }, []);
 
@@ -46,7 +39,6 @@ const RealidadAumentada = () => {
         vr-mode-ui="enabled: false;"
         loading-screen="enabled: false;"
         arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
-        id="scene"
         embedded
         gesture-detector
       >
@@ -54,13 +46,13 @@ const RealidadAumentada = () => {
           id="animated-marker"
           type="pattern"
           preset="custom"
-          url="/assets/realidadAumentada/marker.patt"
+          url="../assets/marker.patt"  
           raycaster="objects: .clickable"
           emitevents="true"
           cursor="fuse: false; rayOrigin: mouse;"
         >
           <a-image
-            src="/assets/realidadAumentada/asset.png"
+            src="../assets/asset.png"  
             scale="1 1 1"
             class="clickable"
             rotation="-90 0 0"
