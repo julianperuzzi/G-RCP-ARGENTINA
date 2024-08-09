@@ -47,14 +47,13 @@ const RealidadAumentada = () => {
           id="animated-marker"
           type="pattern"
           preset="custom"
-          url="../assets/realidadAumentada/marker.patt"
+          url="/assets/realidadAumentada/marker.patt" 
           raycaster="objects: .clickable"
           emitevents="true"
           cursor="fuse: false; rayOrigin: mouse;"
-         
         >
           <a-image
-            src="../assets/realidadAumentada/asset.png"
+            src="/assets/realidadAumentada/asset.png" 
             scale="1 1 1"
             class="clickable"
             rotation="-90 0 0"
