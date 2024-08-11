@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -13,25 +15,22 @@ function Navbar() {
   };
 
   const handleOverlayClick = (event) => {
-    // Close the menu if the click was outside the menu
     if (event.target.classList.contains('menu-overlay')) {
       closeMenu();
     }
   };
 
   return (
-    <nav
-      className="w-full sticky top-0 z-30 shadow-lg transition-all duration-300 ease-in-out content-center md:bg-slate-700/70 bg-slate-700 py-2 md:backdrop-blur-xl"
-    >
+    <nav className="w-full sticky top-0 z-30 shadow-lg transition-all duration-300 ease-in-out content-center md:bg-slate-700/70 bg-slate-700 py-2 md:backdrop-blur-xl">
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         <Link
           to="/"
-          className={`font-bold hover:text-white hover:scale-105 transition duration-300 md:text-2xl text-xl bg-clip-text text-white`}
+          className="font-bold hover:text-white hover:scale-105 transition duration-300 md:text-2xl text-xl bg-clip-text text-white"
         >
           <span className="text-sky-400">G-RCP</span> ARGENTINA
         </Link>
 
-        {/* Boton de menu */}
+        {/* Botón de menú */}
         <div className="md:hidden">
           <button
             onClick={toggleMenu}
@@ -54,7 +53,7 @@ function Navbar() {
           </button>
         </div>
 
-        {/* navbar para modo escritorio */}
+        {/* Navbar para modo escritorio */}
         <div className="hidden md:flex items-center justify-center flex-grow">
           <Link
             to="/"
@@ -62,7 +61,6 @@ function Navbar() {
           >
             Inicio
           </Link>
-
           <Link
             to="/servicios"
             className="mx-2 px-4 py-2 transition-colors duration-300 text-gray-200 hover:bg-sky-600/75"
@@ -88,6 +86,8 @@ function Navbar() {
             Ritmo RCP
           </Link>
         </div>
+
+        {/* Botones de autenticación */}
         <div className="hidden md:flex items-center space-x-4">
           <Link
             to="/contacto"
@@ -95,18 +95,37 @@ function Navbar() {
           >
             Contactanos
           </Link>
+          {isAuthenticated ? (
+            <div className="flex items-center space-x-2">
+              
+              <button
+                onClick={() => logout({ returnTo: window.location.origin })}
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md"
+              >
+                Logout
+              </button>
+              <span className="text-gray-200 text-xs bg-slate-800 py-1 px-2">{user.name}</span>
+            </div>
+          ) : (
+            <button
+              onClick={() => loginWithRedirect()}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md"
+            >
+              Login
+            </button>
+          )}
         </div>
       </div>
 
-      {/* apertura de boton menu en modo telefono */}
+      {/* Apertura de botón menú en modo teléfono */}
       {isOpen && (
         <div
           className="md:hidden fixed inset-0 bg-gray-900 backdrop-blur-md bg-opacity-75 z-40 flex justify-end transition-opacity duration-300 ease-in-out menu-overlay"
-          onClick={handleOverlayClick} // Close menu on clicking overlay
+          onClick={handleOverlayClick}
         >
           <div
             className="w-2/3 shadow-lg flex flex-col p-4 bg-slate-600/50 backdrop-blur-xl text-gray-100"
-            data-aos="fade-left" 
+            data-aos="fade-left"
           >
             <button onClick={toggleMenu} className="self-end mb-4">
               <svg
@@ -128,6 +147,7 @@ function Navbar() {
             <Link
               to="/"
               className="block px-1 py-2 font-bold border-b border-gray-400 mb-4"
+              onClick={closeMenu}
             >
               G-RCP ARGENTINA
             </Link>
@@ -175,6 +195,25 @@ function Navbar() {
             >
               Contactanos
             </Link>
+            {isAuthenticated ? (
+              <div className="flex flex-col items-start">
+                
+                <button
+                  onClick={() => logout({ returnTo: window.location.origin })}
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md w-full text-left"
+                >
+                  Logout
+                </button>
+                <span className=" mt-2 text-gray-200 text-xs bg-slate-800 py-1 px-2">{user.name}</span>
+              </div>
+            ) : (
+              <button
+                onClick={() => loginWithRedirect()}
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md w-full text-left"
+              >
+                Login
+              </button>
+            )}
           </div>
         </div>
       )}
