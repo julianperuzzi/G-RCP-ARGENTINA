@@ -22,7 +22,9 @@ import { Analytics } from '@vercel/analytics/react';
 import RCPPractice from './pages/RCPPractice';
 import Galeria from './pages/Galeria';
 import ProtectedRoute from './components/ProtectedRoute';
-import Profile from './components/Profile';
+import Profile from './pages/Profile';
+import CoursesPage from './pages/CoursesPage';
+import Login from './pages/Login';
 
 
 function App() {
@@ -48,8 +50,12 @@ function App() {
           <Route path="/rcp-game" element={<RcpGame />} />
           <Route path="/practica-rcp" element={<RCPPractice />} />
           <Route path="/galeria" element={<Galeria />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NotFoundPage />} />
-          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/cursos" element={<CoursesPage />} />
+
+          
 
         </Routes>
         <ContactButton />
