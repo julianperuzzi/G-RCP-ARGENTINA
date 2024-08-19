@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const connection = require('./config/db');
+const connection = require('./src/controllers/config/db');
 
 app.get('/test-db', (req, res) => {
   connection.query('SELECT 1 + 1 AS solution', (err, results) => {
