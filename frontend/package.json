@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@auth0/auth0-react": "^2.2.4",
     "@emailjs/browser": "^4.3.3",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-brands-svg-icons": "^6.5.1",
@@ -25,6 +24,7 @@
     "emailjs-com": "^3.2.0",
     "express": "^4.19.2",
     "express-openid-connect": "^2.17.1",
+    "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

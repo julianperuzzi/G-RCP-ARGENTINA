@@ -50,7 +50,7 @@ function App() {
           <Route path="/rcp-game" element={<RcpGame />} />
           <Route path="/practica-rcp" element={<RCPPractice />} />
           <Route path="/galeria" element={<Galeria />} />
-          <Route path="/login" element={<Login />} />
+           <Route path="/login" element={<Login />} /> 
           <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/cursos" element={<CoursesPage />} />

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { getUser } from '../authService'; // Importa tu servicio de autenticación
+import { logout } from '../authService'; // Importa tu servicio de autenticación
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,7 +10,17 @@ function Navbar() {
     nosotros: false,
     cuenta: false,
   });
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+  const [user, setUser] = useState(null); // Estado para el usuario autenticado
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Cargar usuario autenticado
+    const fetchUser = async () => {
+      const userData = await getUser();
+      setUser(userData);
+    };
+    fetchUser();
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -32,8 +43,14 @@ function Navbar() {
     }
   };
 
+  const handleLogout = () => {
+    logout();
+    setUser(null);
+    navigate('/');
+  };
+
   return (
-    <nav className="w-full sticky top-0 z-30 shadow-lg transition-all duration-300 ease-in-out content-center  bg-gray-950 py-2 md:backdrop-blur-xl">
+    <nav className="w-full sticky top-0 z-30 shadow-lg transition-all duration-300 ease-in-out content-center bg-gray-950 py-2 md:backdrop-blur-xl">
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         <Link
           to="/"
@@ -126,7 +143,7 @@ function Navbar() {
                   to="/galeria"
                   className="block px-4 py-2 hover:bg-gray-100"
                 >
-                  Galeria
+                  Galería
                 </Link>
                 <Link
                   to="/rcp-game"
@@ -194,7 +211,7 @@ function Navbar() {
               onClick={() => toggleDropdown('cuenta')}
               className="px-4 py-2 bg-orange-500 hover:bg-sky-500 text-white font-medium flex items-center"
             >
-              Mi cuenta
+              {user ? `Hola, ${user.username}` : 'Mi cuenta'}
               <svg
                 className="ml-2 w-4 h-4"
                 fill="none"
@@ -212,23 +229,36 @@ function Navbar() {
             </button>
             {dropdownOpen.cuenta && (
               <div className="absolute right-0 mt-2 w-48 bg-white text-black shadow-lg">
-                {isAuthenticated ? (
+                {user ? (
                   <>
+                    <Link
+                      to="/mi-perfil"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Mi perfil
+                    </Link>
                     <button
-                      onClick={() => logout({ returnTo: window.location.origin })}
+                      onClick={handleLogout}
                       className="block px-4 py-2 hover:bg-gray-100 w-full text-left"
                     >
                       Logout
                     </button>
-                    <span className="block px-4 py-2 text-gray-600">{user.name}</span>
                   </>
                 ) : (
-                  <button
-                    onClick={() => loginWithRedirect()}
-                    className="block px-4 py-2 hover:bg-gray-100 w-full text-left"
-                  >
-                    Login
-                  </button>
+                  <>
+                    <Link
+                      to="/login"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Iniciar sesión
+                    </Link>
+                    <Link
+                      to="/registro"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Registrarme
+                    </Link>
+                  </>
                 )}
               </div>
             )}
@@ -243,12 +273,15 @@ function Navbar() {
           onClick={handleOverlayClick}
         >
           <div
-            className="w-2/3 shadow-lg flex flex-col p-4 bg-slate-600/50 backdrop-blur-xl text-gray-100"
-            data-aos="fade-left"
+            className="w-2/3 shadow-lg flex flex-col p-4 bg-gray-950"
+            onClick={(e) => e.stopPropagation()}
           >
-            <button onClick={toggleMenu} className="self-end mb-4">
+            <button
+              onClick={toggleMenu}
+              className="text-gray-300 hover:text-sky-400 text-right"
+            >
               <svg
-                className="w-6 h-6 text-gray-800"
+                className="w-6 h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -259,13 +292,12 @@ function Navbar() {
                   strokeLinejoin="round"
                   strokeWidth="2"
                   d="M6 18L18 6M6 6l12 12"
-                ></path>
+                />
               </svg>
             </button>
-
             <Link
               to="/"
-              className="block p-2 hover:bg-sky-600/75"
+              className="my-2 text-gray-200 hover:bg-sky-600/75 block px-4 py-2 rounded"
               onClick={closeMenu}
             >
               Inicio
@@ -273,7 +305,7 @@ function Navbar() {
 
             <button
               onClick={() => toggleDropdown('recursos')}
-              className="p-2 hover:bg-sky-600/75 flex justify-between"
+              className="my-2 text-gray-200 hover:bg-sky-600/75 px-4 py-2 rounded flex items-center"
             >
               Recursos
               <svg
@@ -292,45 +324,45 @@ function Navbar() {
               </svg>
             </button>
             {dropdownOpen.recursos && (
-              <div className="flex flex-col ml-4">
+              <div className="ml-4">
                 <Link
                   to="/rcp"
-                  className="block p-2 hover:bg-gray-700"
+                  className="block px-4 py-2 hover:bg-gray-100"
                   onClick={closeMenu}
                 >
                   Aprende RCP
                 </Link>
                 <Link
                   to="/mapadea"
-                  className="block p-2 hover:bg-gray-700"
+                  className="block px-4 py-2 hover:bg-gray-100"
                   onClick={closeMenu}
                 >
                   Mapa DEA ARG
                 </Link>
                 <Link
                   to="/Biblioteca"
-                  className="block p-2 hover:bg-gray-700"
+                  className="block px-4 py-2 hover:bg-gray-100"
                   onClick={closeMenu}
                 >
                   Explorar Biblioteca
                 </Link>
                 <Link
                   to="/practica-rcp"
-                  className="block p-2 hover:bg-gray-700"
+                  className="block px-4 py-2 hover:bg-gray-100"
                   onClick={closeMenu}
                 >
                   Ritmo RCP
                 </Link>
                 <Link
                   to="/galeria"
-                  className="block p-2 hover:bg-gray-700"
+                  className="block px-4 py-2 hover:bg-gray-100"
                   onClick={closeMenu}
                 >
                   Galería
                 </Link>
                 <Link
                   to="/rcp-game"
-                  className="block p-2 hover:bg-gray-700"
+                  className="block px-4 py-2 hover:bg-gray-100"
                   onClick={closeMenu}
                 >
                   Juego RCP
@@ -340,7 +372,7 @@ function Navbar() {
 
             <button
               onClick={() => toggleDropdown('nosotros')}
-              className="p-2 hover:bg-sky-600/75 flex justify-between"
+              className="my-2 text-gray-200 hover:bg-sky-600/75 px-4 py-2 rounded flex items-center"
             >
               Nosotros
               <svg
@@ -359,17 +391,17 @@ function Navbar() {
               </svg>
             </button>
             {dropdownOpen.nosotros && (
-              <div className="flex flex-col ml-4">
+              <div className="ml-4">
                 <Link
                   to="/nosotros"
-                  className="block p-2 hover:bg-gray-700"
+                  className="block px-4 py-2 hover:bg-gray-100"
                   onClick={closeMenu}
                 >
                   Nosotros
                 </Link>
                 <Link
                   to="/contacto"
-                  className="block p-2 hover:bg-gray-700"
+                  className="block px-4 py-2 hover:bg-gray-100"
                   onClick={closeMenu}
                 >
                   Contáctanos
@@ -378,7 +410,7 @@ function Navbar() {
                   href="https://www.instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block p-2 hover:bg-gray-700"
+                  className="block px-4 py-2 hover:bg-gray-100"
                   onClick={closeMenu}
                 >
                   Instagram
@@ -386,51 +418,42 @@ function Navbar() {
               </div>
             )}
 
-            {/* Menú de Cuenta */}
-            <button
-              onClick={() => toggleDropdown('cuenta')}
-              className=" p-2 mt-4 bg-orange-500 hover:bg-sky-500 text-white font-medium flex justify-between items-center"
-            >
-              Mi cuenta
-              <svg
-                className="ml-2 w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-            {dropdownOpen.cuenta && (
-              <div className="flex flex-col ml-4">
-                {isAuthenticated ? (
-                  <>
-                    <button
-                      onClick={() => logout({ returnTo: window.location.origin })}
-                      className="block p-2 hover:bg-gray-700"
-                      onClick={closeMenu}
-                    >
-                      Logout
-                    </button>
-                    <span className="block p-2 text-gray-300">{user.name}</span>
-                  </>
-                ) : (
-                  <button
-                    onClick={() => loginWithRedirect()}
-                    className="block py-2 hover:bg-gray-700"
+            <div className="my-2 text-gray-200">
+              {user ? (
+                <>
+                  <Link
+                    to="/mi-perfil"
+                    className="block px-4 py-2 hover:bg-gray-100"
                     onClick={closeMenu}
                   >
-                    Login
+                    Mi perfil
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="block px-4 py-2 hover:bg-gray-100 w-full text-left"
+                  >
+                    Logout
                   </button>
-                )}
-              </div>
-            )}
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                    onClick={closeMenu}
+                  >
+                    Iniciar sesión
+                  </Link>
+                  <Link
+                    to="/registro"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                    onClick={closeMenu}
+                  >
+                    Registrarme
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}
