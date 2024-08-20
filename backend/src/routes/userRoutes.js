@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('./database'); // Asegúrate de que pool esté correctamente importado y configurado
+const pool = require('../config'); // Asegúrate de que pool esté correctamente importado y configurado
 
 // Ruta para obtener el perfil (sin autenticación)
 router.get('/profile', async (req, res) => {

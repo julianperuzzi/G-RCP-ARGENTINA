@@ -56,7 +56,6 @@ const ServiciosPages = () => {
   const [selectedService, setSelectedService] = useState(null);
   const modalRef = useRef(null);
 
-  // Cerrar modal al hacer click fuera de él
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -82,41 +81,50 @@ const ServiciosPages = () => {
   return (
     <section className="p-3 animate-fade-in bg-gray-100">
       <div className="p-2 md:w-2/3 md:mx-auto">
-        <h1 className="text-zinc-900 text-4xl pt-4 font-bold py-6 my-6 border-b-2 border-slate-600" >Servicios</h1>
+        <h1 className="text-zinc-900 text-4xl pt-4 font-bold py-6 my-6 border-b-2 border-slate-600">
+          Servicios
+        </h1>
         {serviciosData.map((service) => (
-          <article
-            key={service.id}
-            className="bg-white shadow-lg flex items-center p-3 my-2 hover:bg-gray-800 hover:text-white cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
-            onClick={() => handleServiceClick(service.id)}
-          >
-            <div className="">
-              <img
-                src={selectedService === service.id ? service.imageAfter : service.imageBefore}
-                alt=""
-                className="max-w-32 lg:w-40"
-              />
-              {/* Mostrar la segunda imagen si el servicio está seleccionado */}
-            </div>
-            <div className="ml-4 ">
-              <p className="text-gray-300 text-3xl font-bold mb-2">0{service.id}</p>
-              <h2 className="font-bold text-xl mb-2">{service.title}</h2>
-              <p className="text-sm">{service.description}</p>
-            </div>
-          </article>
+          <section className="flex flex-col hover:scale-105" key={service.id}>
+            <article
+              className="bg-gray-900 shadow-lg flex items-center my-4  text-white cursor-pointer transition duration-500 ease-in-out transform hover:scale-105 "
+              onClick={() => handleServiceClick(service.id)}
+            >
+              <div className="relative overflow-hidden hidden md:block">
+                <img
+                  src={selectedService === service.id ? service.imageAfter : service.imageBefore}
+                  alt=""
+                  className="h-full object-cover max-w-xs"
+                />
+              
+              </div>
+              <div className="ml-8 p-6 flex-1 border-l-4 border-white/50 py-4">
+                <p className="text-white/60 text-3xl font-bold mb-2">0{service.id}</p>
+                <h2 className="font-bold text-2xl mb-2 text-white/90">{service.title}</h2>
+                <p className="text-sm">{service.description}</p>
+                <p className="text-sm mt-8 text-blue-500">Mas Información</p>
+              </div>
+            </article>
+          </section>
         ))}
       </div>
       {selectedService && (
         <div className="fixed top-0 left-0 w-full h-full bg-opacity-50 backdrop-blur-md flex justify-center items-center z-50">
           <div ref={modalRef} className="bg-slate-50 p-8 md:w-1/2 md:mx-auto mx-2 overflow-y-auto max-h-[90svh] my-10 rounded-lg">
-            <h2 className="text-2xl font-bold mb-4">{serviciosData[selectedService - 1].title}</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              {serviciosData[selectedService - 1].title}
+            </h2>
             <img
               src={serviciosData[selectedService - 1].imageAfter}
               alt=""
               className="w-full h-auto object-cover mb-4 rounded-lg"
             />
-            {/* Mostrar la segunda imagen en la ventana desplegada */}
-            <p className="text-gray-700 text-xl mb-4">{serviciosData[selectedService - 1].description}</p>
-            <p className="text-gray-700 mb-4">{serviciosData[selectedService - 1].info}</p>
+            <p className="text-gray-700 text-xl mb-4">
+              {serviciosData[selectedService - 1].description}
+            </p>
+            <p className="text-gray-700 mb-4">
+              {serviciosData[selectedService - 1].info}
+            </p>
             <div className="flex flex-row justify-between gap-2">
               <Link
                 to="/contacto"
@@ -124,14 +132,13 @@ const ServiciosPages = () => {
               >
                 Contactanos
               </Link>
-                      
               <button
                 className="bg-gray-300 text-white font-bold py-3 px-5 mb-2"
                 onClick={handleCloseModal}
               >
                 Cerrar
               </button>
-              </div> 
+            </div>
           </div>
         </div>
       )}
