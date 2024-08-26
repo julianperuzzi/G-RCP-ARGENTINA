@@ -21,7 +21,6 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 import RCPPractice from './pages/RCPPractice';
 import Galeria from './pages/Galeria';
-import RealidadAumentada from './pages/RealidadAumentada';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -56,7 +55,6 @@ function App() {
           <Route path="/rcp-game" element={<RcpGame />} />
           <Route path="/practica-rcp" element={<RCPPractice />} />
           <Route path="/galeria" element={<Galeria />} />
-          <Route path="/ra" element={<RealidadAumentada />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <ContactButton />

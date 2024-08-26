@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isResourcesOpen, setIsResourcesOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -12,26 +13,26 @@ function Navbar() {
     setIsOpen(false);
   };
 
+  const toggleResourcesMenu = () => {
+    setIsResourcesOpen(!isResourcesOpen);
+  };
+
   const handleOverlayClick = (event) => {
-    // Close the menu if the click was outside the menu
     if (event.target.classList.contains('menu-overlay')) {
       closeMenu();
     }
   };
 
   return (
-    <nav
-      className="w-full sticky top-0 z-30 shadow-lg transition-all duration-300 ease-in-out content-center md:bg-slate-700/70 bg-slate-700 py-2 md:backdrop-blur-xl"
-    >
+    <nav className="w-full sticky top-0 z-30 shadow-lg transition-all duration-300 ease-in-out content-center bg-gray-950 py-2 md:backdrop-blur-xl">
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         <Link
           to="/"
-          className={`font-bold hover:text-white hover:scale-105 transition duration-300 md:text-2xl text-xl bg-clip-text text-white`}
+          className="font-bold hover:text-white hover:scale-105 transition duration-300 md:text-2xl text-xl bg-clip-text text-white"
         >
           <span className="text-sky-400">G-RCP</span> ARGENTINA
         </Link>
 
-        {/* Boton de menu */}
         <div className="md:hidden">
           <button
             onClick={toggleMenu}
@@ -54,7 +55,6 @@ function Navbar() {
           </button>
         </div>
 
-        {/* navbar para modo escritorio */}
         <div className="hidden md:flex items-center justify-center flex-grow">
           <Link
             to="/"
@@ -63,29 +63,80 @@ function Navbar() {
             Inicio
           </Link>
 
-          <Link
-            to="/servicios"
-            className="mx-2 px-4 py-2 transition-colors duration-300 text-gray-200 hover:bg-sky-600/75"
+          <div
+            className="relative mx-2 px-4 py-2 transition-colors duration-300 text-gray-200 hover:bg-sky-600/75 cursor-pointer"
+            onMouseEnter={() => setIsResourcesOpen(true)}
+            onMouseLeave={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget)) {
+                setIsResourcesOpen(false);
+              }
+            }}
           >
-            Servicios
-          </Link>
+            Recursos ▾
+            {isResourcesOpen && (
+              <div
+                className="absolute left-0 top-full  w-48 bg-gray-800 text-white  shadow-lg z-50"
+                onMouseEnter={() => setIsResourcesOpen(true)}
+                onMouseLeave={() => setIsResourcesOpen(false)}
+              >
+                <Link
+                  to="/rcp"
+                  onClick={closeMenu}
+                  className="block px-4 py-2 hover:bg-sky-600"
+                >
+                  Aprende RCP
+                </Link>
+                <Link
+                  to="/mapadea"
+                  onClick={closeMenu}
+                  className="block px-4 py-2 hover:bg-sky-600"
+                >
+                  Mapa DEA ARG
+                </Link>
+                <Link
+                  to="/Biblioteca"
+                  onClick={closeMenu}
+                  className="block px-4 py-2 hover:bg-sky-600"
+                >
+                  Explorar Biblioteca
+                </Link>
+                <Link
+                  to="/practica-rcp"
+                  onClick={closeMenu}
+                  className="block px-4 py-2 hover:bg-sky-600"
+                >
+                  Ritmo RCP
+                </Link>
+                <Link
+                  to="/galeria"
+                  onClick={closeMenu}
+                  className="block px-4 py-2 hover:bg-sky-600"
+                >
+                  Galeria
+                </Link>
+                <Link
+                  to="/rcp-game"
+                  onClick={closeMenu}
+                  className="block px-4 py-2 hover:bg-sky-600"
+                >
+                  Juego RCP
+                </Link>
+                <Link
+                  to="https://dea-grcp-ar.vercel.app/"
+                  onClick={closeMenu}
+                  className="block px-4 py-2 hover:bg-sky-600"
+                >
+                  Realidad Aumentada
+                </Link>
+              </div>
+            )}
+          </div>
+
           <Link
             to="/nosotros"
             className="mx-2 px-4 py-2 transition-colors duration-300 text-gray-200 hover:bg-sky-600/75"
           >
             Nosotros
-          </Link>
-          <Link
-            to="/rcp"
-            className="mx-2 px-4 py-2 transition-colors duration-300 text-gray-200 hover:bg-sky-600/75"
-          >
-            Aprende RCP
-          </Link>
-          <Link
-            to="/practica-rcp"
-            className="mx-2 px-4 py-2 transition-colors duration-300 text-gray-200 hover:bg-sky-600/75"
-          >
-            Ritmo RCP
           </Link>
         </div>
         <div className="hidden md:flex items-center space-x-4">
@@ -98,19 +149,18 @@ function Navbar() {
         </div>
       </div>
 
-      {/* apertura de boton menu en modo telefono */}
       {isOpen && (
         <div
           className="md:hidden fixed inset-0 bg-gray-900 backdrop-blur-md bg-opacity-75 z-40 flex justify-end transition-opacity duration-300 ease-in-out menu-overlay"
-          onClick={handleOverlayClick} // Close menu on clicking overlay
+          onClick={handleOverlayClick}
         >
           <div
             className="w-2/3 shadow-lg flex flex-col p-4 bg-slate-600/50 backdrop-blur-xl text-gray-100"
-            data-aos="fade-left" 
+            data-aos="fade-left"
           >
             <button onClick={toggleMenu} className="self-end mb-4">
               <svg
-                className="w-6 h-6 text-gray-800"
+                className="w-6 h-6 text-gray-200"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -147,6 +197,68 @@ function Navbar() {
             >
               Servicios
             </Link>
+            <div className="relative block">
+              <div
+                className="block px-4 py-2 hover:bg-gray-900"
+                onClick={toggleResourcesMenu}
+              >
+                Recursos ▾
+              </div>
+              {isResourcesOpen && (
+                <div className="mt-2 bg-slate-700  shadow-lg text-white">
+                  <Link
+                    to="/rcp"
+                    onClick={closeMenu}
+                    className="block px-4 py-2 hover:bg-sky-600"
+                  >
+                    Aprende RCP
+                  </Link>
+                  <Link
+                    to="/mapadea"
+                    onClick={closeMenu}
+                    className="block px-4 py-2 hover:bg-sky-600"
+                  >
+                    Mapa DEA ARG
+                  </Link>
+                  <Link
+                    to="/Biblioteca"
+                    onClick={closeMenu}
+                    className="block px-4 py-2 hover:bg-sky-600"
+                  >
+                    Explorar Biblioteca
+                  </Link>
+                  <Link
+                    to="/practica-rcp"
+                    onClick={closeMenu}
+                    className="block px-4 py-2 hover:bg-sky-600"
+                  >
+                    Ritmo RCP
+                  </Link>
+                  <Link
+                    to="/galeria"
+                    onClick={closeMenu}
+                    className="block px-4 py-2 hover:bg-sky-600"
+                  >
+                    Galeria
+                  </Link>
+                  <Link
+                    to="/rcp-game"
+                    onClick={closeMenu}
+                    className="block px-4 py-2 hover:bg-sky-600"
+                  >
+                    Juego RCP
+                  </Link>
+                  <Link
+                    to="https://dea-grcp-ar.vercel.app/"
+                    onClick={closeMenu}
+                    className="block px-4 py-2 hover:bg-sky-600"
+                  >
+                    Realidad Aumentada
+                  </Link>
+                </div>
+              )}
+            </div>
+
             <Link
               to="/nosotros"
               onClick={closeMenu}
@@ -155,23 +267,9 @@ function Navbar() {
               Nosotros
             </Link>
             <Link
-              to="/rcp"
-              onClick={closeMenu}
-              className="block px-4 py-2 hover:bg-gray-900"
-            >
-              Aprende RCP
-            </Link>
-            <Link
-              to="/practica-rcp"
-              onClick={closeMenu}
-              className="block px-4 py-2 hover:bg-gray-900"
-            >
-              Ritmo RCP
-            </Link>
-            <Link
               to="/contacto"
               onClick={closeMenu}
-              className="my-4 block px-4 py-2 hover:bg-gray-900 bg-sky-800"
+              className="mt-2 bg-orange-500 text-white px-4 py-2 text-sm font-medium text-center"
             >
               Contactanos
             </Link>
