@@ -40,6 +40,12 @@ const recursosData = [
     link: "/rcp-game",
     linkText: "Juego RCP",
   },
+  {
+    title: "Realiada Aumentada",
+    description: "Experimenta nuestros recursos de Realidad Aumentada",
+    link: "https://dea-grcp-ar.vercel.app/",
+    linkText: "Realidad Aumentada",
+  },
 ];
 
 const Recursos = () => {
