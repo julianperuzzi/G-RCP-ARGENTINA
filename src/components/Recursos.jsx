@@ -7,13 +7,13 @@ const recursosData = [
   {
     title: "Aprende RCP",
     description: "Aprende las técnicas de Reanimación Cardiopulmonar (RCP) con nuestros contenidos.",
-    link: "/rcp",
+    link: "/Rcp",
     linkText: "Aprende RCP",
   },
   {
     title: "Mapa de DEA Argentina",
     description: "Geolocaliza todos los DEA de Argentina",
-    link: "/mapadea",
+    link: "/Mapadea",
     linkText: "Mapa DEA ARG",
   },
   {
@@ -25,25 +25,25 @@ const recursosData = [
   {
     title: "Ritmo RCP",
     description: "Utiliza este recurso para practicar RCP, escuchando un tono o música para encontrar el ritmo correcto",
-    link: "/practica-rcp",
+    link: "/Practica-rcp",
     linkText: "Ritmo RCP",
   },
   {
     title: "Galeria de Fotos",
     description: "Visita nuestras galeria de fotos, puedes descargar la foto que mas te guste",
-    link: "/galeria",
+    link: "/Galeria",
     linkText: "Galeria",
   },
   {
     title: "Juego Ritmo RCP",
     description: "Juega a practicar el ritmo de RCP",
-    link: "/rcp-game",
+    link: "/Rcp-game",
     linkText: "Juego RCP",
   },
   {
     title: "Realiada Aumentada",
     description: "Experimenta nuestros recursos de Realidad Aumentada",
-    link: "https://dea-grcp-ar.vercel.app/",
+    link: "/RA-Menu",
     linkText: "Realidad Aumentada",
   },
 ];

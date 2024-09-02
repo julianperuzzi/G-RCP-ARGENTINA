@@ -122,7 +122,7 @@ function Navbar() {
                   Juego RCP
                 </Link>
                 <Link
-                  to="https://dea-grcp-ar.vercel.app/"
+                  to="/RA-Menu"
                   onClick={closeMenu}
                   className="block px-4 py-2 hover:bg-sky-600"
                 >
@@ -249,7 +249,7 @@ function Navbar() {
                     Juego RCP
                   </Link>
                   <Link
-                    to="https://dea-grcp-ar.vercel.app/"
+                    to="/RA-Menu"
                     onClick={closeMenu}
                     className="block px-4 py-2 hover:bg-sky-600"
                   >

@@ -21,6 +21,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 import RCPPractice from './pages/RCPPractice';
 import Galeria from './pages/Galeria';
+import RA_Menu from './pages/RA_Menu';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -52,9 +53,10 @@ function App() {
           <Route path="/Contacto" element={<Contacto />} />
           <Route path="/Mineras" element={<Minero />} />
           <Route path="/MapaDEA" element={<MapaDEA />} />
-          <Route path="/rcp-game" element={<RcpGame />} />
-          <Route path="/practica-rcp" element={<RCPPractice />} />
-          <Route path="/galeria" element={<Galeria />} />
+          <Route path="/Rcp-game" element={<RcpGame />} />
+          <Route path="/Practica-rcp" element={<RCPPractice />} />
+          <Route path="/RA-Menu" element={<RA_Menu />} />
+          <Route path="/Galeria" element={<Galeria />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <ContactButton />
