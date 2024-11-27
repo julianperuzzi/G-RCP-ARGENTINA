@@ -30,7 +30,7 @@ function Navbar() {
           to="/"
           className="font-bold hover:text-white hover:scale-105 transition duration-300 md:text-2xl text-xl bg-clip-text text-white"
         >
-          <span className="text-sky-400">G-RCP</span> ARGENTINA
+          <span className="text-sky-400">GRCP</span> ARGENTINA
         </Link>
 
         <div className="md:hidden">
@@ -91,7 +91,7 @@ function Navbar() {
                   onClick={closeMenu}
                   className="block px-4 py-2 hover:bg-sky-600"
                 >
-                  Mapa DEA ARG
+                  Mapa DEAs
                 </Link>
                 <Link
                   to="/Biblioteca"
@@ -179,7 +179,7 @@ function Navbar() {
               to="/"
               className="block px-1 py-2 font-bold border-b border-gray-400 mb-4"
             >
-              G-RCP ARGENTINA
+              GRCP ARGENTINA
             </Link>
 
             <Link
@@ -218,7 +218,7 @@ function Navbar() {
                     onClick={closeMenu}
                     className="block px-4 py-2 hover:bg-sky-600"
                   >
-                    Mapa DEA ARG
+                    Mapa DEAs
                   </Link>
                   <Link
                     to="/Biblioteca"

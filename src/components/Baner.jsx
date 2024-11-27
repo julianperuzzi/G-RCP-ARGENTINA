@@ -22,7 +22,7 @@ export const Baner = () => {
       >
         <div className="flex flex-col items-center text-center justify-center  h-[60vh]" data-aos="zoom-in">
           <h1 className="md:text-8xl text-5xl scale-105 font-bold p-6 bg-clip-text text-transparent bg-gradient-to-r to-orange-200 from-orange-500 hover:scale-105 transition duration-700 ">
-            G-RCP ARGENTINA
+            GRCP ARGENTINA
           </h1>
           <p className="my-2 text-xl md:px-10 mx-8 text-white border-t border-gray-400 pt-4 uppercase">
             Rescate, Capacitación y Prevención

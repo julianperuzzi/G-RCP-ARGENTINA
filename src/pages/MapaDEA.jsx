@@ -23,13 +23,12 @@ const MapaDEA = () => {
       <iframe
         title="Mapa de Desfibriladores"
         src="https://www.google.com/maps/d/u/0/embed?mid=1kjiWpPktBA6XDvOoF_z9Ulabi1uBR6I&ehbc=2E312F&noprof=1"
-        width="100%"
-        height="500"
+        
         style={{ border: 0 }}
         allowFullScreen=""
         aria-hidden="false"
         tabIndex="0"
-        className="mx-auto block"
+        className="mx-auto block md"
       ></iframe>
 
       <p className="text-lg mt-4 text-gray-700 ml-8">Si tienes información de otro DEA, añádela aquí:</p>
