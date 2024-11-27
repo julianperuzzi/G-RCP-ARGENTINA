@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import imagenFondo from '../assets/imgMision,etc/Captura de pantalla 2023-07-28 005936.png'; // Reemplaza con tu imagen de fondo
+import imagenFondo from '../assets/imgMision,etc/Captura de pantalla 2023-07-28 005936.png'; 
 import { Parallax } from 'react-parallax';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -15,7 +15,6 @@ import 'aos/dist/aos.css';
 
   return (
     <div className=" md:w-10/12 mx-auto mt-8 shadow-xl p-6 hover:scale-105 transition duration-500" >
-      <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center text-slate-800 uppercase">Servicios G-RCP Argentina</h2>
 
 
       <div className=" overflow-hidden flex md:flex-row flex-col-reverse  md:h-96">
