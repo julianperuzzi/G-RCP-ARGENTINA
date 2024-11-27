@@ -18,18 +18,20 @@ const MapaDEA = () => {
 
   return (
     <div className="container mx-auto">
-      <h1 className="text-3xl font-bold text-center mt-8 mb-6 mx-2">Geolocalización de DEA en Argentina</h1>
+      <h1 className="text-3xl font-bold text-center mt-8 mb-6 mx-2">Geolocalización de DEAs en Argentina ❤️</h1>
       
       <iframe
         title="Mapa de Desfibriladores"
-        src="https://www.google.com/maps/d/u/0/embed?mid=1kjiWpPktBA6XDvOoF_z9Ulabi1uBR6I&ehbc=2E312F&noprof=1"
-        
+        src="https://www.google.com/maps/d/u/0/embed?mid=1kjiWpPktBA6XDvOoF_z9Ulabi1uBR6I&ehbc=2E312F&noprof=1"  
         style={{ border: 0 }}
         allowFullScreen=""
         aria-hidden="false"
         tabIndex="0"
-        className="mx-auto block md"
+        className="mx-auto block w-full h-[60vh]"
       ></iframe>
+
+
+      <div className='my-8'>
 
       <p className="text-lg mt-4 text-gray-700 ml-8">Si tienes información de otro DEA, añádela aquí:</p>
 
@@ -39,10 +41,11 @@ const MapaDEA = () => {
       >
         {mostrarFormulario ? 'Ocultar formulario' : 'Agregar DEA'}
       </button>
+      </div>
 
       {/* Formulario para agregar la ubicación del DEA */}
       {mostrarFormulario && (
-        <form className="bg-gray-100 p-6 mb-6 mx-4">
+        <form className="bg-gray-100 p-6 mb-6 mx-4 ">
           <label className="block mb-4">
             Ubicación del DEA:
             <input
