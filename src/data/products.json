@@ -1,0 +1,30 @@
+[
+    {
+      "id": 1,
+      "name": "Botiquín de Primeros Auxilios",
+      "description": "Botiquín completo con vendas, gasas, tijeras y más.",
+      "price": 29.99,
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 2,
+      "name": "Desfibrilador Externo Automático (DEA)",
+      "description": "DEA portátil para emergencias cardíacas.",
+      "price": 1200.00,
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 3,
+      "name": "Mascarilla de RCP",
+      "description": "Mascarilla de bolsillo para RCP seguro.",
+      "price": 9.99,
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 4,
+      "name": "Guantes de Nitrilo",
+      "description": "Caja de 100 guantes de nitrilo desechables.",
+      "price": 14.99,
+      "image": "https://via.placeholder.com/150"
+    }
+  ]

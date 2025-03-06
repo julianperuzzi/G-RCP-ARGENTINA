@@ -22,6 +22,7 @@ import { Analytics } from '@vercel/analytics/react';
 import RCPPractice from './pages/RCPPractice';
 import Galeria from './pages/Galeria';
 import RA_Menu from './pages/RA_Menu';
+import ShopPage from './pages/ShopPages';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -57,6 +58,8 @@ function App() {
           <Route path="/Practica-rcp" element={<RCPPractice />} />
           <Route path="/RA-Menu" element={<RA_Menu />} />
           <Route path="/Galeria" element={<Galeria />} />
+          <Route path="/shop" element={<ShopPage />} />
+
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <ContactButton />
