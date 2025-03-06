@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { FaPlay, FaStop, FaHeartbeat } from 'react-icons/fa'; // Iconos de React Icons
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // Animaciones al hacer scroll
 
 function RCPPractice() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -9,6 +12,11 @@ function RCPPractice() {
   const timerRef = useRef(null);
   const audioContextRef = useRef(null);
   const oscillatorRef = useRef(null);
+
+  // Inicializar AOS para animaciones
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
 
   useEffect(() => {
     if (!audioContextRef.current) {
@@ -56,46 +64,78 @@ function RCPPractice() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center bg-cyan-950 py-8 ">
-      <div className="w-full">
-        {flash ? (
-          <div className="w-full h-40 bg-white"></div>
-        ) : (
-          <div className="w-full h-40 bg-white/20"></div>
-        )}
+    <div className="flex flex-col justify-center items-center bg-cyan-950 min-h-screen pb-8">
+      {/* Título Principal */}
+      
+
+      {/* Indicador de Ritmo */}
+      <div
+        className={`w-full h-40 flex items-center justify-center transition-all duration-200 ${
+          flash ? 'bg-white' : 'bg-white/20'
+        }`}
+        
+      >
+        <FaHeartbeat
+          className={`text-6xl ${
+            flash ? 'text-green-500' : 'text-gray-100/50'
+          } transition-all duration-200`}
+        />
       </div>
-      <div className="px-4 text-center">
-        <h2 className="text-5xl font-bold mt-16 mb-6 text-gray-100">
-          RITMO RCP
-        </h2>
-        <p className="mb-4 text-lg text-gray-100">
-          Utiliza este recurso para practicar RCP
+      <h2
+        className="text-3xl text-center text-gray-100 mt-8 font-extralight"
+        data-aos="fade-down"
+      >
+        Práctica de RCP
+      </h2>
+
+      {/* Contenido Principal */}
+      <div className="px-4 text-center mt-8" data-aos="fade-up">
+        <p className="mb-6 text-lg text-gray-100">
+          Utiliza este recurso para practicar RCP al ritmo de 110 pulsaciones por minuto.
         </p>
+
+        {/* Botón de Inicio/Detener */}
         <button
           onClick={togglePlay}
-          className="px-6 py-3  text-lg font-medium transition bg-green-500 text-white hover:bg-orange-500 mb-4"
+          className="px-8 py-4 text-lg font-medium text-white bg-green-500 hover:bg-green-600 rounded-lg shadow-md transition duration-300 flex items-center justify-center mx-auto"
         >
-          {isPlaying ? 'Detener' : 'Iniciar'} Pulsaciones
+          {isPlaying ? (
+            <>
+              <FaStop className="mr-2" />
+              Detener
+            </>
+          ) : (
+            <>
+              <FaPlay className="mr-2" />
+              Iniciar
+            </>
+          )}
         </button>
-        <div className="text-xl text-gray-50 mb-4">
-          Tiempo transcurrido: {Math.floor(elapsedTime / 60)}:
-          {elapsedTime % 60 < 10 ? '0' : ''}
-          {elapsedTime % 60} minutos
+
+        {/* Contadores */}
+        <div className="mt-8 space-y-4">
+          <div className="text-xl text-gray-100">
+            Tiempo transcurrido: {Math.floor(elapsedTime / 60)}:
+            {elapsedTime % 60 < 10 ? '0' : ''}
+            {elapsedTime % 60} minutos
+          </div>
+          <div className="text-xl text-gray-100">
+            Conteo de pulsaciones: {pulseCount}
+          </div>
         </div>
-        <div className="text-xl text-gray-50 mb-16">
-          Conteo de pulsaciones: {pulseCount}
-        </div>
-        
       </div>
-      {flash ? (
-        <div className="w-full h-40 bg-green-500"> <h2 className="text-4xl font-bold my-16 text-white text-center">
-        GRCP ARGENTINA
-      </h2></div>
-      ) : (
-        <div className="w-full h-40 bg-green-400/30"> <h2 className="text-4xl font-bold my-16 text-white/70 text-center">
-        GRCP ARGENTINA
-      </h2></div>
-      )}
+
+      {/* Mensaje Inferior */}
+      <div
+        className={`w-full h-40 flex items-center justify-center mt-8 transition-all duration-200 ${
+          flash ? 'bg-green-500' : 'bg-green-400/30'
+        }`}
+        
+      >
+        <h2 className="text-4xl font-bold text-white text-center">
+          GRCP ARGENTINA
+        </h2>
+      </div>
     </div>
   );
 }
