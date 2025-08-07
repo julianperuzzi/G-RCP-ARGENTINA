@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import imagenFondo from '../assets/imgMision,etc/Captura de pantalla 2023-07-28 005936.png';
+
 import { Parallax } from 'react-parallax';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
