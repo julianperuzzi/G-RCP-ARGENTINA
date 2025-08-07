@@ -1,178 +1,213 @@
-import React, { useState, useEffect } from 'react';
-import img3 from '../assets/perfil equipo/juli perfil.jpeg';
-import img2 from '../assets/perfil equipo/feli perfil.jpeg';
-import img1 from '../assets/perfil equipo/jisu perfil.jpeg';
-import empresaLogo from '../assets/logos/logo g.rcp sin letras.svg';
-import fondo from '../assets/img main/ImgMain1.jpg';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { Parallax } from 'react-parallax';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
-import misionImage from '../assets/imgMision,etc/Captura de pantalla 2023-07-28 005936.png';
-import visionImage from '../assets/imgMision,etc/rcpimagen.jpeg';
-import objetivoImage from '../assets/imgMision,etc/Captura de pantalla 2023-07-28 005840.png';
+import { Link } from 'react-router-dom';
+import { ArrowRight, Users, Target, Eye, Award } from 'lucide-react';
 
 export const Nosotros = () => {
-  const [mostrarMiembros, setMostrarMiembros] = useState(false);
-
   useEffect(() => {
-    AOS.init({ duration: 1000 });
+    AOS.init({ 
+      duration: 1000,
+      once: true
+    });
   }, []);
 
+  // Datos del equipo
+  const teamMembers = [
+    {
+      img: 'https://i.pinimg.com/736x/00/8a/ff/008affc1771bf3fc82ec1c18f0b1e49f.jpg',
+      name: 'JULIAN PERUZZI',
+      role: 'TEC & DEV',
+      quote: '"Dominar las técnicas de primeros auxilios, RCP y manejo de DEA no solo te convierte en un héroe potencial, sino que también te empodera para actuar con confianza en situaciones de emergencia."'
+    },
+    {
+      img: 'https://i.pinimg.com/736x/ed/cf/d6/edcfd66796e4819166bb24c62e288244.jpg',
+      name: 'FELIPE BUILES',
+      role: 'TEC',
+      quote: '"Aprender técnicas de RCP y el manejo del DEA no es solo un deber, es un llamado a la acción colectiva. Enfrentemos unidos la amenaza de la muerte súbita y el ahogamiento."'
+    },
+    {
+      img: 'https://i.pinimg.com/736x/59/9a/4d/599a4df6d912225d971e2e1f7322098b.jpg',
+      name: 'JOSE MARIA NART',
+      role: 'LIC. y PROF.',
+      quote: '"Despierta el potencial que llevas dentro; con habilidades adecuadas y conocimientos sólidos, puedes convertirte en el faro que salva vidas y enciende esperanzas."'
+    }
+  ];
+
+  // Secciones de información
+  const sections = [
+    {
+      title: "Misión",
+      icon: Target,
+      content: "Nuestra misión es capacitar a instituciones educativas y empresas en técnicas de reanimación cardiopulmonar (RCP), primeros auxilios, soporte vital básico y manejo de desfibriladores externos automáticos (DEA).",
+      img: 'https://i.pinimg.com/736x/fb/7e/52/fb7e52f03a6748dc043f242bd7958886.jpg'
+    },
+    {
+      title: "Visión",
+      icon: Eye,
+      content: "Nos visualizamos como líderes en la capacitación en RCP, primeros auxilios, soporte vital básico y manejo de DEA para instituciones educativas y empresas. Aspiramos a ser reconocidos por nuestra calidad en la formación.",
+      img: 'https://i.pinimg.com/736x/b3/fd/7d/b3fd7d18c717d67a248d7bd3637d4b88.jpg'
+    },
+    {
+      title: "Objetivo",
+      icon: Award,
+      content: "Buscamos ser partícipes y generadores de acciones preventivas para la comunidad en general para acabar (o al menos disminuir) las epidemias de las que poco se habla: el Ahogamiento y la Muerte Súbita.",
+      img: 'https://i.pinimg.com/736x/51/6d/42/516d425c8654463585d17fa1b42ec2ad.jpg'
+    }
+  ];
+
   return (
-    <aside className="pb-6 bg-white text-black animate-fade-in">
+    <section className="bg-white text-gray-900">
+      {/* Hero Section */}
       <Parallax
-        className="bg-center md:h-[60vh] h-[40vh]"
-        bgImage={fondo}
-        strength={700}
-        bgImageStyle={{ objectFit: 'cover' }}
+        strength={600}
+        bgImage="https://i.pinimg.com/736x/a3/78/12/a378128ca7cc1952458e6395d82343fa.jpg"
+        bgImageStyle={{ 
+          objectFit: 'cover',
+          filter: 'brightness(0.7)'
+        }}
+        className="relative"
       >
-        <div className="flex flex-col items-center text-center justify-center md:mt-16 py-10 md:py-0" data-aos="zoom-in">
-          <p className="md:text-2xl text-l px-10 text-white border-b border-gray-400">G-RCP ARGENTINA</p>
-          <h2 className="lg:text-5xl text-2xl font-bold p-4 bg-clip-text md:w-2/3 text-white">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
+        <div className="relative min-h-[60vh] flex flex-col items-center justify-center px-4 text-center">
+          <h1 
+            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-white"
+            data-aos="fade-up"
+          >
             GRUPO DE RESCATE, CAPACITACIÓN Y PREVENCIÓN
-          </h2>
-          <p className="my-2 md:text-xl text-sm px-10 text-white border-t border-gray-400 pt-4 uppercase">
+          </h1>
+          <p 
+            className="text-xl md:text-2xl text-white/90 font-light tracking-wider uppercase mb-8 max-w-2xl mx-auto"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
             Capacitación, Prevención y Salvamento en Emergencias
           </p>
         </div>
       </Parallax>
 
-      <div className="mx-auto mt-8 max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-center justify-center">
-          <img src={empresaLogo} alt="Logo de la empresa" className="md:w-36 w-24 h-auto" />
-          <div className="md:pl-8 mt-4 md:mt-0 text-center md:text-left">
-            <h2 className="text-4xl font-bold my-2 py-2 border-orange-500 border-b-2">Nosotros</h2>
-            <p className="text-lg max-w-prose">
-              Somos una empresa comprometida con la seguridad y el bienestar de la comunidad.
+      {/* About Section */}
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        <div className="flex flex-col md:flex-row items-center justify-center mb-16">
+          <img 
+            src="https://i.pinimg.com/736x/a6/b0/fb/a6b0fb91d12544bee7a3a55758bf9186.jpg" 
+            alt="Logo GRCP" 
+            className="w-32 h-32 md:w-48 md:h-48 object-cover" 
+            data-aos="fade-right"
+          />
+          <div 
+            className="md:pl-12 mt-8 md:mt-0"
+            data-aos="fade-left"
+            data-aos-delay="200"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 relative inline-block">
+              <span className="relative z-10">Sobre Nosotros</span>
+              <span className="absolute bottom-0 left-0 w-full h-1 bg-orange-500 z-0"></span>
+            </h2>
+            <p className="text-lg md:text-xl text-gray-700 max-w-2xl">
+              Somos una organización comprometida con la seguridad y el bienestar de la comunidad a través de capacitaciones profesionales en RCP y primeros auxilios.
             </p>
           </div>
         </div>
 
-        <div className="mt-8 text-lg md:text-xl">
-          {/* Sección Misión */}
-          <div className="flex flex-col md:flex-row p-6 my-8 items-center card" data-aos="fade-up">
-            <img src={misionImage} alt="Misión" className="w-full md:w-1/2 md:h-96 mb-4 md:mb-0 md:mr-8 shadow-md rounded-lg" />
-            <div className="card-content">
-              <h2 className="font-bold md:text-5xl text-2xl mb-4 md:text-left">Misión</h2>
-              <p className="">
-                Nuestra misión es capacitar a instituciones educativas y empresas en técnicas de
-                reanimación cardiopulmonar (RCP), primeros auxilios, soporte vital básico y manejo de
-                desfibriladores externos automáticos (DEA).
-              </p>
+        {/* Mission, Vision, Objective */}
+        <div className="space-y-20">
+          {sections.map((section, index) => (
+            <div 
+              key={index}
+              className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12`}
+              data-aos="fade-up"
+              data-aos-delay={index * 100}
+            >
+              <div className="md:w-1/2">
+                <div className="relative group overflow-hidden rounded-xl shadow-2xl">
+                  <img 
+                    src={section.img} 
+                    alt={section.title} 
+                    className="w-full h-80 md:h-96 object-cover transform group-hover:scale-105 transition-transform duration-700" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                </div>
+              </div>
+              <div className="md:w-1/2">
+                <div className="flex items-center gap-4 mb-6">
+                  <section.icon className="w-10 h-10 text-orange-500" />
+                  <h3 className="text-3xl md:text-4xl font-bold text-gray-900">{section.title}</h3>
+                </div>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  {section.content}
+                </p>
+              </div>
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Team Section */}
+      <div className="bg-gray-50 py-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 
+              className="text-3xl md:text-4xl font-bold mb-4"
+              data-aos="fade-up"
+            >
+              Nuestro <span className="text-orange-500">Equipo</span>
+            </h2>
+            <div 
+              className="w-20 h-1 bg-orange-500 mx-auto"
+              data-aos="fade-up"
+              data-aos-delay="100"
+            ></div>
           </div>
 
-          {/* Sección Visión */}
-          <div className="flex flex-col md:flex-row-reverse p-6 my-8 items-center card" data-aos="fade-up">
-            <img src={visionImage} alt="Visión" className="w-full md:w-1/2 md:h-96 mb-4 md:mb-0 md:ml-8 shadow-md rounded-lg" />
-            <div className="card-content">
-              <h2 className="font-bold md:text-5xl text-2xl mb-4 md:text-left">Visión</h2>
-              <p className="">
-                Nos visualizamos como líderes en la capacitación en RCP, primeros auxilios, soporte
-                vital básico y manejo de DEA para instituciones educativas y empresas. Aspiramos a ser
-                reconocidos por nuestra calidad en la formación, contribuyendo a la creación de una
-                sociedad más preparada y comprometida con la seguridad y el bienestar de sus miembros.
-              </p>
-            </div>
-          </div>
-
-          {/* Sección Objetivo */}
-          <div className="flex flex-col md:flex-row p-6 my-8 items-center card" data-aos="fade-up">
-            <img src={objetivoImage} alt="Objetivo" className="w-full md:w-1/2 md:h-96 mb-4 md:mb-0 md:mr-8 shadow-md rounded-lg" />
-            <div className="card-content">
-              <h2 className="font-bold md:text-5xl text-2xl mb-4 md:text-left">Objetivo</h2>
-              <p className="">
-                Buscamos ser partícipes y generadores de acciones preventivas para la comunidad en
-                general para acabar (o al menos disminuir) las epidemias de las que poco se habla: el
-                Ahogamiento y la Muerte Súbita.
-              </p>
-            </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {teamMembers.map((member, index) => (
+              <div 
+                key={index}
+                className="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300"
+                data-aos="fade-up"
+                data-aos-delay={index * 150}
+              >
+                <div className="relative h-64">
+                  <img 
+                    src={member.img} 
+                    alt={member.name} 
+                    className="w-full h-full object-cover" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
+                  <p className="text-orange-600 font-medium mb-4">{member.role}, ARGENTINA</p>
+                  <blockquote className="text-gray-600 italic">
+                    "{member.quote}"
+                  </blockquote>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="text-center my-8">
-        <h2 className="text-3xl font-bold mb-3 mt-4 xl:mt-8">Nuestro Equipo</h2>
-      </div>
-
-      {mostrarMiembros && (
-        <div className="flex flex-wrap justify-center gap-8 sm:w-2/3 mx-auto">
-          {/* Aquí van los miembros del equipo */}
-          <figure className="md:flex bg-gray-100 rounded-xl p-8 md:p-0 w-full shadow-lg" data-aos="fade-up">
-            <img
-              className="w-24 h-24 md:w-48 md:h-auto md:rounded rounded-full mx-auto"
-              src={img3}
-              alt="Equipo"
-            />
-            <div className="pt-6 md:p-4 text-center md:text-left space-y-4">
-              <blockquote>
-                <p className="text-l font-medium text-gray-700">
-                  "Dominar las técnicas de primeros auxilios, RCP y manejo de DEA no solo te convierte en un héroe potencial, sino que también te empodera para actuar con confianza en situaciones de emergencia.”
-                </p>
-              </blockquote>
-              <figcaption className="font-medium">
-                <div className="text-blue-500">JULIAN PERUZZI</div>
-                <div className="text-gray-700">TEC & DEV, ARGENTINA</div>
-              </figcaption>
-            </div>
-          </figure>
-
-          <figure className="md:flex bg-gray-100 rounded-xl p-8 md:p-0 w-full shadow-lg" data-aos="fade-up">
-            <img
-              className="w-24 h-24 md:w-48 md:h-auto md:rounded rounded-full mx-auto"
-              src={img2}
-              alt="Equipo"
-            />
-            <div className="pt-6 md:p-4 text-center md:text-left space-y-4">
-              <blockquote>
-                <p className="text-l font-medium text-gray-700">
-                  "Aprender técnicas de RCP y el manejo del DEA no es solo un deber, es un llamado a la acción colectiva. Enfrentemos unidos la amenaza de la muerte súbita y el ahogamiento, elevando la conciencia y capacitando a todos.”
-                </p>
-              </blockquote>
-              <figcaption className="font-medium">
-                <div className="text-blue-500">FELIPE BUILES</div>
-                <div className="text-gray-700">TEC, ARGENTINA</div>
-              </figcaption>
-            </div>
-          </figure>
-
-          <figure className="md:flex bg-gray-100 rounded-xl p-8 md:p-0 w-full shadow-lg" data-aos="fade-up">
-            <img
-              className="w-24 h-24 md:w-48 md:h-auto md:rounded rounded-full mx-auto"
-              src={img1}
-              alt="Equipo"
-            />
-            <div className="pt-6 md:p-4 text-center md:text-left space-y-4">
-              <blockquote>
-                <p className="text-l font-medium text-gray-700">
-                  "Despierta el potencial que llevas dentro; con habilidades adecuadas y conocimientos sólidos, puedes convertirte en el faro que salva vidas y enciende esperanzas."
-                </p>
-              </blockquote>
-              <figcaption className="font-medium">
-                <div className="text-blue-500">JOSE MARIA NART</div>
-                <div className="text-gray-700">PROF, ARGENTINA</div>
-              </figcaption>
-            </div>
-          </figure>
-        </div>
-      )}
-
-      <div className="flex justify-center border-b-4 p-4">
-        <button
-          className="bg-zinc-500 hover:bg-black text-white font-bold py-2 px-4 mb-6 shadow rounded-lg"
-          onClick={() => setMostrarMiembros(!mostrarMiembros)}
+      {/* CTA Section */}
+      <div className="py-16 text-center bg-gradient-to-r from-orange-50 to-red-50">
+        <h2 
+          className="text-3xl md:text-4xl font-bold mb-8"
+          data-aos="fade-up"
         >
-          {mostrarMiembros ? 'Ocultar Equipo' : 'Mostrar Equipo'}
-        </button>
-      </div>
-
-      <div className="text-center my-8">
-        <Link to="/Contacto" className="bg-orange-500 hover:bg-black text-white font-bold py-2 px-4 my-6 shadow text-2xl rounded-lg">
-          Contáctanos
+          ¿Listo para capacitarte con nosotros?
+        </h2>
+        <Link
+          to="/Contacto"
+          className="inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors duration-300 shadow-lg hover:shadow-xl"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          <span>Contáctanos</span>
+          <ArrowRight size={20} />
         </Link>
       </div>
-    </aside>
+    </section>
   );
 };

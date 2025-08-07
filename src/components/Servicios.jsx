@@ -101,7 +101,7 @@ export const Servicios = () => {
           >
             <div className="relative rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
               <img 
-                src={imagenFondo} 
+                src="https://i.pinimg.com/1200x/be/b3/88/beb388165814bd96e119a64a6a1adf11.jpg" 
                 alt="Capacitación en primeros auxilios" 
                 className="w-full h-auto object-cover"
               />
