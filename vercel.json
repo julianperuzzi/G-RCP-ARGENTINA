@@ -2,11 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
+      "src": "vite.config.js",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist",
-        "installCommand": "npm install --force",
+        "installCommand": "npm install --force --legacy-peer-deps",
         "buildCommand": "npm run build"
       }
     }
@@ -14,10 +14,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/dist/$1",
-      "headers": {
-        "Cache-Control": "s-maxage=31536000, stale-while-revalidate"
-      }
+      "dest": "/dist/$1"
     }
   ]
 }
