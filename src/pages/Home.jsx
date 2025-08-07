@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Baner } from "../components/Baner";
+import Baner  from "../components/Baner";
 import { Blog } from "../components/Blog";
 import { Servicios } from '../components/Servicios';
 import { Certificacion } from "../components/Certificacion";
@@ -17,30 +17,18 @@ export const Home = () => {
 
   return (
     <aside className='animate-fade-in mx-auto '>
-      <div id="main-article" className='md:mb-24 mb-16'>   
+
         <Baner />
-      </div>
+
 
 
     <aside className=' md:mx-auto'>
     
-    <div id="servicios" className={`border-t-2 border-slate-300 `} data-aos="fade-up">
       <Servicios />
-    </div>
-
-    <div id="recursos" className={` my-16 border-t-2 border-slate-300 pt-10  `} >
       <Recursos />
-    </div>
-      
+      <Certificacion />
+      <ListonInfinito />
 
-    <div id="certificacion" className={`border-t-2 border-slate-300 `}  data-aos="fade-up">
-        <Certificacion />
-    </div>
-
-
-    <div id="listonMarcas" className={`py-10`} data-aos="fade-up">
-        <ListonInfinito />
-    </div>
 
     {/* <div id="blog" className={`shadow-2xl my-8 hidden`} data-aos="fade-up">
       <Blog />
