@@ -18,8 +18,8 @@ export const Banner = () => {
   const certifications = [
     {
       icon: Shield,
-      title: "Certificación Internacional",
-      description: "Válida en más de 50 países"
+      title: "Certificación Nacional",
+      description: "Válida en todo el país con reconocimiento oficial"
     },
     {
       icon: Calendar,
@@ -125,7 +125,7 @@ export const Banner = () => {
             >
               <div className="border-l-4 border-orange-500 pl-6">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                  Formación <span className="text-orange-600">Certificada</span> en RCP
+                  Formación <span className="text-orange-600">Certificada</span> en Primeros Auxilios
                 </h2>
                 
                 <p className="text-lg text-gray-700 mb-6 leading-relaxed">

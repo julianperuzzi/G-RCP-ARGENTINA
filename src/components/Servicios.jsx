@@ -108,7 +108,7 @@ export const Servicios = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-black/10"></div>
               <div className="absolute bottom-0 left-0 p-6 text-white">
                 <h3 className="text-xl font-bold mb-2">Formación que salva vidas</h3>
-                <p className="text-sm opacity-90">Certificaciones reconocidas internacionalmente</p>
+                <p className="text-sm opacity-90">Certificaciones reconocidas nacionalmente</p>
               </div>
             </div>
             
