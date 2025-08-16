@@ -17,11 +17,7 @@ export const Home = () => {
 
   return (
     <aside className='animate-fade-in mx-auto '>
-
         <Baner />
-
-
-
     <aside className=' md:mx-auto'>
     
       <Servicios />

@@ -42,7 +42,7 @@ export const Banner = () => {
     <section className="relative overflow-hidden">
       {/* Sección Hero con Parallax */}
       <Parallax
-        strength={500}
+        strength={200}
         bgImage="https://i.pinimg.com/1200x/df/4b/4d/df4b4d079320b7b709759a0912badc22.jpg"
         bgImageStyle={{ 
           objectFit: 'cover',
