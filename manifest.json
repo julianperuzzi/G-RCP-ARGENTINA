@@ -1,0 +1,12 @@
+{
+  "name": "G-RCP ARGENTINA",
+  "short_name": "G-RCP",
+  "description": "Aplicación web de realidad aumentada y capacitación en primeros auxilios y uso de DEA en Argentina.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0078d7",
+  "orientation": "portrait"
+  
+}
