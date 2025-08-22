@@ -58,7 +58,7 @@ function App() {
           <Route path="/Practica-rcp" element={<RCPPractice />} />
           <Route path="/RA-Menu" element={<RA_Menu />} />
           <Route path="/Galeria" element={<Galeria />} />
-          <Route path="/shoppage" element={<ShopPage />} />
+          <Route path="/shop" element={<ShopPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
