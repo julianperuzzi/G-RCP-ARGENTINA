@@ -5,7 +5,7 @@ import ProductCard from "../components/Shop/ProductCard";
 import ProductModal from "../components/Shop/ProductModal";
 import CartSidebar from "../components/Shop/CartSidebar";
 
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTvpq02Wi3p_u4SMi9C1FBZ_yozKV8rqno8XX-3jzsD3TKD7bAQKntkci1wwrQgnxP3Rv99REuusbUL/pub?output=csv";
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTvpq02Wi3p_u4SMi9C1FBZ_yozKV8rqno8XX-3jzsD3TKD7bAQKntkci1wwrQgnxP3Rv99REuusbUL/pub?gid=0&single=true&output=csv";
 const WHATSAPP_NUMBER = "+5492645667981";
 
 export default function ShopPage() {
