@@ -1,17 +1,17 @@
 import React from "react";
 import Marquee from "react-fast-marquee";
-import Imagen1 from "../assets/liston clientes/1.png";
-import Imagen2 from "../assets/liston clientes/2.png";
-import Imagen3 from "../assets/liston clientes/3.png";
-import Imagen4 from "../assets/liston clientes/4.png";
-import Imagen5 from "../assets/liston clientes/5.png";
-import Imagen6 from "../assets/liston clientes/6.png";
-import Imagen7 from "../assets/liston clientes/7.png";
-import Imagen8 from "../assets/liston clientes/Liston de Marcas.png";
-import Imagen9 from "../assets/liston clientes/9.png";
-import Imagen10 from "../assets/liston clientes/10.png";
-import Imagen11 from "../assets/liston clientes/11.png";
-import Imagen12 from "../assets/liston clientes/Liston de Marcas (2).png";
+import Imagen1 from "../../assets/liston clientes/1.png";
+import Imagen2 from "../../assets/liston clientes/2.png";
+import Imagen3 from "../../assets/liston clientes/3.png";
+import Imagen4 from "../../assets/liston clientes/4.png";
+import Imagen5 from "../../assets/liston clientes/5.png";
+import Imagen6 from "../../assets/liston clientes/6.png";
+import Imagen7 from "../../assets/liston clientes/7.png";
+import Imagen8 from "../../assets/liston clientes/Liston de Marcas.png";
+import Imagen9 from "../../assets/liston clientes/9.png";
+import Imagen10 from "../../assets/liston clientes/10.png";
+import Imagen11 from "../../assets/liston clientes/11.png";
+import Imagen12 from "../../assets/liston clientes/Liston de Marcas (2).png";
 
 const ListonInfinito = () => {
   const clientesTop = [Imagen1, Imagen2, Imagen3, Imagen4, Imagen5];

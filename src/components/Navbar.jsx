@@ -66,7 +66,7 @@ function Navbar() {
           {/* MapaDEA siempre visible */}
           <Link
             to="/mapadea"
-            className="mx-2 px-4 py-2 transition-colors duration-300 text-gray-200 hover:bg-orange-500/75 font-semibold"
+            className="mx-2 px-4 py-2 transition-colors duration-300 text-gray-200 hover:bg-orange-500/75 "
           >
             Mapa DEAs
           </Link>
@@ -74,7 +74,7 @@ function Navbar() {
           {/* Ritmo RCP siempre visible */}
           <Link
             to="/practica-rcp"
-            className="mx-2 px-4 py-2 transition-colors duration-300 text-gray-200 hover:bg-sky-600/75 font-semibold"
+            className="mx-2 px-4 py-2 transition-colors duration-300 text-gray-200 hover:bg-sky-600/75"
           >
             Ritmo RCP
           </Link>
@@ -204,7 +204,7 @@ function Navbar() {
             <Link
               to="/practica-rcp"
               onClick={closeMenu}
-              className="block px-4 py-2 hover:bg-purple-500"
+              className="block px-4 py-2 hover:bg-orange-500"
             >
               Ritmo RCP
             </Link>

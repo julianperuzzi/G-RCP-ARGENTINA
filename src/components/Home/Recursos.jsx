@@ -123,22 +123,22 @@ const Recursos = () => {
         </div>
         
         {/* Grid compacto tipo cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5">
           {recursosData.map((recurso, index) => (
             <div
               key={index}
-              className="group rounded-lg bg-gray-800 border border-gray-700 hover:border-orange-400 transition-all duration-300 shadow hover:shadow-lg flex flex-col items-center p-5 min-h-[260px]"
+              className="group rounded-lg bg-gray-800 border border-gray-700 hover:border-orange-400 transition-all duration-300 shadow hover:shadow-lg flex flex-col items-center p-3 md:p-5 min-h-[170px] md:min-h-[220px]"
               data-aos="fade-up"
               data-aos-delay={index * 40}
             >
-              <div className={`${recurso.bgColor} w-12 h-12 rounded-lg flex items-center justify-center mb-3 text-white`}>
+              <div className={`${recurso.bgColor} w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center mb-2 md:mb-3 text-white`}>
                 {recurso.icon}
               </div>
-              <h3 className="text-lg font-bold text-white mb-2 text-center">{recurso.title}</h3>
-              <p className="text-gray-300 text-sm mb-4 text-center line-clamp-3">{recurso.description}</p>
+              <h3 className="text-base md:text-lg font-bold text-white mb-1 md:mb-2 text-center">{recurso.title}</h3>
+              <p className="text-gray-300 text-xs md:text-sm mb-2 md:mb-4 text-center line-clamp-2">{recurso.description}</p>
               <Link 
                 to={recurso.link} 
-                className="inline-flex items-center px-4 py-1 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded transition-colors duration-300 text-sm"
+                className="inline-flex items-center px-3 py-1 md:px-4 md:py-1 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded transition-colors duration-300 text-xs md:text-sm"
               >
                 <span>{recurso.linkText}</span>
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

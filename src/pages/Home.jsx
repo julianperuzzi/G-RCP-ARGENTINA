@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import Baner  from "../components/Baner";
-import { Blog } from "../components/Blog";
-import { Servicios } from '../components/Servicios';
-import { Certificacion } from "../components/Certificacion";
-import ListonInfinito from "../components/ListonInfinito";
+import Baner  from "../components/Home/Baner";
+import { Blog } from "../components/Home/Blog";
+import { Servicios } from '../components/Home/Servicios';
+import { Certificacion } from "../components/Home/Certificacion";
+import ListonInfinito from "../components/Home/ListonInfinito";
 import { Link } from 'react-router-dom';
-import Recursos from '../components/Recursos';
+import Recursos from '../components/Home/Recursos';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 

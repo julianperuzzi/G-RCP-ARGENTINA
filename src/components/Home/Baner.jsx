@@ -102,7 +102,7 @@ export const Banner = () => {
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
             {/* Logo */}
             <div 
-              className="lg:w-1/4 flex justify-center"
+              className="hidden md:flex md:w-1/4 justify-center md:block"
               data-aos="fade-right"
             >
               <div className="relative group">
