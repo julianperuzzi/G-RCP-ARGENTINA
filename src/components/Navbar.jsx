@@ -63,6 +63,22 @@ function Navbar() {
             Inicio
           </Link>
 
+          {/* MapaDEA siempre visible */}
+          <Link
+            to="/mapadea"
+            className="mx-2 px-4 py-2 transition-colors duration-300 text-gray-200 hover:bg-orange-500/75 font-semibold"
+          >
+            Mapa DEAs
+          </Link>
+
+          {/* Ritmo RCP siempre visible */}
+          <Link
+            to="/practica-rcp"
+            className="mx-2 px-4 py-2 transition-colors duration-300 text-gray-200 hover:bg-sky-600/75 font-semibold"
+          >
+            Ritmo RCP
+          </Link>
+
           <div
             className="relative mx-2 px-4 py-2 transition-colors duration-300 text-gray-200 hover:bg-sky-600/75 cursor-pointer"
             onMouseEnter={() => setIsResourcesOpen(true)}
@@ -86,26 +102,13 @@ function Navbar() {
                 >
                   Aprende RCP
                 </Link>
-                <Link
-                  to="/mapadea"
-                  onClick={closeMenu}
-                  className="block px-4 py-2 hover:bg-sky-600"
-                >
-                  Mapa DEAs
-                </Link>
+                {/* Elimina MapaDEA y Ritmo RCP del dropdown */}
                 <Link
                   to="/Biblioteca"
                   onClick={closeMenu}
                   className="block px-4 py-2 hover:bg-sky-600"
                 >
                   Explorar Biblioteca
-                </Link>
-                <Link
-                  to="/practica-rcp"
-                  onClick={closeMenu}
-                  className="block px-4 py-2 hover:bg-sky-600"
-                >
-                  Ritmo RCP
                 </Link>
                 <Link
                   to="/galeria"
@@ -190,13 +193,23 @@ function Navbar() {
               Inicio
             </Link>
 
+            {/* MapaDEA y Ritmo RCP siempre visibles en mobile */}
             <Link
-              to="/servicios"
+              to="/mapadea"
               onClick={closeMenu}
-              className="block px-4 py-2 hover:bg-gray-900"
+              className="block px-4 py-2 hover:bg-orange-500"
             >
-              Servicios
+              Mapa DEA
             </Link>
+            <Link
+              to="/practica-rcp"
+              onClick={closeMenu}
+              className="block px-4 py-2 hover:bg-purple-500"
+            >
+              Ritmo RCP
+            </Link>
+
+            {/* Elimina MapaDEA y Ritmo RCP del dropdown mobile */}
             <div className="relative block">
               <div
                 className="block px-4 py-2 hover:bg-gray-900"
@@ -214,25 +227,11 @@ function Navbar() {
                     Aprende RCP
                   </Link>
                   <Link
-                    to="/mapadea"
-                    onClick={closeMenu}
-                    className="block px-4 py-2 hover:bg-sky-600"
-                  >
-                    Mapa DEAs
-                  </Link>
-                  <Link
                     to="/Biblioteca"
                     onClick={closeMenu}
                     className="block px-4 py-2 hover:bg-sky-600"
                   >
                     Explorar Biblioteca
-                  </Link>
-                  <Link
-                    to="/practica-rcp"
-                    onClick={closeMenu}
-                    className="block px-4 py-2 hover:bg-sky-600"
-                  >
-                    Ritmo RCP
                   </Link>
                   <Link
                     to="/galeria"
