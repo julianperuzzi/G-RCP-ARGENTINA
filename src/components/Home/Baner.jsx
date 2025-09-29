@@ -93,6 +93,23 @@ export const Banner = () => {
             <span>Contactar</span>
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </Link>
+          {/* Animación deslizar hacia abajo solo en móviles */}
+      <div className="mt-8 flex flex-col items-center md:hidden" data-aos="fade-up" data-aos-delay="900">
+        <span className="text-white/80 text-sm mb-2">Desliza para ver más</span>
+        <svg
+          className="animate-bounce"
+          width="32"
+          height="32"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 16L6 10H18L12 16Z"
+            fill="currentColor"
+            className="text-orange-400"
+          />
+        </svg>
+      </div>
         </div>
       </Parallax>
 
@@ -120,7 +137,7 @@ export const Banner = () => {
             {/* Contenido */}
             <div 
               className="lg:w-3/4"
-              data-aos="fade-left"
+              data-aos=""
               data-aos-delay="200"
             >
               <div className="border-l-4 border-orange-500 pl-6">
@@ -163,6 +180,8 @@ export const Banner = () => {
           </div>
         </div>
       </div>
+
+      
 
       {/* Efecto de borde inferior */}
       <div className="h-1 bg-gradient-to-r from-orange-600 via-red-500 to-orange-600" />
