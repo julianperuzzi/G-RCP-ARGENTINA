@@ -1,0 +1,27 @@
+{
+  "name": "GRCP Argentina",
+  "short_name": "GRCP",
+  "description": "Capacitación profesional en emergencias, primeros auxilios y rescate en Argentina",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0A1220",
+  "theme_color": "#0A1220",
+  "lang": "es-AR",
+  "orientation": "portrait-primary",
+  "categories": ["education", "health"],
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
