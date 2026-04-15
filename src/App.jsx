@@ -23,6 +23,7 @@ import RCPPractice from './pages/RCPPractice';
 import Galeria from './pages/Galeria';
 import RA_Menu from './pages/RA_Menu';
 import ShopPage from './pages/ShopPages';
+import PWAInstallBanner from './components/PWAInstallBanner';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -62,6 +63,7 @@ function App() {
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        <PWAInstallBanner />
         <ContactButton />
         <Footer />
       </div>
