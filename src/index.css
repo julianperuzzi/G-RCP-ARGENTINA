@@ -74,10 +74,10 @@
 .grcp-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
 .grcp-hero-note { display: flex; align-items: flex-start; gap: 8px; margin-top: 22px; font-size: 11px; line-height: 1.6; color: #69747e; }
 .grcp-hero-note svg { flex-shrink: 0; margin-top: 1px; }
-.grcp-hero-photo { position: relative; height: 450px; border-radius: 14px; overflow: hidden; background: #d5d8db; }
-.grcp-hero-photo > img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
-.grcp-hero-photo::after { content: ''; position: absolute; inset: 45% 0 0; background: linear-gradient(transparent, #101c2ade); }
-.grcp-photo-label { position: absolute; top: 20px; left: 20px; display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: 5px; background: #ffffffed; color: #263647; font-size: 9px; font-weight: 700; letter-spacing: 1.1px; }
+.grcp-hero-photo { position: relative; height: 550px; border-radius: 14px; overflow: hidden; background: #d5d8db; }
+.grcp-hero-photo > img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
+.grcp-hero-photo::after { content: ''; position: absolute; inset: 72% 0 0; background: linear-gradient(transparent, #101c2aba); }
+.grcp-photo-label { position: absolute; top: 20px; right: 20px; display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: 5px; background: #ffffffed; color: #263647; font-size: 9px; font-weight: 700; letter-spacing: 1.1px; }
 .grcp-photo-dot { width: 6px; height: 6px; background: #c74712; border-radius: 50%; }
 .grcp-hero-photo figcaption { position: absolute; bottom: 28px; left: 26px; right: 22px; z-index: 1; display: flex; align-items: center; gap: 15px; color: #fff; }
 .grcp-hero-photo figcaption > svg { flex-shrink: 0; color: #ffb184; }
@@ -112,7 +112,7 @@
   .grcp-map-link { display: none; }
   .grcp-hero-grid { gap: 36px; }
   .grcp-hero-actions .grcp-button { font-size: 12px; padding: 14px 16px; }
-  .grcp-hero-photo { height: 430px; }
+  .grcp-hero-photo { height: 520px; }
   .grcp-program-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 800px) {
@@ -128,7 +128,7 @@
   .grcp-hero-grid { grid-template-columns: 1fr; padding-block: 45px 32px; gap: 32px; }
   .grcp-hero h1 { font-size: clamp(40px, 7.5vw, 60px); letter-spacing: -2px; }
   .grcp-hero-description { max-width: 580px; font-size: 15px; }
-  .grcp-hero-photo { height: 390px; }
+  .grcp-hero-photo { height: 490px; }
   .grcp-purpose-strip { gap: 20px; }
   .grcp-purpose-strip > div { padding-left: 15px; gap: 10px; align-items: flex-start; }
   .grcp-purpose-strip span { font-size: 10px; }
@@ -141,7 +141,7 @@
   .grcp-eyebrow { font-size: 9px; letter-spacing: 1.2px; }
   .grcp-hero-actions { flex-direction: column; }
   .grcp-hero-actions .grcp-button { width: 100%; font-size: 13px; padding: 16px; }
-  .grcp-hero-photo { height: 315px; }
+  .grcp-hero-photo { height: 460px; }
   .grcp-hero-photo figcaption { left: 18px; bottom: 22px; gap: 10px; }
   .grcp-hero-photo figcaption strong { font-size: 16px; }
   .grcp-hero-photo figcaption span { font-size: 10px; }
@@ -265,7 +265,7 @@
 .grcp-about-hero-grid > div > p:not(.grcp-eyebrow) { max-width: 530px; font-size: 16px; line-height: 1.85; color: #596573; }
 .grcp-about-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 .grcp-about-hero figure { overflow: hidden; border-radius: 12px; background: #fff; border: 1px solid #e5e3dd; }
-.grcp-about-hero figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.grcp-about-hero figure img { width: 100%; aspect-ratio: 5 / 6; max-height: 620px; object-fit: cover; object-position: center; }
 .grcp-about-hero figcaption { display: flex; align-items: center; gap: 10px; padding: 17px 18px; font-size: 12px; line-height: 1.6; color: #596573; }
 .grcp-about-hero figcaption svg { flex-shrink: 0; color: #a44016; }
 .grcp-about-purpose, .grcp-about-collaboration { padding-block: 64px; background: #fff; }

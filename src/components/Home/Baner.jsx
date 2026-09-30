@@ -1,7 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, HeartHandshake, ShieldCheck, Users } from 'lucide-react';
-import trainingPhoto from '../../assets/imgMision,etc/rcpimagen.jpeg';
+import trainingPhoto from '../../assets/photos/home-rcp-infantil.png';
 
 export const Banner = () => (
   <section className="grcp-hero" aria-labelledby="hero-title">
@@ -17,7 +16,7 @@ export const Banner = () => (
         <p className="grcp-hero-note"><Users size={16} aria-hidden="true" /> Para escuelas, empresas, equipos deportivos y comunidad.</p>
       </div>
       <figure className="grcp-hero-photo">
-        <img src={trainingPhoto} alt="Participantes practicando RCP sobre un maniquí durante una capacitación" fetchPriority="high" width="1029" height="772" />
+        <img src={trainingPhoto} alt="Instructor y participante practicando RCP infantil con un maniquí" fetchPriority="high" width="695" height="814" />
         <div className="grcp-photo-label"><span className="grcp-photo-dot" /> APRENDER HACIENDO</div>
         <figcaption><HeartHandshake size={28} aria-hidden="true" /><div><strong>Prepararse también es cuidar.</strong><span>Conocimiento que se convierte en acción.</span></div></figcaption>
       </figure>

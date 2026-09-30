@@ -1,0 +1,25 @@
+.grcp-footer { padding: 53px 0 0; color: #d7dfe5; background: #142232; font-family: 'Segoe UI', Arial, sans-serif; }
+.grcp-footer :focus-visible { outline: 3px solid #8bc3df; outline-offset: 4px; }
+.grcp-footer-main { display: grid; grid-template-columns: minmax(230px, 1.5fr) repeat(3, minmax(130px, 1fr)); gap: 34px; padding-bottom: 48px; }
+.grcp-footer-brand { display: inline-flex; align-items: center; gap: 12px; color: #fff; }
+.grcp-footer-brand img { width: 43px; height: 47px; object-fit: contain; }
+.grcp-footer-brand strong { display: block; font-size: 16px; letter-spacing: -.2px; }
+.grcp-footer-brand small { display: block; margin-top: 3px; font-size: 10px; color: #b4c0c9; letter-spacing: .4px; }
+.grcp-footer-about p { max-width: 260px; margin-top: 19px; color: #b4c0c9; font-size: 13px; line-height: 1.7; }
+.grcp-footer h2 { margin: 4px 0 17px; color: #fff; font-size: 13px; font-weight: 700; }
+.grcp-footer-links, .grcp-footer-contact, .grcp-footer-social { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.grcp-footer-links a, .grcp-footer-contact a, .grcp-footer-social a { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.grcp-footer a:hover { color: #ffb184; }
+.grcp-footer-contact a:first-of-type { color: #ffb184; font-weight: 650; }
+.grcp-footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 19px 23px; border-top: 1px solid #ffffff24; color: #aebbc5; font-size: 11px; }
+.grcp-footer-bottom a { color: #d7dfe5; }
+@media (max-width: 850px) { .grcp-footer-main { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 24px; } }
+@media (max-width: 520px) {
+  .grcp-footer { padding-top: 37px; }
+  .grcp-footer-main { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 20px; padding-bottom: 36px; }
+  .grcp-footer-about { grid-column: 1 / -1; }
+  .grcp-footer-contact { grid-column: 1 / -1; }
+  .grcp-footer-social { grid-column: 2; grid-row: 2; }
+  .grcp-footer-about p { max-width: 300px; margin-top: 12px; }
+  .grcp-footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
+}

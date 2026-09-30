@@ -1,102 +1,55 @@
-import React from 'react';
-import MapaDesfibriladores from '../components/MapaDesfibriladores'; // Componente del mapa de desfibriladores
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importa FontAwesomeIcon
-import { faSpotify, faGoogleScholar} from '@fortawesome/free-brands-svg-icons'; // Iconos de Spotify y corazón
-import AOS from 'aos';
-import 'aos/dist/aos.css'; // Animaciones al hacer scroll
+import { Link } from 'react-router-dom';
+import { ArrowRight, ArrowUpRight, BookOpen, HeartPulse, MapPin, Phone, PlayCircle, Radio, ShieldCheck } from 'lucide-react';
+import './aprende-rcp.css';
 
-const AprendeRCP = () => {
-  // Inicializar AOS para animaciones
-  React.useEffect(() => {
-    AOS.init({ duration: 1000 });
-  }, []);
+const steps = [
+  { number: '01', title: 'Observá y comprobá', text: 'Asegurate de que el lugar sea seguro. Si la persona no responde y no respira normalmente o solo jadea, actuá de inmediato.', icon: ShieldCheck },
+  { number: '02', title: 'Pedí ayuda', text: 'Llamá al servicio de emergencias o pedile a otra persona que llame y busque un DEA si hay uno cerca.', icon: Phone },
+  { number: '03', title: 'Comenzá las compresiones', text: 'En adultos, presioná fuerte y rápido en el centro del pecho, a un ritmo de 100 a 120 compresiones por minuto.', icon: HeartPulse },
+  { number: '04', title: 'Usá el DEA', text: 'Encendelo y seguí sus indicaciones de voz. Continuá con la RCP hasta que llegue el equipo de emergencias o la persona reaccione.', icon: Radio },
+];
 
-  return (
-    <div className="container mx-auto px-4 py-8 lg:w-2/3 animate-fade-in">
-      {/* Título Principal */}
-      <h1
-        className="text-4xl font-bold my-6 uppercase border-b-2 border-orange-600 pb-4"
-        data-aos="fade-down"
-      >
-        Aprende RCP
-      </h1>
-
-      {/* Sección: Importancia del RCP */}
-      <section className="mb-12" data-aos="fade-up">
-        <h2 className="text-2xl font-bold mb-4 flex items-center">
-          <FontAwesomeIcon icon={faGoogleScholar} className="text-red-600 mr-2" />
-          ¿Por qué es importante saber hacer RCP?
-        </h2>
-        <p className="text-gray-700 leading-relaxed">
-          La RCP (Reanimación Cardiopulmonar) es una técnica vital que puede salvar vidas durante emergencias cardíacas. Al realizar RCP de manera adecuada, puedes mantener la circulación de la sangre y el suministro de oxígeno al cerebro hasta que llegue ayuda médica profesional.
-        </p>
-      </section>
-
-      {/* Sección: Video de RCP */}
-      <section className="mb-12" data-aos="fade-up">
-        <h2 className="text-2xl font-bold mb-4">Cómo hacer RCP</h2>
-        <div className="relative w-full" style={{ paddingBottom: '56.25%' /* 16:9 Aspect Ratio */ }}>
-          <iframe
-            src="https://www.youtube.com/embed/wbp_AdGkWPM"
-            title="¿Cómo realizar la maniobra de RCP?"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            className="absolute top-0 left-0 w-full h-full rounded-lg shadow-md"
-            allowFullScreen
-          />
+export default function AprendeRCP() {
+  return <div className="grcp-rcp">
+    <header className="grcp-rcp-hero">
+      <div className="grcp-container grcp-rcp-hero-grid">
+        <div>
+          <p className="grcp-eyebrow"><span />GUÍA BÁSICA PARA ADULTOS</p>
+          <h1>Aprendé RCP.<br /><span>Preparate para actuar.</span></h1>
+          <p>Reconocer un paro cardíaco, pedir ayuda y comenzar las compresiones puede marcar la diferencia mientras llega el equipo de emergencias.</p>
+          <a href="#pasos-rcp" className="grcp-button grcp-button-primary">Ver los pasos <ArrowRight size={17} aria-hidden="true" /></a>
         </div>
-      </section>
+        <aside className="grcp-rcp-emergency" aria-label="Qué hacer ante una emergencia">
+          <span><Phone size={23} aria-hidden="true" /></span>
+          <p>ANTE UNA EMERGENCIA REAL</p>
+          <h2>Pedí ayuda ahora.</h2>
+          <p>En Argentina, llamá al <strong>911</strong> o al número de emergencias médicas de tu localidad. El <strong>107</strong> funciona según la jurisdicción.</p>
+          <a href="tel:911">Llamar al 911 <ArrowUpRight size={17} aria-hidden="true" /></a>
+        </aside>
+      </div>
+    </header>
 
-      {/* Sección: Uso del DEA */}
-      <section className="mb-12" data-aos="fade-up">
-        <h2 className="text-2xl font-bold mb-4">Uso del DEA (Desfibrilador Externo Automático)</h2>
-        <p className="text-gray-700 leading-relaxed">
-          El DEA es un dispositivo portátil que puede administrar una descarga eléctrica controlada para restablecer el ritmo cardíaco normal en caso de paro cardíaco repentino. Aprender cómo usar un DEA correctamente puede mejorar significativamente las posibilidades de supervivencia durante una emergencia cardíaca.
-        </p>
-      </section>
+    <section id="pasos-rcp" className="grcp-rcp-steps" aria-labelledby="rcp-steps-title">
+      <div className="grcp-container">
+        <div className="grcp-section-heading"><div><p className="grcp-eyebrow">CUANDO CADA SEGUNDO CUENTA</p><h2 id="rcp-steps-title">Cuatro acciones para recordar.</h2></div><p>Esta orientación resume la respuesta inicial ante un posible paro cardíaco en una persona adulta.</p></div>
+        <ol className="grcp-rcp-step-grid">{steps.map(({ number, title, text, icon: Icon }) => <li key={number}><div className="grcp-rcp-step-top"><Icon size={24} aria-hidden="true" /><span>{number}</span></div><h3>{title}</h3><p>{text}</p></li>)}</ol>
+        <p className="grcp-rcp-guidance">Si hay otra persona, pedile que llame a emergencias y traiga un DEA mientras comenzás las compresiones. Seguí las indicaciones del operador y del dispositivo.</p>
+      </div>
+    </section>
 
-      {/* Sección: Mapa de Desfibriladores */}
-      <section className="mb-12" data-aos="fade-up">
-        <h2 className="text-2xl font-bold mb-4">Mapa de Desfibriladores en Argentina</h2>
-        <div className="rounded-lg overflow-hidden shadow-md">
-          <MapaDesfibriladores />
-        </div>
-      </section>
+    <section className="grcp-rcp-video-section" aria-labelledby="rcp-video-title"><div className="grcp-container grcp-rcp-video-grid">
+      <div><p className="grcp-eyebrow">MIRÁ LA TÉCNICA</p><h2 id="rcp-video-title">Aprender también es observar.</h2><p>Este video del Ministerio de Salud muestra cómo actuar ante una situación que requiere RCP. Después, practicá con acompañamiento para ganar confianza.</p><Link to="/Servicios" className="grcp-rcp-text-link">Conocer las capacitaciones <ArrowRight size={17} aria-hidden="true" /></Link></div>
+      <div className="grcp-rcp-video"><iframe src="https://www.youtube.com/embed/wbp_AdGkWPM" title="Video del Ministerio de Salud: cómo realizar RCP" loading="lazy" referrerPolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /></div>
+    </div></section>
 
-      {/* Sección: Llamada de Emergencia */}
-      <section className="mb-12" data-aos="fade-up">
-        <h2 className="text-2xl font-bold mb-4">Llamada de Emergencia</h2>
-        <p className="text-gray-700 mb-4 leading-relaxed">
-          Es importante conocer el número de emergencias médicas en Argentina. Si presencias una emergencia cardíaca, llama al <strong>107</strong> para recibir asistencia médica urgente.
-        </p>
-        <a
-          href="tel:107"
-          className="bg-red-600 text-white font-bold py-3 px-6 hover:bg-black rounded-lg shadow-md transition duration-300"
-        >
-          Llamar al 107
-        </a>
-      </section>
-
-      {/* Sección: Playlist de Spotify */}
-      <section className="my-16" data-aos="fade-up">
-        <h2 className="text-2xl font-bold mb-6 flex items-center">
-          Playlist Spotify RCP <FontAwesomeIcon icon={faSpotify} className="text-green-500 ml-2" />
-        </h2>
-        <iframe
-          style={{ borderRadius: '12px' }}
-          src="https://open.spotify.com/embed/playlist/0Zn5eFN54B1TEcgHGVxU9S?utm_source=generator"
-          width="100%"
-          height="352"
-          frameBorder="0"
-          allowFullScreen=""
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"
-          className="shadow-md"
-        />
-      </section>
-    </div>
-  );
-};
-
-export default AprendeRCP;
+    <section className="grcp-rcp-more" aria-labelledby="rcp-more-title"><div className="grcp-container">
+      <div className="grcp-section-heading"><div><p className="grcp-eyebrow">SEGUÍ PREPARÁNDOTE</p><h2 id="rcp-more-title">Recursos para dar el siguiente paso.</h2></div></div>
+      <div className="grcp-rcp-resource-grid">
+        <Link to="/MapaDEA"><MapPin size={25} aria-hidden="true" /><h3>Encontrá un DEA</h3><p>Consultá las ubicaciones registradas y cómo llegar.</p><span>Abrir mapa <ArrowRight size={16} aria-hidden="true" /></span></Link>
+        <Link to="/Practica-rcp"><PlayCircle size={25} aria-hidden="true" /><h3>Practicá el ritmo</h3><p>Usá el recurso interactivo para familiarizarte con la cadencia.</p><span>Ir a la práctica <ArrowRight size={16} aria-hidden="true" /></span></Link>
+        <Link to="/Biblioteca"><BookOpen size={25} aria-hidden="true" /><h3>Consultá la biblioteca</h3><p>Encontrá más materiales de RCP y primeros auxilios.</p><span>Explorar recursos <ArrowRight size={16} aria-hidden="true" /></span></Link>
+      </div>
+      <p className="grcp-rcp-sources">Guía breve para adultos. La formación práctica y las indicaciones del servicio de emergencias son fundamentales. Fuentes: <a href="https://www.argentina.gob.ar/node/7664" target="_blank" rel="noopener noreferrer">Ministerio de Salud de Argentina</a> y <a href="https://www.heart.org/en/health-topics/cardiac-arrest/emergency-treatment-of-cardiac-arrest" target="_blank" rel="noopener noreferrer">American Heart Association</a>.</p>
+    </div></section>
+  </div>;
+}

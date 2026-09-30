@@ -1,6 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowDown, ArrowRight, BookOpen, Code2, Eye, HeartHandshake, ShieldCheck, Target } from 'lucide-react';
+import practicePhoto from '../assets/photos/nosotros-practica-rcp.png';
 
 const purpose = [
   { icon: Target, label: 'Nuestra misión', title: 'Compartir herramientas para actuar.', description: 'Capacitar en RCP, primeros auxilios, soporte vital básico y uso del DEA, acompañando a instituciones, equipos y personas en su preparación.' },
@@ -18,7 +18,7 @@ export const Nosotros = () => (
     <section className="grcp-about-hero" aria-labelledby="about-title">
       <div className="grcp-container grcp-about-hero-grid">
         <div><p className="grcp-eyebrow">SOMOS GRCP ARGENTINA</p><h1 id="about-title">Nos une el compromiso<br />de <span>cuidar a otros.</span></h1><p>Somos el Grupo de Rescate, Capacitación y Prevención. Trabajamos para acercar conocimientos y práctica a quienes quieren estar preparados para ayudar.</p><div className="grcp-about-hero-actions"><Link to="/Servicios" className="grcp-button grcp-button-primary">Conocé las capacitaciones <ArrowRight size={18} aria-hidden="true" /></Link><a href="#equipo" className="grcp-button grcp-button-secondary">Nuestro equipo <ArrowDown size={18} aria-hidden="true" /></a></div></div>
-        <figure><img src="/images/capacitacion-grupal.jpg" alt="Participantes de una capacitación de GRCP Argentina reunidos con sus certificados" width="1199" height="900" fetchPriority="high" /><figcaption><HeartHandshake size={20} aria-hidden="true" />El cuidado empieza con personas que eligen prepararse.</figcaption></figure>
+        <figure><img src={practicePhoto} alt="Participante practicando compresiones de RCP sobre un maniquí" width="662" height="840" fetchPriority="high" /><figcaption><HeartHandshake size={20} aria-hidden="true" />El cuidado empieza con personas que eligen prepararse.</figcaption></figure>
       </div>
     </section>
     <section className="grcp-about-purpose" aria-labelledby="purpose-title"><div className="grcp-container">

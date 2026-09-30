@@ -1,0 +1,57 @@
+.grcp-contact { min-height: 70vh; background: #f8f7f4; color: #142232; font-family: 'Segoe UI', Arial, sans-serif; }
+.grcp-contact :focus-visible { outline: 3px solid #257aa7; outline-offset: 3px; }
+.grcp-contact-hero { padding: 57px 0 43px; border-bottom: 1px solid #e8e5df; background: #f4f1eb; }
+.grcp-contact-hero h1 { margin: 17px 0 12px; font-size: clamp(38px, 4.5vw, 60px); line-height: 1.08; letter-spacing: -2.1px; font-weight: 750; }
+.grcp-contact-hero h1 span { color: #c74712; }
+.grcp-contact-hero > div > p:last-child { max-width: 600px; color: #596573; font-size: 16px; line-height: 1.7; }
+.grcp-contact-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr); gap: 22px; align-items: start; padding-block: 36px 72px; }
+.grcp-contact-form-card, .grcp-contact-details, .grcp-contact-whatsapp { border-radius: 12px; }
+.grcp-contact-form-card { padding: 34px; border: 1px solid #e3e5e5; background: #fff; }
+.grcp-contact-section-heading { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 28px; }
+.grcp-contact-icon { display: grid; place-items: center; flex: 0 0 44px; height: 44px; border-radius: 8px; color: #a44016; background: #fff0e4; }
+.grcp-contact-section-heading h2, .grcp-contact-whatsapp h2 { font-size: 25px; line-height: 1.2; font-weight: 700; letter-spacing: -.5px; }
+.grcp-contact-section-heading p { margin-top: 7px; font-size: 13px; line-height: 1.65; color: #65717d; }
+.grcp-contact-form { display: grid; gap: 19px; }
+.grcp-contact-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grcp-contact-form label { display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: #344354; font-weight: 650; }
+.grcp-contact-form input, .grcp-contact-form textarea { width: 100%; min-width: 0; border: 1px solid #d5dade; border-radius: 7px; background: #fff; padding: 13px 14px; color: #142232; font-size: 14px; font-weight: 400; line-height: 1.5; }
+.grcp-contact-form input::placeholder, .grcp-contact-form textarea::placeholder { color: #919ba3; }
+.grcp-contact-form textarea { resize: vertical; min-height: 130px; }
+.grcp-contact-form input:focus, .grcp-contact-form textarea:focus { border-color: #257aa7; outline: 2px solid #257aa733; }
+.grcp-contact-form > button { justify-self: start; min-width: 190px; }
+.grcp-contact-form > button:disabled { opacity: .65; cursor: wait; }
+.grcp-contact-success, .grcp-contact-error { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border-radius: 7px; font-size: 13px; margin-bottom: 20px; }
+.grcp-contact-success { color: #275a39; background: #edf7ef; border: 1px solid #c2dbc6; }
+.grcp-contact-error { color: #963219; background: #fff0ed; border: 1px solid #edc3b7; }
+.grcp-contact-aside { display: grid; gap: 20px; }
+.grcp-contact-whatsapp { padding: 30px; background: #142232; color: #fff; }
+.grcp-contact-whatsapp-icon { display: grid; place-items: center; width: 45px; height: 45px; margin-bottom: 25px; border-radius: 8px; background: #ffffff1c; color: #8dd2a5; }
+.grcp-contact-whatsapp .grcp-eyebrow { color: #8dd2a5; }
+.grcp-contact-whatsapp h2 { margin-top: 11px; }
+.grcp-contact-whatsapp > p:not(.grcp-eyebrow) { margin-top: 10px; color: #c8d2da; font-size: 13px; line-height: 1.7; }
+.grcp-contact-whatsapp-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; margin-top: 25px; padding: 10px 17px; border-radius: 7px; background: #fff; color: #142232; font-size: 13px; font-weight: 700; }
+.grcp-contact-whatsapp-link:hover { background: #eaf5ee; }
+.grcp-contact-details { padding: 26px 30px; border: 1px solid #e3e5e5; background: #fff; }
+.grcp-contact-details h2 { margin-bottom: 12px; font-size: 17px; font-weight: 700; }
+.grcp-contact-details > a, .grcp-contact-details > div { display: flex; align-items: center; gap: 14px; min-width: 0; padding: 15px 0; border-top: 1px solid #edf0f1; }
+.grcp-contact-details > a > svg:first-child, .grcp-contact-details > div > svg { flex: 0 0 auto; color: #a44016; }
+.grcp-contact-details > a > svg:last-child { margin-left: auto; color: #8d969f; flex: 0 0 auto; }
+.grcp-contact-details span { min-width: 0; overflow-wrap: anywhere; font-size: 13px; font-weight: 600; }
+.grcp-contact-details small { display: block; margin-bottom: 3px; color: #69747e; font-size: 11px; font-weight: 400; }
+.grcp-contact-details a:hover { color: #a44016; }
+@media (max-width: 800px) {
+  .grcp-contact-hero { padding: 36px 0 31px; }
+  .grcp-contact-layout { grid-template-columns: 1fr; padding-block: 24px 54px; }
+  .grcp-contact-aside { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .grcp-contact-hero h1 { font-size: 37px; letter-spacing: -1.4px; }
+  .grcp-contact-hero > div > p:last-child { font-size: 14px; }
+  .grcp-contact-form-card { padding: 22px 18px; }
+  .grcp-contact-section-heading { gap: 10px; margin-bottom: 23px; }
+  .grcp-contact-section-heading h2 { font-size: 21px; }
+  .grcp-contact-form-row, .grcp-contact-aside { grid-template-columns: 1fr; }
+  .grcp-contact-form input, .grcp-contact-form textarea { font-size: 16px; }
+  .grcp-contact-form > button { width: 100%; }
+  .grcp-contact-whatsapp, .grcp-contact-details { padding: 24px; }
+}

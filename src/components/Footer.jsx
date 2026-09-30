@@ -1,52 +1,37 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebook, faInstagram, faWhatsapp, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
+import { Link } from 'react-router-dom';
+import { ArrowUpRight, Instagram, Mail, MessageCircle, Phone } from 'lucide-react';
+import logo from '../assets/logos/logo g.rcp sin letras.svg';
+import './footer.css';
 
-import backgroundImage from '../assets/logos/fondo oscuro.png';
-
-export const Footer = () => {
-  return (
-    <footer className="bg-Azul bg-AzulOscuro text-white py-8 p-2  pl-6 relative">
-      <div className="absolute inset-0 z-0">
-        <img src={backgroundImage} alt="background" className="w-full h-full object-cover opacity-10" style={{ filter: 'brightness(40%) blur(5px)' }} />
+export function Footer() {
+  return <footer id="site-footer" className="grcp-footer">
+    <div className="grcp-container grcp-footer-main">
+      <div className="grcp-footer-about">
+        <Link to="/" className="grcp-footer-brand" aria-label="GRCP Argentina, inicio"><img src={logo} alt="" /><span><strong>GRCP ARGENTINA</strong><small>Preparación para cuidar.</small></span></Link>
+        <p>Capacitación para actuar con confianza cuando más importa.</p>
       </div>
-      <div className="container mx-auto flex flex-wrap justify-between relative z-10 lg:w-2/3">
-        {/* Primera columna */}
-        <div className="w-full sm:w-auto mb-4 sm:mb-0 border-b-2 border-zinc-300 pb-2">
-          <Link to="/Contacto" className="text-white hover:text-gray-400 font-bold">Contacto</Link> {/* Cambia a Link */}
-          <ul>
-            <li><Link to="/nosotros" className="text-white hover:text-gray-400">Nosotros</Link></li> {/* Cambia a Link */}
-            <li><Link to="/informacion-legal" className="text-white hover:text-gray-400">Información Legal</Link></li> {/* Cambia a Link */}
-          </ul>
-        </div>
-        
-        {/* Segunda columna */}
-        <div className="w-full sm:w-auto mb-4 sm:mb-0 border-b-2 border-zinc-300 pb-2">
-          <h3 className="font-bold mb-2">Experiencias</h3>
-          <ul>
-            <li><Link to="/clientes" className="text-white hover:text-gray-400">Clientes</Link></li> {/* Cambia a Link */}
-            <li><Link to="/lugares" className="text-white hover:text-gray-400">Lugares</Link></li> {/* Cambia a Link */}
-          </ul>
-        </div>
-
-        {/* Tercera columna */}
-        <div className="w-full sm:w-auto mb-4 sm:mb-0 border-b-2 border-zinc-300 pb-2">
-          <h3 className="font-bold mb-2">Redes Sociales</h3>
-          <ul>
-            <li><a href="https://www.instagram.com/grcp_arg/" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faInstagram} /> Instagram</a></li>
-            <li><a href="" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faFacebook} /> Facebook</a></li>
-            <li><a href="https://wa.me/+5492645667981" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faWhatsapp} /> Whatsapp</a></li>
-            <li><a href="" className="text-white hover:text-gray-400"><FontAwesomeIcon icon={faYoutube} /> Youtube</a></li>
-          </ul>
-        </div>
-
-        {/* Cuarta columna */}
-        <div className="w-full sm:w-auto">
-          <p>&copy; 2024 All rights reserved</p>
-          <p className="mt-4">Desarrollo Julian Peruzzi | <a href="https://www.linkedin.com/in/julianperuzzi/" className="text-white hover:text-gray-400">LinkedIn</a></p>
-        </div>
+      <nav className="grcp-footer-links" aria-label="Enlaces del pie de página">
+        <h2>Explorá</h2>
+        <Link to="/Servicios">Capacitaciones</Link>
+        <Link to="/MapaDEA">Mapa DEA</Link>
+        <Link to="/rcp">Aprendé RCP</Link>
+        <Link to="/Nosotros">Nosotros</Link>
+      </nav>
+      <div className="grcp-footer-contact">
+        <h2>Hablemos</h2>
+        <Link to="/Contacto">Ir a contacto <ArrowUpRight size={15} aria-hidden="true" /></Link>
+        <a href="mailto:gruporcpsa@gmail.com"><Mail size={16} aria-hidden="true" />gruporcpsa@gmail.com</a>
+        <a href="tel:+5492645667981"><Phone size={16} aria-hidden="true" />+54 9 264 566 7981</a>
       </div>
-    </footer>
-  );
-};
+      <div className="grcp-footer-social">
+        <h2>Seguinos</h2>
+        <a href="https://www.instagram.com/grcp_arg/" target="_blank" rel="noopener noreferrer"><Instagram size={18} aria-hidden="true" />Instagram</a>
+        <a href="https://wa.me/5492645667981" target="_blank" rel="noopener noreferrer"><MessageCircle size={18} aria-hidden="true" />WhatsApp</a>
+      </div>
+    </div>
+    <div className="grcp-container grcp-footer-bottom">
+      <span>© {new Date().getFullYear()} GRCP Argentina</span>
+      <span>Desarrollo <a href="https://www.linkedin.com/in/julianperuzzi/" target="_blank" rel="noopener noreferrer">Julian Peruzzi</a></span>
+    </div>
+  </footer>;
+}

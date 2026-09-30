@@ -22,7 +22,8 @@ export default function DeaMap({ records, selected, onSelect, origin, route, res
     const observer = new ResizeObserver(() => {
       map.invalidateSize();
       const bounds = routeLayerRef.current?.getBounds();
-      if (bounds?.isValid()) map.fitBounds(bounds, { padding: [35, 35], maxZoom: 17 });
+      const size = map.getSize();
+      if (size.x && size.y && bounds?.isValid()) map.fitBounds(bounds, { padding: [35, 35], maxZoom: 17 });
     }); observer.observe(hostRef.current);
     return () => { observer.disconnect(); map.remove(); mapRef.current = null; originRef.current = null; routeLayerRef.current = null; fitted.current = false; };
   }, []);
@@ -44,7 +45,12 @@ export default function DeaMap({ records, selected, onSelect, origin, route, res
   useEffect(() => {
     const map = mapRef.current;
     if (!map || selectedId == null) return;
-    map.flyTo([selectedLat, selectedLng], 16, { duration: .5 });
+    const frame = requestAnimationFrame(() => {
+      map.invalidateSize();
+      const size = map.getSize();
+      if (size.x && size.y) map.flyTo([selectedLat, selectedLng], 16, { duration: .5 });
+    });
+    return () => cancelAnimationFrame(frame);
   }, [selectedId, selectedLat, selectedLng]);
   useEffect(() => {
     const map = mapRef.current;

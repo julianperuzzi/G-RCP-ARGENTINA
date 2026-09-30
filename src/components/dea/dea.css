@@ -49,18 +49,16 @@
 .dea-explorer { display: grid; grid-template-columns: 320px minmax(0,1fr); border: 1px solid #dfe3e6; border-radius: 12px; overflow: hidden; background: #fff; }
 .dea-search-panel { padding: 20px 0 0; border-right: 1px solid #dfe3e6; }
 .dea-search-field { display: flex; align-items: center; gap: 9px; padding: 11px 12px; border: 1px solid #d5dade; border-radius: 6px; background: #fff; color: #68747f; }
-.dea-search-controls > .dea-search-field { margin-inline: 16px; }
 .dea-search-field input { width: 100%; min-width: 0; border: 0; outline: none; background: transparent; color: #253343; font-size: 13px; }
 .dea-search-field:focus-within { outline: 2px solid #257aa7; outline-offset: 2px; }
 .dea-field { display: flex; flex-direction: column; gap: 7px; font-size: 13px; }
 .dea-field > span { font-size: 12px; font-weight: 600; color: #536071; display: flex; align-items: center; gap: 7px; }
 .dea-field input, .dea-field select, .dea-field textarea, .dea-admin-toolbar > select { padding: 11px 12px; border: 1px solid #d5dade; border-radius: 6px; background: #fff; color: #253343; font-size: 13px; width: 100%; }
 .dea-field small { color: #69747e; font-size: 11px; line-height: 1.7; }
-.dea-search-controls > .dea-field { margin: 18px 16px 14px; }
 .dea-checkbox { display: flex; align-items: center; gap: 9px; color: #536071; font-size: 12px; line-height: 1.8; }
 .dea-checkbox input { accent-color: #c74712; width: 16px; height: 16px; flex-shrink: 0; }
-.dea-search-controls > .dea-checkbox { margin-inline: 16px; }
 .dea-result-count { font-size: 11px; color: #69747e; margin: 18px 16px 10px; }
+.dea-mobile-view-switch, .dea-mobile-quick-route { display: none; }
 .dea-results { height: 515px; overflow-y: auto; border-top: 1px solid #eceeef; }
 .dea-result { display: flex; align-items: flex-start; gap: 11px; padding: 16px; width: 100%; border-bottom: 1px solid #eceeef; text-align: left; }
 .dea-result:hover, .dea-result.is-selected { background: #fff4ec; }
@@ -168,14 +166,34 @@
   .dea-login-page { gap: 36px; }
 }
 @media (max-width: 800px) {
-  .dea-page { padding-top: 28px; }
+  .dea-page { padding-top: 16px; }
+  .dea-page.dea-has-selection { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
   .dea-page-heading { align-items: flex-start; flex-direction: column; gap: 18px; }
+  .dea-page-heading { margin-bottom: 14px; }
+  .dea-page-heading h1 { margin-block: 4px 0; }
+  .dea-page-heading > div > p:last-child { display: none; }
+  .dea-emergency-note { padding: 10px 12px; gap: 9px; }
+  .dea-emergency-note p { line-height: 1.5; }
+  .dea-map-toolbar { padding-block: 12px; gap: 10px; }
+  .dea-map-toolbar > .dea-locate-button { order: -1; }
+  .dea-origin-choice { margin-bottom: 10px; }
   .dea-explorer { grid-template-columns: 1fr; }
   .dea-search-panel { display: contents; }
-  .dea-search-controls { order: 0; padding-top: 16px; border-bottom: 1px solid #dfe3e6; }
+  .dea-search-controls { order: 0; padding-top: 12px; border-bottom: 1px solid #dfe3e6; }
+  .dea-mobile-view-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin: 12px; padding: 4px; border-radius: 9px; background: #f0f2f2; }
+  .dea-mobile-view-switch button { min-height: 44px; border-radius: 7px; font-size: 14px; font-weight: 650; color: #536071; }
+  .dea-mobile-view-switch button[aria-pressed="true"] { background: #fff; color: #142232; box-shadow: 0 1px 4px #14223222; }
+  .dea-result-count { margin: 0 14px 10px; }
   .dea-map-column { order: 1; }
-  .dea-results { order: 2; height: 280px; border-top: 1px solid #dfe3e6; }
-  .dea-leaflet-map { height: 380px; }
+  .dea-results { order: 2; height: min(62dvh, 560px); border-top: 0; }
+  .dea-explorer[data-mobile-view="map"] .dea-results, .dea-explorer[data-mobile-view="list"] .dea-map-column { display: none; }
+  .dea-leaflet-map { height: min(52dvh, 480px); min-height: 320px; }
+  .dea-mobile-quick-route { display: flex; position: fixed; z-index: 1000; bottom: 0; left: 0; right: 0; align-items: center; gap: 12px; padding: 11px 16px calc(11px + env(safe-area-inset-bottom)); border-top: 1px solid #dfe3e6; background: #fff; box-shadow: 0 -5px 24px #1422321c; }
+  .dea-mobile-quick-route > div { flex: 1; min-width: 0; }
+  .dea-mobile-quick-route strong, .dea-mobile-quick-route span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dea-mobile-quick-route strong { font-size: 13px; }
+  .dea-mobile-quick-route span { color: #65717d; font-size: 11px; margin-top: 3px; }
+  .dea-mobile-quick-route a { display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-shrink: 0; min-height: 46px; padding: 0 13px; border-radius: 7px; background: #c74712; color: #fff; font-size: 12px; font-weight: 700; }
   .dea-login-page { grid-template-columns: 1fr; padding-block: 12px; }
   .dea-login-card { max-width: none; }
   .dea-admin-stats { grid-template-columns: 1fr 1fr; }
@@ -184,7 +202,7 @@
   .dea-history li { flex-direction: column; }
 }
 @media (max-width: 480px) {
-  .dea-page h1 { font-size: 36px; }
+  .dea-page h1 { font-size: 31px; }
   .dea-map-toolbar > .grcp-button { width: 100%; }
   .dea-travel-modes { width: 100%; }
   .dea-travel-modes button { flex: 1; }
@@ -195,7 +213,7 @@
   .dea-page input, .dea-page select { font-size: 16px; }
   .dea-map-footer a { flex-shrink: 1; }
   .dea-map-toolbar > span { max-width: none; }
-  .dea-leaflet-map { height: 330px; }
+  .dea-leaflet-map { height: 48dvh; min-height: 300px; }
   .dea-selected { padding: 18px; }
   .dea-directions > a { flex: 1; }
   .dea-login-card { padding: 24px; }
