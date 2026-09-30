@@ -3,16 +3,17 @@ import PropTypes from 'prop-types';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-export default function DeaMap({ records, selected, onSelect, origin, route, resetKey = 0, onPick }) {
+export default function DeaMap({ records, selected, onSelect, origin, route, resetKey = 0, onPick, initialView }) {
   const hostRef = useRef(null), mapRef = useRef(null), layerRef = useRef(null), originRef = useRef(null), fitted = useRef(false);
   const selectRef = useRef(onSelect), pickRef = useRef(onPick);
   const recordsRef = useRef(records);
   const routeLayerRef = useRef(null);
+  const initialViewRef = useRef(initialView);
   const selectedId = selected?.id, selectedLat = selected?.latitude, selectedLng = selected?.longitude;
   const [tileError, setTileError] = useState(false);
   selectRef.current = onSelect; pickRef.current = onPick; recordsRef.current = records;
   useEffect(() => {
-    const map = L.map(hostRef.current, { center: [-38.4, -64.2], zoom: 4, scrollWheelZoom: false, preferCanvas: true });
+    const map = L.map(hostRef.current, { center: initialViewRef.current?.center || [-38.4, -64.2], zoom: initialViewRef.current?.zoom ?? 4, scrollWheelZoom: false, preferCanvas: true });
     mapRef.current = map;
     const tiles = L.tileLayer(import.meta.env.VITE_MAP_TILE_URL || 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>' }).addTo(map);
     tiles.on('tileerror', () => setTileError(true));
@@ -35,7 +36,10 @@ export default function DeaMap({ records, selected, onSelect, origin, route, res
       const tooltip = document.createElement('span'); tooltip.textContent = record.name; marker.bindTooltip(tooltip);
       marker.on('click', () => selectRef.current?.(record));
     }
-    if (!fitted.current && records.length) { map.fitBounds(records.map(r => [r.latitude, r.longitude]), { padding: [35, 35], maxZoom: 13 }); fitted.current = true; }
+    if (!fitted.current && records.length) {
+      if (!initialViewRef.current) map.fitBounds(records.map(r => [r.latitude, r.longitude]), { padding: [35, 35], maxZoom: 13 });
+      fitted.current = true;
+    }
   }, [records, selected?.id]);
   useEffect(() => {
     const map = mapRef.current;
@@ -77,4 +81,5 @@ DeaMap.propTypes = {
   resetKey: PropTypes.number,
   onPick: PropTypes.func,
   route: PropTypes.shape({ coordinates: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)) }),
+  initialView: PropTypes.shape({ center: PropTypes.arrayOf(PropTypes.number).isRequired, zoom: PropTypes.number.isRequired }),
 };

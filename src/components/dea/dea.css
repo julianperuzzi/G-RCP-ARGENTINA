@@ -20,7 +20,6 @@
 .dea-travel-modes { display: flex; border: 1px solid #d5dade; border-radius: 8px; background: #fff; padding: 4px; gap: 4px; }
 .dea-travel-modes button { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 14px; color: #536071; font-size: 13px; border-radius: 5px; }
 .dea-travel-modes button[aria-pressed="true"] { background: #142232; color: #fff; }
-.dea-route-privacy { flex-basis: 100%; color: #69747e; font-size: 11px; line-height: 1.8; }
 .dea-origin-choice { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
 .dea-origin-choice button { min-height: 36px; }
 .dea-origin-choice p { font-size: 12px; color: #33596e; }
@@ -208,3 +207,8 @@
   .dea-dialog-actions .grcp-button { padding: 12px 14px; font-size: 12px; }
 }
 @media (prefers-reduced-motion: reduce) { .dea-page *, .dea-editor-dialog * { transition: none !important; animation: none !important; } }
+
+.dea-management-footer { display: flex; justify-content: flex-end; margin-top: 18px; }
+.dea-management-link { display: inline-flex; align-items: center; gap: 6px; padding: 7px 10px; border: 1px solid #dfe3e6; border-radius: 5px; color: #69747e; font-size: 10px; }
+.dea-management-link:hover { background: #fff; color: #253343; }
+@media (max-width: 480px) { .dea-emergency-description { display: none; } }
