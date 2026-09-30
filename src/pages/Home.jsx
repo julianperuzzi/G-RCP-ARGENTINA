@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import Baner  from "../components/Home/Baner";
-import { Blog } from "../components/Home/Blog";
 import { Servicios } from '../components/Home/Servicios';
 import { Certificacion } from "../components/Home/Certificacion";
 import ListonInfinito from "../components/Home/ListonInfinito";
-import { Link } from 'react-router-dom';
 import Recursos from '../components/Home/Recursos';
+import CommunitySection from '../components/Home/CommunitySection';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -16,11 +15,12 @@ export const Home = () => {
 
 
   return (
-    <aside className='animate-fade-in mx-auto '>
+    <div className='grcp-home mx-auto'>
         <Baner />
-    <aside className=' md:mx-auto'>
+    <div className='md:mx-auto'>
     
       <Servicios />
+      <CommunitySection />
       <Recursos />
       <Certificacion />
       <ListonInfinito />
@@ -30,8 +30,8 @@ export const Home = () => {
       <Blog />
     </div> */}
 
-      </aside>
+      </div>
       
-    </aside>
+    </div>
   );
 };

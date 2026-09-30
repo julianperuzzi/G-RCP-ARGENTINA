@@ -1,0 +1,10 @@
+import { readFileSync, writeFileSync } from 'node:fs';
+import { parseDeaFile } from '../src/lib/deaImport.js';
+const input = process.argv[2];
+if (!input) throw new Error('Uso: node scripts/convert-dea.mjs <archivo.kmz>');
+const result = parseDeaFile(new Uint8Array(readFileSync(input)), input);
+const snapshot = { source: 'KMZ proporcionado por GRCP', imported_at: new Date().toISOString(), records: result.records.map(record => ({ ...record, id: record.source_key })) };
+writeFileSync('public/data/dea-import.json', JSON.stringify(snapshot));
+writeFileSync('supabase/dea-import.json', JSON.stringify(result.records, null, 2));
+writeFileSync('supabase/import-report.json', JSON.stringify({ total: result.total, accepted: result.records.length, rejected: result.rejected }, null, 2));
+console.log(JSON.stringify({ total: result.total, accepted: result.records.length, rejected: result.rejected.length }));

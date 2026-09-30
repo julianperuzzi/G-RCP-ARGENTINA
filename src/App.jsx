@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import Navbar from './components/Navbar';
@@ -15,7 +15,6 @@ import Contacto from './pages/Contacto';
 import NotFoundPage from './pages/NotFoundPage';
 import RcpGame from './pages/RcpGame';
 import Minero from './pages/Minero';
-import MapaDEA from './pages/MapaDEA';
 import ContactButton from './components/ContactButton';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
@@ -24,6 +23,9 @@ import Galeria from './pages/Galeria';
 import RA_Menu from './pages/RA_Menu';
 import ShopPage from './pages/ShopPages';
 import PWAInstallBanner from './components/PWAInstallBanner';
+
+const MapaDEA = lazy(() => import('./pages/MapaDEA'));
+const PanelDEA = lazy(() => import('./pages/PanelDEA'));
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -43,6 +45,8 @@ function App() {
         <SpeedInsights />
         <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
         <ScrollToTop />
+        <main id="main-content" tabIndex={-1}>
+        <Suspense fallback={<p className="p-8 text-center" role="status">Cargando…</p>}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Nosotros" element={<Nosotros />} />
@@ -55,6 +59,7 @@ function App() {
           <Route path="/Contacto" element={<Contacto />} />
           <Route path="/Mineras" element={<Minero />} />
           <Route path="/MapaDEA" element={<MapaDEA />} />
+          <Route path="/PanelDEA" element={<PanelDEA />} />
           <Route path="/Rcp-game" element={<RcpGame />} />
           <Route path="/Practica-rcp" element={<RCPPractice />} />
           <Route path="/RA-Menu" element={<RA_Menu />} />
@@ -63,6 +68,8 @@ function App() {
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        </Suspense>
+        </main>
         <PWAInstallBanner />
         <ContactButton />
         <Footer />

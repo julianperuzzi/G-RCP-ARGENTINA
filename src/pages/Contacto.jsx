@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 import { Mail, Phone, MapPin, Send, CheckCircle, Clock, MessageSquare } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,6 +7,9 @@ import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
 const Contacto = () => {
   const form = useRef();
+  const [searchParams] = useSearchParams();
+  const programNames = { escuelas: 'instituciones educativas', empresas: 'empresas y organizaciones', deporte: 'clubes y equipos deportivos', comunidad: 'comunidad' };
+  const selectedProgram = programNames[searchParams.get('programa')];
   const [enviado, setEnviado] = useState(false);
   const [enviando, setEnviando] = useState(false);
 
@@ -111,6 +115,7 @@ const Contacto = () => {
                 <textarea
                   id="message"
                   name="message"
+                  defaultValue={selectedProgram ? `Hola, quisiera consultar por una capacitación para ${selectedProgram}.` : ''}
                   rows="5"
                   placeholder="Cuéntanos cómo podemos ayudarte..."
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none transition-colors resize-none"
