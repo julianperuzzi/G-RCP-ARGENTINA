@@ -44,7 +44,7 @@ export default function RCPPractice() {
         <Link to="/rcp" className="rcp-practice-back"><ArrowLeft size={16} aria-hidden="true" />Repasar la guía de RCP</Link>
       </header>
 
-      <section ref={workspaceRef} className={`rcp-practice-workspace${focused ? ' is-focused' : ''}`} role={focused ? 'dialog' : 'region'} aria-modal={focused || undefined} aria-label="Metrónomo de práctica de RCP">
+      <section ref={workspaceRef} className={`rcp-practice-workspace${focused ? ' is-focused' : ''}${focused && state.flash ? ' is-light-on' : ''}`} role={focused ? 'dialog' : 'region'} aria-modal={focused || undefined} aria-label="Metrónomo de práctica de RCP">
         <div className="rcp-practice-trainer">
           <div className="rcp-practice-stage" tabIndex={0} aria-label="Indicador de ritmo. Presioná espacio para iniciar o pausar." onKeyDown={event => { if (event.code === 'Space' && event.target === event.currentTarget) { event.preventDefault(); if (state.status !== 'starting' && !noCue) togglePractice(); } }}>
             <div className="rcp-practice-stage-top"><p className={`rcp-practice-status${active ? ' is-active' : ''}`}><span />{statusLabels[state.status]}</p><button ref={focusButtonRef} className="rcp-practice-focus" onClick={() => setFocused(value => !value)} aria-label={focused ? 'Salir del modo enfoque' : 'Abrir modo enfoque'}>{focused ? <Minimize2 size={18} aria-hidden="true" /> : <Maximize2 size={18} aria-hidden="true" />}<span>{focused ? 'Salir del enfoque' : 'Modo enfoque'}</span></button></div>

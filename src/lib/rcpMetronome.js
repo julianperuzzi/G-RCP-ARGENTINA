@@ -1,4 +1,4 @@
-const defaults = { bpm: 110, duration: 120, sound: true, light: true, volume: 50 };
+const defaults = { bpm: 110, duration: 120, sound: true, light: true, volume: 60 };
 const activeStatuses = new Set(['countdown', 'playing']);
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
@@ -69,7 +69,7 @@ export class RcpMetronome {
 
   updateGain() {
     if (this.master && this.context) {
-      const gain = this.snapshot.sound ? this.snapshot.volume / 100 * .35 : 0;
+      const gain = this.snapshot.sound ? this.snapshot.volume / 100 * .5 : 0;
       this.master.gain.setTargetAtTime(gain, this.context.currentTime, .015);
     }
   }
@@ -119,15 +119,17 @@ export class RcpMetronome {
       if (this.context) {
         const voice = this.context.createOscillator();
         const envelope = this.context.createGain();
-        voice.type = 'sine';
-        voice.frequency.setValueAtTime(740, cue.time);
+        // One sustained, clearly defined beep per cue, with a short release.
+        voice.type = 'triangle';
+        voice.frequency.setValueAtTime(880, cue.time);
         envelope.gain.setValueAtTime(.0001, cue.time);
-        envelope.gain.linearRampToValueAtTime(1, cue.time + .004);
-        envelope.gain.exponentialRampToValueAtTime(.0001, cue.time + .065);
+        envelope.gain.linearRampToValueAtTime(1, cue.time + .003);
+        envelope.gain.setValueAtTime(1, cue.time + .085);
+        envelope.gain.exponentialRampToValueAtTime(.0001, cue.time + .12);
         voice.connect(envelope); envelope.connect(this.master);
         voice.onended = () => { this.voices.delete(voice); voice.disconnect(); envelope.disconnect(); };
         this.voices.add(voice);
-        voice.start(cue.time); voice.stop(cue.time + .07);
+        voice.start(cue.time); voice.stop(cue.time + .13);
         cue.voice = voice;
       }
       this.queue.push(cue);
@@ -160,7 +162,7 @@ export class RcpMetronome {
       status: preparing ? 'countdown' : 'playing',
       countdown: preparing ? Math.ceil(this.startTime - current) : null,
       elapsed: Math.floor(elapsed), beatCount,
-      flash: this.snapshot.light && this.lastBeatTime !== null && current - this.lastBeatTime < .13,
+      flash: this.snapshot.light && this.lastBeatTime !== null && current - this.lastBeatTime < .18,
     });
     this.frame = this.requestFrame(() => this.draw(version));
   }

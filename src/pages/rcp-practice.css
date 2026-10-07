@@ -83,12 +83,18 @@
 .grcp-practice :focus-visible { outline: 3px solid #257aa7; outline-offset: 3px; }
 .rcp-practice-stage:focus-visible { outline-color: #ffb287; }
 .rcp-practice-workspace.is-focused { position: fixed; inset: 0; z-index: 60; display: flex; align-items: stretch; justify-content: center; border-radius: 0; border: 0; background: #142232; overflow-y: auto; padding: 20px; }
+.rcp-practice-workspace.is-focused::before, .rcp-practice-workspace.is-focused::after { content: ''; position: fixed; top: 18%; bottom: 24%; width: clamp(10px, 1.6vw, 22px); border-radius: 20px; background: #637488; opacity: .25; pointer-events: none; }
+.rcp-practice-workspace.is-focused::before { left: 12px; }
+.rcp-practice-workspace.is-focused::after { right: 12px; }
+.rcp-practice-workspace.is-focused.is-light-on::before, .rcp-practice-workspace.is-focused.is-light-on::after { background: #ffe0a3; opacity: 1; box-shadow: 0 0 32px #ffc15f99; }
 .is-focused .rcp-practice-settings { display: none; }
 .is-focused .rcp-practice-trainer { width: min(720px, 100%); padding: 0; display: flex; flex-direction: column; }
 .is-focused .rcp-practice-stage { display: flex; flex-direction: column; flex: 1; padding-inline: 10px; min-height: 300px; }
 .is-focused .rcp-practice-pulse-area { flex: 1; min-height: 210px; }
-.is-focused .rcp-practice-pulse { width: min(30vh, 250px); min-width: 160px; }
-.is-focused .rcp-practice-pulse strong { font-size: 75px; }
+.is-focused .rcp-practice-pulse { width: clamp(170px, min(38dvh, 70vw), 340px); min-width: 160px; border-width: 5px; outline-offset: 14px; }
+.is-focused .rcp-practice-pulse.is-lit { background: #ffe0a3; color: #142232; border-color: #fff9eb; box-shadow: 0 0 0 14px #ffad4833, 0 0 60px #ffc15f80; }
+.is-focused .rcp-practice-pulse strong { font-size: clamp(65px, 10vw, 96px); }
+.is-focused .rcp-practice-pulse > svg { width: 34px; height: 34px; margin-bottom: 6px; }
 .is-focused .rcp-practice-pulse > span { font-size: 11px; }
 .is-focused .rcp-practice-cue { font-size: 14px; }
 .is-focused .rcp-practice-reset { color: #d3dce4; border-color: #65717d; }
@@ -137,4 +143,5 @@
   .rcp-practice-guide li { display: flex; align-items: flex-start; gap: 14px; }
   .rcp-practice-guide li > span { margin-top: 3px; }
 }
-@media (prefers-reduced-motion: reduce) { .rcp-practice-pulse.is-lit { box-shadow: none; } }
+@media (max-width: 700px) { .rcp-practice-workspace.is-focused::before { left: 3px; } .rcp-practice-workspace.is-focused::after { right: 3px; } }
+@media (prefers-reduced-motion: reduce) { .rcp-practice-pulse.is-lit, .is-focused .rcp-practice-pulse.is-lit { box-shadow: none; } .rcp-practice-workspace.is-focused.is-light-on::before, .rcp-practice-workspace.is-focused.is-light-on::after { box-shadow: none; } }
