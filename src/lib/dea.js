@@ -7,6 +7,14 @@ export function distanceKm(origin, destination) {
   const a = Math.sin(deltaLat / 2) ** 2 + Math.cos(rad(origin.latitude)) * Math.cos(rad(destination.latitude)) * Math.sin(deltaLng / 2) ** 2;
   return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(Math.max(0, 1 - a)));
 }
+export function nearestDea(records, origin) {
+  if (!origin || !Number.isFinite(origin.latitude) || !Number.isFinite(origin.longitude)) return null;
+  return records.reduce((nearest, record) => {
+    if (record.published === false || record.archived_at || record.availability === 'unavailable' || record.access === 'restricted' || !Number.isFinite(record.latitude) || !Number.isFinite(record.longitude)) return nearest;
+    const distance = distanceKm(origin, record);
+    return !nearest || distance < nearest.distance ? { ...record, distance } : nearest;
+  }, null);
+}
 export function directionsUrl(record, mode = 'walking', origin) {
   const params = new URLSearchParams({ api: '1', destination: `${record.latitude},${record.longitude}`, travelmode: mode });
   if (origin) params.set('origin', `${origin.latitude},${origin.longitude}`);

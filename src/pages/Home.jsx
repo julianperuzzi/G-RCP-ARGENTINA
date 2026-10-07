@@ -5,6 +5,7 @@ import { Certificacion } from "../components/Home/Certificacion";
 import ListonInfinito from "../components/Home/ListonInfinito";
 import Recursos from '../components/Home/Recursos';
 import CommunitySection from '../components/Home/CommunitySection';
+import NearestDea from '../components/Home/NearestDea';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -17,6 +18,7 @@ export const Home = () => {
   return (
     <div className='grcp-home mx-auto'>
         <Baner />
+        <NearestDea />
     <div className='md:mx-auto'>
     
       <Servicios />

@@ -1,20 +1,25 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowUpRight, Car, Footprints, HeartPulse, LocateFixed, MapPin, Navigation, RefreshCw, ShieldCheck } from 'lucide-react';
 import DeaMap from '../components/dea/DeaMap';
-import { accessLabels, availabilityLabels, directionsUrl, distanceKm } from '../lib/dea';
+import { accessLabels, availabilityLabels, directionsUrl, distanceKm, nearestDea } from '../lib/dea';
 import { fetchAllDeas } from '../lib/supabase';
 import { fetchDeaRoute, routeDuration } from '../lib/deaRouting';
 import '../components/dea/dea.css';
+import useDeaLocation from '../hooks/useDeaLocation';
 
 const SAN_JUAN_VIEW = { center: [-31.5375, -68.5364], zoom: 12 };
 
 export default function MapaDEA() {
   const [records, setRecords] = useState([]), [selected, setSelected] = useState(null);
   const [mobileView, setMobileView] = useState('map');
-  const [origin, setOrigin] = useState(null), [locating, setLocating] = useState(false), [geoError, setGeoError] = useState('');
+  const { origin, setOrigin, locating, error: geoError, requestLocation, clearOrigin } = useDeaLocation();
+  const [choiceError, setChoiceError] = useState('');
+  const [searchParams] = useSearchParams();
+  const requestedDea = searchParams.get('dea');
+  const requestedMode = searchParams.get('modo') === 'walking' ? 'walking' : 'driving';
   const [loading, setLoading] = useState(true), [error, setError] = useState(''), [preview, setPreview] = useState(false), [refresh, setRefresh] = useState(0), [resetKey, setResetKey] = useState(0);
-  const [limit, setLimit] = useState(30), [travelMode, setTravelMode] = useState('driving');
+  const [limit, setLimit] = useState(30), [travelMode, setTravelMode] = useState(requestedMode);
   const [route, setRoute] = useState(null), [routeLoading, setRouteLoading] = useState(false), [routeError, setRouteError] = useState(''), [routeRetry, setRouteRetry] = useState(0);
   const [choosingOrigin, setChoosingOrigin] = useState(false);
   const originLat = origin?.latitude, originLng = origin?.longitude;
@@ -39,22 +44,25 @@ export default function MapaDEA() {
   }, [refresh]);
   const filtered = useMemo(() => records.map(record => ({ ...record, distance: origin ? distanceKm(origin, record) : null })).sort((a, b) => origin ? a.distance - b.distance : a.name.localeCompare(b.name, 'es')), [records, origin]);
   useEffect(() => { setSelected(previous => previous ? filtered.find(record => record.id === previous.id) || null : null); }, [filtered]);
-  const nearest = useMemo(() => origin ? records.filter(r => r.availability !== 'unavailable' && r.access !== 'restricted').map(r => ({ ...r, distance: distanceKm(origin, r) })).sort((a,b) => a.distance-b.distance)[0] : null, [origin, records]);
-  function locate() {
-    setGeoError(''); setChoosingOrigin(false);
-    if (!navigator.geolocation) { setGeoError('Tu navegador no admite ubicación. Elegí un punto del mapa o un lugar de la lista.'); return; }
-    setLocating(true);
-    navigator.geolocation.getCurrentPosition(position => {
-      const nextOrigin = { latitude: position.coords.latitude, longitude: position.coords.longitude, accuracy: position.coords.accuracy };
-      setOrigin(nextOrigin); setLocating(false);
-      const closest = records.filter(r => r.availability !== 'unavailable' && r.access !== 'restricted').map(r => ({ ...r, distance: distanceKm(nextOrigin, r) })).sort((a,b) => a.distance-b.distance)[0];
-      if (closest) { setSelected(closest); setMobileView('map'); }
-      else setGeoError('No hay ubicaciones candidatas disponibles en el registro.');
-    }, err => { setLocating(false); setGeoError(err.code === 1 ? 'No se autorizó la ubicación. Podés elegir un punto del mapa o habilitar el permiso en tu navegador.' : 'No pudimos obtener tu ubicación. Intentá de nuevo o elegí un punto del mapa.'); }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
+  const nearest = useMemo(() => nearestDea(records, origin), [origin, records]);
+  useEffect(() => {
+    if (!requestedDea || loading) return;
+    const record = records.find(item => item.id === requestedDea);
+    if (record) { setSelected(record); setMobileView('map'); }
+    else setChoiceError('Esta ubicación ya no está publicada. Podés elegir otra del mapa.');
+  }, [requestedDea, records, loading]);
+  useEffect(() => { setTravelMode(requestedMode); }, [requestedMode]);
+  async function locate() {
+    setChoiceError(''); setChoosingOrigin(false);
+    const nextOrigin = await requestLocation();
+    if (!nextOrigin) return;
+    const closest = nearestDea(records, nextOrigin);
+    if (closest) { setSelected(closest); setMobileView('map'); }
+    else setChoiceError('No hay ubicaciones candidatas disponibles en el registro.');
   }
   function pickOrigin(point) {
-    setOrigin({ ...point, accuracy: 0, manual: true }); setChoosingOrigin(false); setGeoError('');
-    const closest = records.filter(r => r.availability !== 'unavailable' && r.access !== 'restricted').map(r => ({ ...r, distance: distanceKm(point, r) })).sort((a,b) => a.distance-b.distance)[0];
+    setOrigin({ ...point, accuracy: 0, manual: true }); setChoosingOrigin(false); setChoiceError('');
+    const closest = nearestDea(records, point);
     if (closest && !selected) { setSelected(closest); setMobileView('map'); }
   }
   function selectRecord(record) { setSelected(record); setMobileView('map'); }
@@ -66,9 +74,9 @@ export default function MapaDEA() {
       {preview && <p className="dea-notice" role="status">Vista de respaldo: 437 ubicaciones importadas. Los cambios del panel aún no aparecen aquí.</p>}
       <div className="dea-emergency-note"><HeartPulse size={20} aria-hidden="true" /><p><strong>El mapa es una herramienta de consulta.</strong><span className="dea-emergency-description"> La ubicación registrada no garantiza acceso ni disponibilidad. En una emergencia, contactá al servicio de emergencias de tu localidad.</span></p></div>
       <div className="dea-map-toolbar"><div className="dea-travel-modes" role="group" aria-label="Medio de transporte para la ruta"><button aria-pressed={travelMode === 'driving'} onClick={() => setTravelMode('driving')}><Car size={18} />En auto</button><button aria-pressed={travelMode === 'walking'} onClick={() => setTravelMode('walking')}><Footprints size={18} />Caminando</button></div><button className="grcp-button grcp-button-primary dea-locate-button" disabled={locating || loading || !records.length} onClick={locate}><LocateFixed size={18} />{locating ? 'Buscando tu ubicación…' : 'Ubicar DEA y trazar ruta'}</button>{(selected || origin) && <button className="dea-text-button dea-show-all" onClick={() => { setSelected(null); setMobileView('map'); setResetKey(key => key + 1); }}>Ver todas las ubicaciones</button>}</div>
-      {geoError && <p className="dea-error" role="alert">{geoError}</p>}
+      {(geoError || choiceError) && <p className="dea-error" role="alert">{choiceError || geoError}</p>}
       <div className="dea-origin-choice"><button className="dea-text-button" aria-pressed={choosingOrigin} disabled={locating || loading} onClick={() => setChoosingOrigin(value => !value)}><MapPin size={16} />{choosingOrigin ? 'Cancelar elección del punto de partida' : 'Elegir punto de partida en el mapa'}</button>{choosingOrigin && <p role="status">Tocá un punto del mapa para usarlo como origen de la ruta.</p>}</div>
-      {origin && <p className="dea-location-info">{origin.manual ? 'Punto de partida elegido en el mapa.' : `Ubicación aproximada: precisión de ${Math.round(origin.accuracy)} m.`} Ordenamos por distancia en línea recta; el recorrido real puede variar.{nearest && ` Candidato más cercano: ${nearest.name} (${formatDistance(nearest.distance)}).`}<button className="dea-text-button" onClick={() => { setOrigin(null); setSelected(null); setChoosingOrigin(false); }}>Quitar punto de partida</button></p>}
+      {origin && <p className="dea-location-info">{origin.manual ? 'Punto de partida elegido en el mapa.' : `Ubicación aproximada: precisión de ${Math.round(origin.accuracy)} m.`} Ordenamos por distancia en línea recta; el recorrido real puede variar.{nearest && ` Candidato más cercano: ${nearest.name} (${formatDistance(nearest.distance)}).`}<button className="dea-text-button" onClick={() => { clearOrigin(); setSelected(null); setChoosingOrigin(false); }}>Quitar punto de partida</button></p>}
       {error ? <div className="dea-empty" role="alert"><p>{error}</p><button className="grcp-button grcp-button-secondary" onClick={() => setRefresh(value => value+1)}><RefreshCw size={17} />Reintentar</button></div> : <div className="dea-explorer" data-mobile-view={mobileView}>
         <aside className="dea-search-panel" aria-label="Ubicaciones registradas"><div className="dea-search-controls">
           <div className="dea-mobile-view-switch" role="group" aria-label="Vista de ubicaciones"><button type="button" aria-pressed={mobileView === 'map'} onClick={() => setMobileView('map')}>Mapa</button><button type="button" aria-pressed={mobileView === 'list'} onClick={() => setMobileView('list')}>Lista {filtered.length > 0 && `(${filtered.length})`}</button></div>

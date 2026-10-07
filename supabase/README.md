@@ -38,6 +38,8 @@ Abrir `/PanelDEA` e ingresar con la cuenta oficial. Sin clave configurada, `/Map
 
 ## Funciones y comprobación
 
+El inicio solicita permiso de ubicación una sola vez durante la visita y muestra el DEA candidato más cercano. La ubicación se conserva únicamente en memoria al navegar entre el inicio y el mapa; no se incorpora a la URL ni se guarda en el navegador. El botón de detalle incluye el identificador público del DEA y el modo de transporte y abre su ficha con la ruta calculada desde el mismo origen. Si se rechaza el permiso, se puede consultar el mapa o elegir un origen manual; la web no repite automáticamente la solicitud al volver al inicio.
+
 - Crear y editar DEA, elegir coordenadas en el mapa, completar acceso/horarios/disponibilidad y verificar con fecha.
 - Publicar o mantener borradores; archivar y restaurar como borrador. No hay borrado definitivo desde el cliente.
 - Importar KMZ/KML con revisión de descartados, detección de duplicados y publicación opcional; exportar JSON y consultar historial.
