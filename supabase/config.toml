@@ -1,3 +1,14 @@
+[auth]
+site_url = "https://grcp-arg.com"
+additional_redirect_urls = ["http://localhost:3001/PanelDEA", "https://grcp-arg.com/PanelDEA", "https://grcp-arg.com/Portal", "http://localhost:3001/Portal", "http://127.0.0.1:3001/Portal"]
+enable_signup = false
+enable_anonymous_sign_ins = false
+
+[auth.email]
+# Keep the email provider enabled; auth.enable_signup blocks public registration.
+enable_signup = true
+enable_confirmations = true
+
 [functions.grcp-invite]
 # getUser(token) + get_portal_context verifican identidad y permiso en la función.
 verify_jwt = false

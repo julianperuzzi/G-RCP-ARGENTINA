@@ -2,9 +2,34 @@
 
 Proyecto destino: **tfueuppotcanagvgxpca** · https://tfueuppotcanagvgxpca.supabase.co.
 
-El sitio y la demostración están implementados. El SQL y la función de invitaciones se prepararon localmente; **no se ejecutaron ni desplegaron en tu cuenta**. No ejecutar en otro proyecto. La instalación no toca las tablas del mapa DEA ni publica inventarios institucionales.
+**Activado el 7 de octubre de 2026** en este proyecto: SQL `03`, bucket privado, función `grcp-invite` (versión 1) y configuración de Auth. El sitio está publicado en https://grcp-arg.com/Portal. **No volver a ejecutar `03` en este proyecto.** La instalación no modifica las tablas del mapa DEA ni publica inventarios institucionales.
 
-## Activar la base
+**Pendiente: proveedor SMTP.** El propietario confirmó que todavía no tiene uno. La administración y el ingreso de cuentas existentes están disponibles; las invitaciones y recuperaciones para correos externos no están listas para producción. No se enviaron correos ni se crearon cuentas de prueba.
+
+## Estado verificado en Supabase
+
+- Las diez tablas tienen RLS; el bucket `grcp-instituciones` es privado y limita archivos a 10 MB.
+- `gruporcpsa@gmail.com` existe con email confirmado y es el administrador general.
+- Registro público e ingreso anónimo deshabilitados; proveedor email/contraseña habilitado y confirmación de email requerida.
+- Site URL apunta al dominio publicado. Redirecciones de Portal autorizadas conservando las anteriores de PanelDEA.
+- Prueba transaccional `04-verificar-portal.sql` ejecutada en la base real: administración, rechazo de usuarios sin membresía, revisión de equipos, repetición única de actividades, certificados y auditoría. Los registros de prueba se revirtieron.
+- API comprobada: portal sin sesión devuelve 401, invitación sin sesión 401, origen ajeno 403 y preflight del portal 204. El mapa DEA público sigue respondiendo 200.
+- La función de invitaciones figura ACTIVE. Su validación de sesión se realiza dentro de la función.
+- El asesor de seguridad no reportó problemas de tablas/RLS del portal. Reportó la protección de contraseñas filtradas deshabilitada; esa característica requiere [Pro o superior](https://supabase.com/docs/guides/auth/password-security). No se cambió el plan.
+- La comprobación remota no sustituye la prueba de recepción de correos y descarga real de un certificado con una cuenta institucional; hacerlas al habilitar SMTP y crear el primer acceso de prueba.
+
+## Habilitar correo institucional
+
+Una opción compatible es [Resend con Supabase SMTP](https://resend.com/docs/send-with-supabase-smtp). Requiere una cuenta del propietario y validar un dominio de envío mediante sus registros DNS. No usar un remitente `@gmail.com` con un dominio que no se controla.
+
+1. Crear la cuenta del proveedor y verificar el dominio de envío de GRCP.
+2. En Supabase → Authentication → Email → SMTP Settings, cargar los datos SMTP que entregue el proveedor y elegir el nombre de remitente `GRCP Argentina`.
+3. Ingresar las credenciales directamente en Supabase; nunca agregarlas al repositorio, a variables `VITE_` ni al chat. `config.toml` no declara SMTP y no sobrescribe esa configuración.
+4. Autorizar y enviar una invitación de prueba a un correo controlado por GRCP, completar el enlace y comprobar recuperación de contraseña. Después probar un acceso institucional y sus archivos privados.
+
+El servicio de correo predeterminado de Supabase solo envía a miembros autorizados del equipo del proyecto; no sirve para incorporar instituciones externas. [Documentación de SMTP](https://supabase.com/docs/guides/auth/auth-smtp).
+
+## Instalación de referencia para un entorno nuevo
 
 1. Abrir el SQL Editor de ese proyecto y ejecutar **`03-instalar-portal.sql` una sola vez**. Incluye tablas, índices, permisos por institución, historial y bucket privado. No volver a ejecutar `01` ni `02` si el registro DEA ya funciona. La instalación es transaccional: si falla, se revierte y se puede corregir/reintentar.
 2. Mantener `gruporcpsa@gmail.com` como usuario Auth confirmado. Es el único administrador general; esta regla se verifica en la base, no por un rol asignado desde el navegador.
@@ -20,7 +45,7 @@ Dos opciones:
 
 **Desde Supabase, sin desplegar funciones:** Authentication → Users → Invite user. Usar el correo asignado en Accesos. Configurar la redirección de invitación a `/Portal`; si la invitación de Studio utiliza Site URL sin una ruta específica, autorizar el enlace y abrir `/Portal` al llegar. El portal reconoce el enlace `type=invite` y permite elegir una contraseña. También se puede crear una cuenta confirmada desde Auth y entregar el acceso por el canal habitual de GRCP; nunca compartir la contraseña del administrador.
 
-**Desde el panel:** desplegar la función incluida `supabase/functions/grcp-invite/index.ts` en **ese proyecto**. La función valida el token con `getUser` y consulta `get_portal_context` antes de utilizar la clave de servicio. No permite que una institución invite usuarios ni asigna roles desde metadata.
+**Desde el panel:** la función incluida `supabase/functions/grcp-invite/index.ts` ya está desplegada en **ese proyecto**. La función valida el token con `getUser` y consulta `get_portal_context` antes de utilizar la clave de servicio. No permite que una institución invite usuarios ni asigna roles desde metadata. El envío a instituciones requiere completar SMTP.
 
 Si utilizás CLI, autenticala en tu cuenta correcta, verificá el proyecto y ejecutá:
 
@@ -63,6 +88,14 @@ npm run build
 ```
 
 Las pruebas ejecutan el SQL real con PostgreSQL/PGlite y roles simulados de Supabase; verifican RLS, archivos privados, referencias entre instituciones, revisiones, repetición, auditoría y conservación de los permisos DEA. No prueban el servicio remoto Auth, SMTP ni transferencia real de Storage.
+
+Para repetir la prueba transaccional remota sin guardar registros:
+
+```powershell
+npx supabase db query --linked --project-ref tfueuppotcanagvgxpca --file supabase/04-verificar-portal.sql
+```
+
+`config.toml` conserva solo opciones que gestionamos explícitamente. `auth.enable_signup = false` cierra el registro; `auth.email.enable_signup = true` mantiene habilitado el proveedor email en el proyecto remoto. Antes de volver a aplicar configuración, ejecutar `npx supabase config diff --project-ref tfueuppotcanagvgxpca` y revisar las diferencias.
 
 Después de instalar, probar con dos instituciones de prueba y dos cuentas confirmadas: iniciar sesión, leer solo sus datos, crear una solicitud, registrar revisión como GRCP, marcar asistencia y descargar un certificado. Deshabilitar un acceso y verificar que pierde acceso; revisar también en una ventana sin sesión. Probar invitación y recuperación por correo, carga fallida y carga correcta de archivo. Retirar o archivar los registros de prueba cuando termine la comprobación.
 

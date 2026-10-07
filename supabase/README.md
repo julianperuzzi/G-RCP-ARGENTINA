@@ -1,6 +1,6 @@
 # Registro DEA · GRCP
 
-Proyecto destino: **https://tfueuppotcanagvgxpca.supabase.co**. Estos archivos no se ejecutaron en la nube: la instalación queda a cargo del propietario del proyecto.
+Proyecto destino: **https://tfueuppotcanagvgxpca.supabase.co**. El registro DEA ya está instalado y operativo. Las instrucciones de instalación siguientes son de referencia: no repetir `01` sobre las tablas existentes. El portal institucional también se activó el 7 de octubre de 2026; ver [estado y correo pendiente](PORTAL-INSTITUCIONAL.md).
 
 ## 1. Ejecutar SQL en el proyecto correcto
 
