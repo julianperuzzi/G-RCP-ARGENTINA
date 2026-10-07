@@ -1,0 +1,140 @@
+.grcp-practice { background: #f7f5f1; color: #142232; font-family: 'Segoe UI', Arial, sans-serif; }
+.rcp-practice-container { max-width: 1100px; padding-block: 42px 40px; }
+.rcp-practice-intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+.rcp-practice-intro h1 { font-size: clamp(32px, 3.5vw, 43px); font-weight: 750; line-height: 1.13; letter-spacing: -1.6px; margin-block: 12px; }
+.rcp-practice-intro h1 span { color: #c74712; }
+.rcp-practice-intro > div > p:last-child { color: #596573; font-size: 14px; line-height: 1.7; max-width: 550px; }
+.rcp-practice-back { display: inline-flex; align-items: center; gap: 8px; color: #596573; font-size: 12px; min-height: 44px; flex-shrink: 0; }
+.rcp-practice-back:hover { color: #a44016; }
+.rcp-practice-workspace { display: grid; grid-template-columns: 1.24fr 1fr; background: #fff; border: 1px solid #dfe3e4; border-radius: 14px; box-shadow: 0 8px 26px #14223206; overflow: hidden; }
+.rcp-practice-trainer { min-width: 0; padding: 16px; }
+.rcp-practice-stage { background: #142232; color: #fff; border-radius: 10px; padding: 16px 20px; }
+.rcp-practice-stage-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.rcp-practice-status { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; color: #ced6de; }
+.rcp-practice-status > span { width: 6px; height: 6px; border-radius: 50%; background: #8393a3; }
+.rcp-practice-status.is-active > span { background: #ffab7b; }
+.rcp-practice-focus { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; font-size: 10px; color: #d3dce4; }
+.rcp-practice-focus:hover { color: #fff; }
+.rcp-practice-pulse-area { display: grid; place-items: center; padding-block: 16px 12px; }
+.rcp-practice-pulse { display: flex; align-items: center; justify-content: center; flex-direction: column; width: 170px; aspect-ratio: 1; border-radius: 50%; border: 2px solid #566475; outline: 1px solid #ffffff10; outline-offset: 9px; background: #1c2c3f; color: #ffb287; }
+.rcp-practice-pulse strong { font-size: 57px; line-height: 1.1; font-weight: 700; letter-spacing: -2px; font-variant-numeric: tabular-nums; }
+.rcp-practice-pulse > span { font-size: 9px; letter-spacing: 1.5px; margin-top: 4px; }
+.rcp-practice-pulse.is-lit { border-color: #ffb287; background: #b84212; color: #fff; box-shadow: 0 0 0 9px #f5822724; }
+.rcp-practice-pulse.is-counting { color: #fff; border-color: #ffb287; }
+.rcp-practice-cue { min-height: 20px; text-align: center; color: #b6c3cf; font-size: 11px; margin: 8px 0 18px; }
+.rcp-practice-stats { display: grid; grid-template-columns: repeat(3, 1fr); padding-top: 15px; border-top: 1px solid #ffffff1a; }
+.rcp-practice-stats > div { padding-inline: 10px; border-left: 1px solid #ffffff1a; text-align: center; }
+.rcp-practice-stats > div:first-child { border: 0; }
+.rcp-practice-stats dt { font-size: 10px; color: #b6c3cf; }
+.rcp-practice-stats dd { margin-top: 5px; font-size: 22px; font-weight: 650; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.rcp-practice-session-controls { display: flex; gap: 10px; align-items: stretch; margin-top: 14px; }
+.rcp-practice-start { flex: 1; min-height: 48px; padding: 12px 14px; font-size: 13px; }
+.rcp-practice-reset { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 94px; min-height: 48px; font-size: 12px; border: 1px solid #dfe3e4; border-radius: 7px; color: #596573; padding: 10px; }
+.rcp-practice-reset:hover:not(:disabled) { border-color: #9ba7b3; }
+.rcp-practice-progress { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+.rcp-practice-progress > div { flex: 1; height: 4px; border-radius: 4px; background: #e9edf0; overflow: hidden; }
+.rcp-practice-progress > div > span { display: block; height: 100%; background: #c74712; }
+.rcp-practice-progress > span { color: #65717d; font-size: 10px; font-variant-numeric: tabular-nums; }
+.rcp-practice-help { font-size: 11px; color: #69747e; line-height: 1.6; margin-top: 10px; }
+.rcp-practice-message { display: flex; align-items: flex-start; gap: 6px; font-size: 12px; color: #a44016; padding: 10px 12px; background: #fff4ec; border-radius: 5px; line-height: 1.6; margin-top: 10px; }
+.rcp-practice-message svg { flex-shrink: 0; margin-top: 2px; }
+.rcp-practice-settings { border-left: 1px solid #e6e9eb; padding: 24px; min-width: 0; }
+.rcp-practice-setting-title { display: flex; align-items: center; gap: 9px; margin-bottom: 20px; }
+.rcp-practice-setting-title > svg { color: #a44016; }
+.rcp-practice-setting-title h2 { font-size: 18px; font-weight: 650; letter-spacing: -.4px; }
+.rcp-practice-setting-group { margin-top: 18px; }
+.rcp-practice-setting-group > label, .rcp-practice-setting-label { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; }
+.rcp-practice-setting-group > label > span { margin-left: auto; color: #a44016; font-size: 11px; font-weight: 650; }
+.rcp-practice-tempo { display: flex; align-items: center; gap: 12px; margin-top: 9px; }
+.rcp-practice-tempo > button, .rcp-practice-focus-tempo > button { display: grid; place-items: center; min-width: 44px; min-height: 44px; border: 1px solid #dfe3e4; border-radius: 6px; color: #536071; }
+.grcp-practice input[type='range'] { width: 100%; min-width: 0; height: 44px; accent-color: #c74712; cursor: pointer; }
+.rcp-practice-presets, .rcp-practice-durations { display: grid; gap: 7px; margin-top: 8px; }
+.rcp-practice-presets { grid-template-columns: repeat(3, 1fr); }
+.rcp-practice-presets > button { min-height: 48px; padding: 7px; font-size: 17px; font-weight: 650; line-height: 1.1; border: 1px solid #dfe3e4; border-radius: 6px; }
+.rcp-practice-presets > button > span { display: block; font-size: 9px; font-weight: 400; margin-top: 5px; color: #69747e; }
+.rcp-practice-durations { grid-template-columns: repeat(4, 1fr); }
+.rcp-practice-durations > button { min-height: 44px; font-size: 12px; border: 1px solid #dfe3e4; border-radius: 6px; padding-inline: 6px; }
+.rcp-practice-presets > button[aria-pressed='true'], .rcp-practice-durations > button[aria-pressed='true'] { border-color: #c74712; color: #a44016; background: #fff4ec; }
+.rcp-practice-setting-hint { color: #69747e; font-size: 10px; margin-top: 8px; }
+.rcp-practice-signals { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; margin-top: 20px; }
+.rcp-practice-signals > button { display: flex; align-items: center; text-align: left; gap: 9px; min-height: 62px; padding: 10px; border: 1px solid #dfe3e4; border-radius: 7px; color: #69747e; }
+.rcp-practice-signals > button[aria-pressed='true'] { background: #f3f6f5; color: #253343; border-color: #c8d7d1; }
+.rcp-practice-signals strong { display: block; font-size: 12px; font-weight: 650; }
+.rcp-practice-signals small { display: block; font-size: 9px; margin-top: 3px; color: #69747e; }
+.rcp-practice-signals i { display: block; flex-shrink: 0; width: 21px; height: 12px; border-radius: 10px; background: #cdd4d9; margin-left: auto; position: relative; }
+.rcp-practice-signals i::after { content: ''; position: absolute; top: 2px; left: 2px; width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+.rcp-practice-signals [aria-pressed='true'] i { background: #357d65; }
+.rcp-practice-signals [aria-pressed='true'] i::after { left: 11px; }
+.rcp-practice-volume { margin-top: 16px; }
+.rcp-practice-reference { color: #69747e; font-size: 10px; line-height: 1.7; margin-top: 10px; padding-top: 13px; border-top: 1px solid #e6e9eb; }
+.rcp-practice-reference strong { color: #536071; font-weight: 600; }
+.rcp-practice-reference a { display: inline-flex; gap: 4px; align-items: center; color: #a44016; margin-top: 4px; }
+.rcp-practice-guide { display: grid; grid-template-columns: .8fr 1.6fr; align-items: center; gap: 30px; padding-block: 34px 28px; }
+.rcp-practice-guide h2 { font-size: 25px; line-height: 1.25; font-weight: 650; letter-spacing: -.7px; margin-block: 10px 8px; }
+.rcp-practice-guide > div > p:last-child { color: #69747e; font-size: 12px; line-height: 1.7; }
+.rcp-practice-guide ol { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.rcp-practice-guide li > span { display: inline-block; color: #a44016; font-size: 10px; font-weight: 650; margin-bottom: 8px; }
+.rcp-practice-guide h3 { font-size: 12px; font-weight: 650; }
+.rcp-practice-guide li p { color: #69747e; font-size: 11px; line-height: 1.7; margin-top: 6px; }
+.rcp-practice-footer-note { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-top: 16px; border-top: 1px solid #dfe3e4; }
+.rcp-practice-footer-note p { max-width: 680px; color: #69747e; font-size: 11px; line-height: 1.7; }
+.rcp-practice-footer-note a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; flex-shrink: 0; color: #a44016; font-size: 12px; font-weight: 600; }
+.grcp-practice button:disabled, .grcp-practice input:disabled { opacity: .5; cursor: not-allowed; }
+.grcp-practice :focus-visible { outline: 3px solid #257aa7; outline-offset: 3px; }
+.rcp-practice-stage:focus-visible { outline-color: #ffb287; }
+.rcp-practice-workspace.is-focused { position: fixed; inset: 0; z-index: 60; display: flex; align-items: stretch; justify-content: center; border-radius: 0; border: 0; background: #142232; overflow-y: auto; padding: 20px; }
+.is-focused .rcp-practice-settings { display: none; }
+.is-focused .rcp-practice-trainer { width: min(720px, 100%); padding: 0; display: flex; flex-direction: column; }
+.is-focused .rcp-practice-stage { display: flex; flex-direction: column; flex: 1; padding-inline: 10px; min-height: 300px; }
+.is-focused .rcp-practice-pulse-area { flex: 1; min-height: 210px; }
+.is-focused .rcp-practice-pulse { width: min(30vh, 250px); min-width: 160px; }
+.is-focused .rcp-practice-pulse strong { font-size: 75px; }
+.is-focused .rcp-practice-pulse > span { font-size: 11px; }
+.is-focused .rcp-practice-cue { font-size: 14px; }
+.is-focused .rcp-practice-reset { color: #d3dce4; border-color: #65717d; }
+.is-focused .rcp-practice-progress > div { background: #ffffff1a; }
+.is-focused .rcp-practice-help, .is-focused .rcp-practice-progress > span { color: #b6c3cf; }
+.rcp-practice-focus-tempo { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 8px; color: #d3dce4; font-size: 12px; }
+.rcp-practice-focus-tempo > button { color: #fff; border-color: #65717d; }
+@media (max-width: 900px) {
+  .rcp-practice-workspace { grid-template-columns: 1.1fr 1fr; }
+  .rcp-practice-settings { padding: 20px; }
+  .rcp-practice-stage { padding-inline: 14px; }
+  .rcp-practice-focus > span { display: none; }
+  .rcp-practice-focus { min-width: 44px; justify-content: center; }
+  .rcp-practice-signals > button { gap: 6px; padding: 8px; }
+  .rcp-practice-signals i { display: none; }
+  .rcp-practice-guide { grid-template-columns: 1fr; gap: 22px; }
+}
+@media (max-width: 700px) {
+  .rcp-practice-container { padding-block: 28px; }
+  .rcp-practice-intro { display: block; margin-bottom: 18px; }
+  .rcp-practice-intro h1 { font-size: 33px; letter-spacing: -1.2px; }
+  .rcp-practice-intro > div > p:last-child { font-size: 13px; }
+  .rcp-practice-back { margin-top: 8px; }
+  .rcp-practice-workspace { grid-template-columns: 1fr; }
+  .rcp-practice-trainer { padding: 12px; }
+  .rcp-practice-stage { padding: 10px 12px 16px; }
+  .rcp-practice-pulse { width: 145px; }
+  .rcp-practice-pulse strong { font-size: 49px; }
+  .rcp-practice-pulse-area { padding-block: 12px; }
+  .rcp-practice-cue { margin-bottom: 14px; }
+  .rcp-practice-stats > div { padding-inline: 5px; }
+  .rcp-practice-stats dd { font-size: 20px; }
+  .rcp-practice-stats dt { font-size: 9px; }
+  .rcp-practice-settings { border-left: 0; border-top: 1px solid #e6e9eb; padding: 20px; }
+  .rcp-practice-signals i { display: block; }
+  .rcp-practice-footer-note { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .rcp-practice-workspace.is-focused { padding: 12px; }
+}
+@media (max-width: 420px) {
+  .rcp-practice-intro h1 { font-size: 30px; }
+  .rcp-practice-start { font-size: 12px; }
+  .rcp-practice-reset { min-width: 44px; }
+  .rcp-practice-reset span { display: none; }
+  .rcp-practice-settings { padding: 16px; }
+  .rcp-practice-guide ol { grid-template-columns: 1fr; gap: 16px; }
+  .rcp-practice-guide li { display: flex; align-items: flex-start; gap: 14px; }
+  .rcp-practice-guide li > span { margin-top: 3px; }
+}
+@media (prefers-reduced-motion: reduce) { .rcp-practice-pulse.is-lit { box-shadow: none; } }

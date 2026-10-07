@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "test:dea": "node --test tests/dea*.test.mjs",
+    "test:rcp": "node --test tests/rcp*.test.mjs",
     "dea:sql": "node scripts/build-dea-sql.mjs",
     "dea:convert": "node scripts/convert-dea.mjs",
     "preview": "vite preview",
