@@ -16,6 +16,7 @@ export function Footer() {
         <Link to="/MapaDEA">Mapa DEA</Link>
         <Link to="/rcp">Aprendé RCP</Link>
         <Link to="/Nosotros">Nosotros</Link>
+        <Link to="/Portal">Portal institucional</Link>
       </nav>
       <div className="grcp-footer-contact">
         <h2>Hablemos</h2>

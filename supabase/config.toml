@@ -1,0 +1,3 @@
+[functions.grcp-invite]
+# getUser(token) + get_portal_context verifican identidad y permiso en la función.
+verify_jwt = false

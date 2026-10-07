@@ -11,7 +11,7 @@ En el SQL Editor de **ese proyecto**, ejecutar en orden:
 
 La carga inicial publica los puntos **sin verificar**, con acceso y disponibilidad **sin confirmar**. El archivo de origen no proporciona direcciones, localidades, provincias ni horarios estructurados: se dejan vacíos y se completan en el panel. Esto no es un inventario exhaustivo de todos los DEA de Argentina.
 
-## 2. Crear la única cuenta de gestión
+## 2. Crear la única cuenta de gestión del mapa
 
 En **Authentication → Users**, crear `gruporcpsa@gmail.com` con contraseña y email confirmado (o confirmar su email si ya existe). Crear el usuario con las herramientas de Authentication; no insertar contraseñas ni usuarios mediante SQL.
 
@@ -22,7 +22,9 @@ En la configuración de Authentication:
 - Mantener deshabilitados el inicio anónimo y los proveedores que no se utilicen.
 - Durante el desarrollo, configurar Site URL `http://localhost:3001` y permitir la URL de redirección `http://localhost:3001/PanelDEA` para recuperación de contraseña. Al publicar el sitio, configurar el dominio definitivo y su ruta `/PanelDEA`.
 
-La base comprueba el ID real de la sesión en `auth.users`, el email exacto y su confirmación. Ninguna otra cuenta puede administrar DEA aunque llegue a iniciar sesión. El sitio no tiene registro público ni gestión de usuarios. Si ya hay cuentas ajenas en Authentication, el propietario debe revisarlas; estos SQL no las eliminan.
+La base comprueba el ID real de la sesión en `auth.users`, el email exacto y su confirmación. Ninguna otra cuenta puede administrar DEA aunque llegue a iniciar sesión. El sitio no tiene registro público. El nuevo portal permite asignar accesos institucionales separados; esas cuentas no pueden administrar el mapa público. Estos SQL no eliminan cuentas Auth.
+
+Para instalar el **portal institucional**, seguir [PORTAL-INSTITUCIONAL.md](./PORTAL-INSTITUCIONAL.md) y ejecutar únicamente `03-instalar-portal.sql` como ampliación. No volver a ejecutar la instalación del mapa.
 
 ## 3. Conectar el sitio
 

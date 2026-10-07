@@ -1,5 +1,6 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState, useEffect, lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { authLinkType } from './lib/authLink';
 import ScrollToTop from './components/ScrollToTop';
 import Navbar from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -26,9 +27,16 @@ import PWAInstallBanner from './components/PWAInstallBanner';
 
 const MapaDEA = lazy(() => import('./pages/MapaDEA'));
 const PanelDEA = lazy(() => import('./pages/PanelDEA'));
+const Portal = lazy(() => import('./pages/Portal'));
 
-function App() {
+function SiteApp() {
   const [darkMode, setDarkMode] = useState(false);
+  const location = useLocation();
+  const [inviteLanding, setInviteLanding] = useState(() => authLinkType === 'invite' && location.pathname === '/');
+  const privatePortal = inviteLanding || /^\/(portal|gestion)(\/|$)/i.test(location.pathname);
+  useEffect(() => {
+    if (inviteLanding && location.pathname !== '/') setInviteLanding(false);
+  }, [inviteLanding, location.pathname]);
 
   useEffect(() => {
     setDarkMode(true);
@@ -39,16 +47,13 @@ function App() {
   };
 
   return (
-    <Router>
       <div className={`App ${darkMode ? 'dark' : ''}`}>
-        <Analytics />
-        <SpeedInsights />
-        <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+        {!privatePortal && <><Analytics /><SpeedInsights /><Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} /></>}
         <ScrollToTop />
         <main id="main-content" tabIndex={-1}>
         <Suspense fallback={<p className="p-8 text-center" role="status">Cargando…</p>}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={inviteLanding ? <Navigate to={{ pathname: '/Portal', hash: location.hash }} replace /> : <Home />} />
           <Route path="/Nosotros" element={<Nosotros />} />
           <Route path="/Escuelas" element={<EscuelasPage />} />
           <Route path="/News" element={<BlogPage />} />
@@ -60,6 +65,8 @@ function App() {
           <Route path="/Mineras" element={<Minero />} />
           <Route path="/MapaDEA" element={<MapaDEA />} />
           <Route path="/PanelDEA" element={<PanelDEA />} />
+          <Route path="/Portal/*" element={<Portal />} />
+          <Route path="/Gestion" element={<Navigate to="/Portal" replace />} />
           <Route path="/Rcp-game" element={<RcpGame />} />
           <Route path="/Practica-rcp" element={<RCPPractice />} />
           <Route path="/RA-Menu" element={<RA_Menu />} />
@@ -70,12 +77,9 @@ function App() {
         </Routes>
         </Suspense>
         </main>
-        <PWAInstallBanner />
-        <ContactButton />
-        <Footer />
+        {!privatePortal && <><PWAInstallBanner /><ContactButton /><Footer /></>}
       </div>
-    </Router>
   );
 }
 
-export default App;
+export default function App() { return <Router><SiteApp /></Router>; }
