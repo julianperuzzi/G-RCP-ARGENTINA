@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { X, Plus, Trash2, Upload, Save } from "lucide-react";
+import { LocationPicker } from "./PortalLocationMap";
+import { locationPayload } from "../../lib/portalLocations";
 import {
   label,
   localDate,
@@ -332,6 +334,7 @@ export default function PortalEditor({
         }),
       );
       if (entity === "memberships") payload.email = payload.email.toLowerCase();
+      if (["institutions", "sites"].includes(entity)) Object.assign(payload, locationPayload(values));
       if (entity === "inspections") payload.checklist = values.checklist || [];
       if (entity === "assets") {
         if (values.kind === "dea") payload.expires_on = null;
@@ -407,8 +410,9 @@ export default function PortalEditor({
         </header>
         {entity === "memberships" && (
           <p className="portal-alert">
-            Asigná el correo que usará esta persona. La cuenta de acceso se crea
-            o invita desde Supabase Auth; asignar un permiso no envía un correo.
+            Asigná el correo que usará esta persona. Después de guardar, usá
+            Enviar invitación para que elija su contraseña. Guardar el permiso
+            no envía un correo.
           </p>
         )}
         {entity === "activities" && (
@@ -495,6 +499,9 @@ export default function PortalEditor({
                 )}
               </label>
             ))}
+            {["institutions", "sites"].includes(entity) && (
+              <LocationPicker values={values} onChange={(point) => setValues((old) => ({ ...old, ...point }))} />
+            )}
             {entity === "inspections" && (
               <div className="wide portal-check-builder">
                 <strong>Puntos de control</strong>

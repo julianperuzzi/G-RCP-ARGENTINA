@@ -1947,6 +1947,28 @@
   justify-content: flex-end;
   margin: -12px 0 22px;
 }
+
+.portal-location-pin span { display: block; width: 26px; height: 26px; background: #c74712; border: 4px solid white; border-radius: 50%; box-shadow: 0 2px 8px #14223265; }
+.portal-map-canvas-wrap { min-width: 0; }
+.portal-map-canvas { height: 510px; width: 100%; border-radius: 16px; z-index: 0; background: #edf1f3; }
+.portal-map-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(250px, 330px); gap: 18px; align-items: start; }
+.portal-map-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 18px; font-size: 13px; color: #526274; }
+.portal-map-toolbar p { margin-right: auto; }
+.portal-map-toolbar label { display: flex; gap: 8px; align-items: center; }
+.portal-map-list { max-height: 510px; overflow-y: auto; display: grid; gap: 12px; padding: 2px; }
+.portal-map-place { background: white; border: 1px solid #dce3e8; border-radius: 14px; padding: 15px; min-width: 0; }
+.portal-map-place.selected { border-color: #c74712; box-shadow: 0 0 0 1px #c74712; }
+.portal-map-place-select { display: flex; flex-direction: column; gap: 7px; text-align: left; width: 100%; background: transparent; border: 0; color: #152b3e; padding: 0 0 14px; cursor: pointer; overflow-wrap: anywhere; }
+.portal-map-place-select > span:not(.portal-eyebrow) { font-size: 12px; color: #647487; }
+.portal-map-place .portal-row-actions { flex-wrap: wrap; gap: 12px; }
+.portal-map-place .portal-text-button { font-size: 11px; }
+.portal-map-place-select .portal-location-pending { color: #a44717 !important; }
+.portal-location-picker { margin-top: 8px; border-top: 1px solid #dce3e8; padding-top: 20px; min-width: 0; }
+.portal-location-picker > strong { display: flex; gap: 8px; align-items: center; }
+.portal-location-picker .portal-map-canvas { height: 260px; margin: 14px 0; }
+.portal-location-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 12px; }
+@media (max-width: 1150px) { .portal-map-layout { grid-template-columns: minmax(0, 1fr); } .portal-map-canvas { height: 380px; } .portal-map-list { grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: none; } }
+@media (max-width: 650px) { .portal-map-canvas { height: 320px; } .portal-map-list { grid-template-columns: minmax(0, 1fr); } .portal-location-inputs { grid-template-columns: minmax(0, 1fr); gap: 10px; } .portal-map-toolbar { gap: 10px; } }
 .portal-export-actions .portal-text-button {
   font-size: 10px;
   color: #768495;

@@ -56,11 +56,13 @@ import {
 } from "../lib/portalExports";
 import PortalLogin from "../components/portal/PortalLogin";
 import PortalEditor from "../components/portal/PortalEditor";
+import InstitutionMap from "../components/portal/PortalLocationMap";
 import "./portal.css";
 
 const MODULES = [
   ["resumen", "Resumen", LayoutDashboard],
   ["instituciones", "Instituciones", Building2, "admin"],
+  ["mapa", "Mapa de instituciones", MapPin, "admin"],
   ["calendario", "Calendario", CalendarDays],
   ["sedes", "Sedes", MapPin],
   ["equipamiento", "Equipamiento", HeartPulse],
@@ -74,6 +76,7 @@ const MODULES = [
 const DESCRIPTIONS = {
   resumen: "Un panorama de tu preparación y lo que viene.",
   instituciones: "Cada institución, con su información y seguimiento.",
+  mapa: "Todas las instituciones y sus sedes, con acceso a su ficha y ubicación.",
   calendario: "Organizá capacitaciones, revisiones y simulacros.",
   sedes: "Los espacios que forman parte de esta institución.",
   equipamiento: "Equipos y elementos, con sus fechas y estado registrado.",
@@ -1113,7 +1116,7 @@ export default function Portal() {
             </span>
           </div>
           <div>
-            {institutions.length > 0 && (
+            {institutions.length > 0 && tab !== "mapa" && (
               <label className="portal-institution-select">
                 <Building2 size={16} />
                 <select
@@ -1224,7 +1227,7 @@ export default function Portal() {
               usuarios no tienen acceso.
             </p>
           )}
-          {!tenant && tab !== "instituciones" ? (
+          {!tenant && !["instituciones", "mapa"].includes(tab) ? (
             <Empty
               text={
                 isAdmin
@@ -1294,6 +1297,10 @@ export default function Portal() {
                   onGo={go}
                   onDetail={setDetail}
                 />
+              )}
+              {tab === "mapa" && isAdmin && (
+                <InstitutionMap institutions={institutions} sites={portal.data.sites} search={search}
+                  onEdit={edit} onOpen={(id) => { setInstitutionId(id); go("resumen"); }} />
               )}
               {tab === "instituciones" &&
                 (list("institutions").length ? (
@@ -1709,9 +1716,8 @@ export default function Portal() {
                   )}
                   <p className="portal-muted portal-access-help">
                     Después de asignar el correo, enviá la invitación para que
-                    la persona prepare su contraseña. También podés crear o
-                    invitar la cuenta desde Supabase Auth. El enlace de acceso
-                    debe apuntar a /Portal.
+                    la persona elija su contraseña. Si ya tiene una cuenta,
+                    puede ingresar con ella o recuperar el acceso desde el portal.
                   </p>
                 </>
               )}

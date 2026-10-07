@@ -4,7 +4,17 @@ Proyecto destino: **tfueuppotcanagvgxpca** · https://tfueuppotcanagvgxpca.supab
 
 **Activado el 7 de octubre de 2026** en este proyecto: SQL `03`, bucket privado, función `grcp-invite` (versión 1) y configuración de Auth. El sitio está publicado en https://grcp-arg.com/Portal. **No volver a ejecutar `03` en este proyecto.** La instalación no modifica las tablas del mapa DEA ni publica inventarios institucionales.
 
-**Pendiente: proveedor SMTP.** El propietario confirmó que todavía no tiene uno. La administración y el ingreso de cuentas existentes están disponibles; las invitaciones y recuperaciones para correos externos no están listas para producción. No se enviaron correos ni se crearon cuentas de prueba.
+**Pendiente: conexión SMTP.** El propietario verificó `grcp-arg.com` en Resend. Falta conectar la clave de envío a Supabase y comprobar una invitación real. La administración y el ingreso de cuentas existentes están disponibles; las invitaciones y recuperaciones para correos externos todavía no están listas para producción. No se enviaron correos ni se crearon cuentas Auth de prueba.
+
+## Mapa de instituciones
+
+`/Portal/mapa` es una vista exclusiva de GRCP con todas las instituciones y sus sedes no archivadas. Permite buscar, mostrar pendientes de ubicar, abrir la ficha, editar la ubicación y abrir indicaciones externas. Las instituciones pausadas se identifican en la lista. Usa Leaflet/OpenStreetMap; no publica datos en el mapa DEA público.
+
+Los formularios de institución y sede permiten tocar el mapa, arrastrar el marcador o ingresar latitud/longitud. La dirección escrita no geocodifica automáticamente. Si se quita la ubicación, se borran ambas coordenadas. La base valida rangos y pares completos, conserva RLS y registra cambios en la auditoría.
+
+La migración `20261007044329_portal_institution_locations.sql` **ya se aplicó en producción** el 7 de octubre de 2026. Para un entorno nuevo, ejecutar después de `03-instalar-portal.sql`. No repetir en el proyecto actual.
+
+DISEI SRL se registró como primera institución real con el correo responsable y el punto de Google Maps proporcionados por el propietario. No se inventaron revisiones, equipos, capacitaciones ni certificados. La membresía está preparada; el alta Auth mediante invitación queda pendiente de SMTP.
 
 ## Estado verificado en Supabase
 
@@ -22,10 +32,12 @@ Proyecto destino: **tfueuppotcanagvgxpca** · https://tfueuppotcanagvgxpca.supab
 
 Una opción compatible es [Resend con Supabase SMTP](https://resend.com/docs/send-with-supabase-smtp). Requiere una cuenta del propietario y validar un dominio de envío mediante sus registros DNS. No usar un remitente `@gmail.com` con un dominio que no se controla.
 
-1. Crear la cuenta del proveedor y verificar el dominio de envío de GRCP.
+1. Cuenta Resend y dominio `grcp-arg.com`: verificados por el propietario.
 2. En Supabase → Authentication → Email → SMTP Settings, cargar los datos SMTP que entregue el proveedor y elegir el nombre de remitente `GRCP Argentina`.
 3. Ingresar las credenciales directamente en Supabase; nunca agregarlas al repositorio, a variables `VITE_` ni al chat. `config.toml` no declara SMTP y no sobrescribe esa configuración.
 4. Autorizar y enviar una invitación de prueba a un correo controlado por GRCP, completar el enlace y comprobar recuperación de contraseña. Después probar un acceso institucional y sus archivos privados.
+
+Datos para Resend: host `smtp.resend.com`, puerto `465`, usuario `resend`, contraseña = API key con permiso de envío sobre el dominio verificado; remitente propuesto `GRCP Argentina <accesos@grcp-arg.com>`. La clave puede prepararse en `.env.smtp.local` (ignorado por Git), nunca en el código público. Las plantillas en español están en `supabase/templates/`; Supabase permite aplicarlas una vez habilitado SMTP propio. El intento previo con el proveedor predeterminado fue rechazado y no se da por desplegado.
 
 El servicio de correo predeterminado de Supabase solo envía a miembros autorizados del equipo del proyecto; no sirve para incorporar instituciones externas. [Documentación de SMTP](https://supabase.com/docs/guides/auth/auth-smtp).
 

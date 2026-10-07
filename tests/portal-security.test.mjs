@@ -49,6 +49,7 @@ test("portal institucional: SQL real, permisos y separación de instituciones", 
         "utf8",
       ),
     );
+    await db.exec(await readFile(new URL("../supabase/migrations/20261007044329_portal_institution_locations.sql", import.meta.url), "utf8"));
     await as("admin");
     const a = await insert("portal_institutions", { name: "Escuela A" });
     const b = await insert("portal_institutions", { name: "Empresa B" });
@@ -516,6 +517,19 @@ test("portal institucional: SQL real, permisos y separación de instituciones", 
         );
       },
     );
+    await t.test("coordenadas privadas: rangos, pares completos y edición solo GRCP", async () => {
+      await as("admin");
+      await db.query("update public.portal_institutions set latitude=-31.515513,longitude=-68.512981 where id=$1", [a.id]);
+      await db.query("update public.portal_sites set latitude=-31.5,longitude=-68.5 where id=$1", [siteB.id]);
+      await assert.rejects(db.query("update public.portal_institutions set latitude=91 where id=$1", [a.id]), /check constraint/);
+      await assert.rejects(db.query("update public.portal_sites set longitude=null where id=$1", [siteB.id]), /check constraint/);
+      await as("a");
+      assert.equal((await db.query("select latitude from public.portal_institutions where id=$1", [a.id])).rows[0].latitude,-31.515513);
+      assert.equal((await db.query("update public.portal_institutions set latitude=0,longitude=0 where id=$1 returning id", [a.id])).rows.length,0);
+      assert.equal((await db.query("select * from public.portal_sites where id=$1", [siteB.id])).rows.length,0);
+      await as("anon");
+      await assert.rejects(db.query("select latitude,longitude from public.portal_institutions"), /permission denied/);
+    });
     await t.test(
       "auditoría protegida y permiso DEA original intacto",
       async () => {

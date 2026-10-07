@@ -21,6 +21,8 @@ export function createPortalDemo() {
         city: "San Juan",
         province: "San Juan",
         address: "Dirección de demostración",
+        latitude: -31.5375,
+        longitude: -68.5364,
         contact_name: "Responsable institucional",
         contact_email: "responsable@example.com",
         contact_phone: "",

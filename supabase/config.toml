@@ -9,6 +9,14 @@ enable_anonymous_sign_ins = false
 enable_signup = true
 enable_confirmations = true
 
+[auth.email.template.invite]
+subject = "Tu acceso al portal institucional GRCP"
+content_path = "./supabase/templates/invite.html"
+
+[auth.email.template.recovery]
+subject = "Recuperá tu contraseña de GRCP"
+content_path = "./supabase/templates/recovery.html"
+
 [functions.grcp-invite]
 # getUser(token) + get_portal_context verifican identidad y permiso en la función.
 verify_jwt = false
