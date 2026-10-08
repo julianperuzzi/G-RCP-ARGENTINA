@@ -1,4 +1,3 @@
-import React from 'react';
 import underDevelopmentImage from '../assets/img 404/under-development.jpg'; // Importa la imagen de "En desarrollo"
 import { Link } from 'react-router-dom';
 

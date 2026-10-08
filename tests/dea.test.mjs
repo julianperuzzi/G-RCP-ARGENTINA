@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { PGlite } from '@electric-sql/pglite';
 import { zipSync, strToU8 } from 'fflate';
-import { distanceKm, validateDea, directionsUrl } from '../src/lib/dea.js';
+import { distanceKm, validateDea, directionsUrl, potentialDeaDuplicates } from '../src/lib/dea.js';
 import { parseDeaFile } from '../src/lib/deaImport.js';
 
 test('distance, coordinate validation and destination navigation', () => {
@@ -16,6 +16,16 @@ test('distance, coordinate validation and destination navigation', () => {
   assert.equal(url.searchParams.get('destination'),'-34,-58');
   assert.equal(url.searchParams.get('travelmode'),'driving');
   assert.equal(url.searchParams.has('origin'),false);
+});
+
+test('advierte coincidencias cercanas sin bloquear ubicaciones legítimas', () => {
+  const records = [
+    { id: 'one', name: 'Estación Central', address: 'San Martín 100', city: 'San Juan', latitude: -31.53, longitude: -68.52 },
+    { id: 'two', name: 'Sede Norte', address: 'Otra calle', city: 'San Juan', latitude: -31.6, longitude: -68.6 },
+  ];
+  assert.deepEqual(potentialDeaDuplicates(records, { name: 'Nuevo DEA', latitude: -31.5301, longitude: -68.52 }).map((row) => row.id), ['one']);
+  assert.deepEqual(potentialDeaDuplicates(records, { name: 'Estación Central', address: 'San Martín 100', city: 'San Juan', latitude: -31.55, longitude: -68.55 }).map((row) => row.id), ['one']);
+  assert.equal(potentialDeaDuplicates(records, { name: 'Nuevo DEA', latitude: -31.5301, longitude: -68.52 }, 'one').length, 0);
 });
 
 test('KML imports remove markup, reject invalid and duplicate points, and block XML entities', () => {

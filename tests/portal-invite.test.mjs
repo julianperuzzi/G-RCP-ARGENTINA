@@ -40,17 +40,21 @@ function runtime({
         eq: () => ({
           single: async () => ({
             data:
-              table === "portal_memberships"
-                ? {
+              table === "portal_operators"
+                ? { email: "operator@example.com", active, invite_count: 0 }
+                : table === "portal_memberships"
+                  ? {
                     email: "member@example.com",
                     institution_id: "institution",
                     active,
+                    invite_count: 0,
                   }
                 : { status, archived_at: null },
             error: null,
           }),
         }),
       }),
+      update: () => ({ eq: async () => ({ error: null }) }),
     }),
   };
   vm.runInNewContext(source, {
@@ -139,4 +143,17 @@ test("cuenta existente y límite de correo se informan sin exponer credenciales"
   );
   assert.equal(limit.status, 400);
   assert.match((await limit.json()).message, /límite/);
+});
+test('invitación de operador exige cuenta principal y operador activo', async () => {
+  const body = { operator_id: '11111111-1111-4111-8111-111111111111', email: 'attacker@example.com', redirectTo: 'https://untrusted.example' };
+  const guest = runtime({ admin: false });
+  assert.equal((await guest.handler(request(body))).status, 403);
+  assert.equal(guest.invitations.length, 0);
+  const disabled = runtime({ active: false });
+  assert.equal((await disabled.handler(request(body))).status, 400);
+  const owner = runtime();
+  assert.equal((await owner.handler(request(body))).status, 200);
+  assert.equal(owner.invitations[0].email, 'operator@example.com');
+  assert.equal(owner.invitations[0].options.redirectTo, 'https://grcp-arg.com/Portal');
+  assert.equal((await runtime().handler(request({ ...body, membership_id: body.operator_id }))).status, 400);
 });

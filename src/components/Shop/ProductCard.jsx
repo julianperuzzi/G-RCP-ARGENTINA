@@ -1,9 +1,11 @@
-import { Plus, Package, Star } from "lucide-react";
+import { Plus, Package } from "lucide-react";
+import PropTypes from "prop-types";
+import { hasStock, sellingPrice } from '../../lib/shopCatalog';
 
 export default function ProductCard({ product, onSelect, onAddToCart }) {
-  const isOutOfStock = parseInt(product.stock) === 0;
-  const hasDiscount = product.descuento && product.descuento !== "";
-  const finalPrice = hasDiscount ? parseFloat(product.descuento) : parseFloat(product.precio);
+  const isOutOfStock = !hasStock(product);
+  const hasDiscount = Number(product.descuento) > 0 && Number(product.descuento) < Number(product.precio);
+  const finalPrice = sellingPrice(product);
   const discountPercent = hasDiscount
     ? Math.round(((parseFloat(product.precio) - parseFloat(product.descuento)) / parseFloat(product.precio)) * 100)
     : 0;
@@ -34,7 +36,7 @@ export default function ProductCard({ product, onSelect, onAddToCart }) {
       </div>
 
       <div className="p-4 flex flex-col flex-1">
-        <h3 className="font-extrabold text-lg text-gray-900 mb-1 line-clamp-2">{product.nombre}</h3>
+        <h2 className="font-extrabold text-lg text-gray-900 mb-1 line-clamp-2">{product.nombre}</h2>
         <p className="text-gray-600 text-sm mb-2 line-clamp-2">{product.descripcion}</p>
 
         <div className="flex items-center justify-between mb-2">
@@ -47,11 +49,6 @@ export default function ProductCard({ product, onSelect, onAddToCart }) {
             ) : (
               <span className="text-blue-700 font-bold text-xl">${finalPrice.toLocaleString()}</span>
             )}
-          </div>
-          <div className="flex text-yellow-400">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-4 h-4 fill-current" />
-            ))}
           </div>
         </div>
 
@@ -70,7 +67,7 @@ export default function ProductCard({ product, onSelect, onAddToCart }) {
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                 : "bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 hover:from-yellow-500 hover:to-yellow-400 active:scale-95"}
             `}
-            aria-label="Agregar al carrito"
+            aria-label={`Agregar ${product.nombre} al carrito`}
           >
             <Plus className="w-5 h-5" />
           </button>
@@ -79,3 +76,16 @@ export default function ProductCard({ product, onSelect, onAddToCart }) {
     </div>
   );
 }
+
+ProductCard.propTypes = {
+  product: PropTypes.shape({
+    nombre: PropTypes.string.isRequired,
+    descripcion: PropTypes.string,
+    img_url: PropTypes.string,
+    stock: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    precio: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    descuento: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }).isRequired,
+  onSelect: PropTypes.func.isRequired,
+  onAddToCart: PropTypes.func.isRequired,
+};

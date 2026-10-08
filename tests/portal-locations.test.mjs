@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { coordinatesOf, locationPayload, institutionLocations } from "../src/lib/portalLocations.js";
+import { coordinatesOf, locationPayload, institutionLocations, groupNearbyLocations } from "../src/lib/portalLocations.js";
 
 test("ubicaciones: no convierte vacíos en coordenadas 0,0", () => {
   for (const record of [{}, {latitude:null,longitude:null}, {latitude:"",longitude:""}, {latitude:" ",longitude:0}, {latitude:0,longitude:null}]) {
@@ -20,4 +20,16 @@ test("mapa institucional: excluye archivos y sedes de instituciones archivadas",
   assert.notEqual(rows[0].mapId,rows[1].mapId);
   assert.equal(rows[1].institutionName,"A");
   assert.equal(rows[1].institutionId,"a");
+});
+test('mapa institucional: agrupa puntos próximos sin perder las ubicaciones individuales', () => {
+  const records = [
+    { id: 'inst', latitude: -31.514755, longitude: -68.513156 },
+    { id: 'central', latitude: -31.514780, longitude: -68.513237 },
+    { id: 'chimbas', latitude: -31.485718, longitude: -68.491977 },
+    { id: 'pending', latitude: null, longitude: null },
+  ];
+  const groups = groupNearbyLocations(records);
+  assert.equal(groups.length, 2);
+  assert.deepEqual(groups[0].rows.map((row) => row.id), ['inst', 'central']);
+  assert.deepEqual(groups[1].rows.map((row) => row.id), ['chimbas']);
 });

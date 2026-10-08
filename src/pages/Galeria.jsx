@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -32,6 +32,7 @@ const images = [
 const Galeria = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [visibleImages, setVisibleImages] = useState(12);
+  const closeButtonRef = useRef(null);
 
   useEffect(() => {
     AOS.init({
@@ -40,8 +41,20 @@ const Galeria = () => {
     });
   }, []);
 
-  const openModal = (image) => {
-    setSelectedImage(image);
+  useEffect(() => {
+    if (!selectedImage) return;
+    const previousFocus = document.activeElement;
+    closeButtonRef.current?.focus();
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') setSelectedImage(null);
+      if (event.key === 'Tab') { event.preventDefault(); closeButtonRef.current?.focus(); }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => { document.removeEventListener('keydown', onKeyDown); previousFocus?.focus?.(); };
+  }, [selectedImage]);
+
+  const openModal = (image, index) => {
+    setSelectedImage({ ...image, index });
   };
 
   const closeModal = () => {
@@ -52,28 +65,22 @@ const Galeria = () => {
     setVisibleImages((prevVisibleImages) => prevVisibleImages + 12);
   };
 
-  // Open image in a new tab
-  const viewImage = (imageSrc) => {
-    window.open(imageSrc, "_blank");
-  };
-
   return (
     <div className="bg-gray-100 dark:bg-slate-900 text-gray-800 dark:text-white min-h-screen px-2">
       <div className="container mx-auto py-8">
-        <h3 className="md:text-4xl text-2xl font-bold text-center mb-8 border-gray-600 border-b-2 pb-6 uppercase">
+        <h1 className="md:text-4xl text-2xl font-bold text-center mb-8 border-gray-600 border-b-2 pb-6 uppercase">
           Galería de Fotos
-        </h3>
+        </h1>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
           {images.slice(0, visibleImages).map((image, index) => (
             <div key={index} className="relative " data-aos="fade-up">
-              <div className="hover:scale-105 transition-transform duration-300">
+              <button type="button" aria-label={`Abrir foto ${index + 1}`} className="block w-full hover:scale-105 transition-transform duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-500" onClick={() => openModal(image, index)}>
                 <img
                   src={image.src}
                   alt={image.alt}
-                  className="w-full h-full object-cover shadow-lg rounded transform cursor-pointer"
-                  onClick={() => openModal(image)}
+                  className="w-full h-full object-cover shadow-lg rounded transform"
                 />
-              </div>
+              </button>
             </div>
           ))}
         </div>
@@ -90,17 +97,19 @@ const Galeria = () => {
       </div>
 
       {selectedImage && (
-        <div className="fixed inset-0 bg-black backdrop-blur-lg bg-opacity-65 flex items-center justify-center z-50">
+        <div role="dialog" aria-modal="true" aria-label={`Foto ${selectedImage.index + 1} ampliada`} className="fixed inset-0 bg-black backdrop-blur-lg bg-opacity-65 flex items-center justify-center z-50">
           <div className="relative">
             <button
+              ref={closeButtonRef}
               className="absolute top-2 right-2 text-white bg-black px-2 text-2xl"
               onClick={closeModal}
+              aria-label="Cerrar foto"
             >
               &times;
             </button>
             <img
               src={selectedImage.src}
-              alt={selectedImage.alt}
+              alt={`Foto ${selectedImage.index + 1} de la galería GRCP`}
               className="md:max-h-[75vh] max-h-full max-w-full"
             />
             <div className="text-center mt-4">

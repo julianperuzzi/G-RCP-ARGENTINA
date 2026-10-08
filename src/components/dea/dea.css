@@ -126,24 +126,47 @@
 .dea-upload-button input { width: 1px; height: 1px; opacity: 0; position: absolute; }
 .dea-upload-button:focus-within { outline: 3px solid #257aa7; outline-offset: 3px; }
 .dea-upload-button.is-disabled { opacity: .5; }
-.dea-table-wrap { overflow-x: auto; border: 1px solid #dfe3e6; border-radius: 9px; background: #fff; }
-.dea-table-wrap table { width: 100%; border-collapse: collapse; min-width: 720px; text-align: left; }
-.dea-table-wrap th { font-size: 11px; font-weight: 600; color: #65717d; background: #f3f4f3; padding: 15px; }
-.dea-table-wrap td { font-size: 12px; padding: 16px 15px; border-top: 1px solid #eceeef; color: #536071; vertical-align: top; }
-.dea-table-wrap td > strong { display: block; color: #253343; font-weight: 650; max-width: 300px; }
-.dea-table-wrap small { display: block; font-size: 10px; color: #7a858e; margin-top: 6px; }
-.dea-row-actions { display: flex; gap: 7px; }
-.dea-row-actions button { padding: 7px; border: 1px solid #e2e5e8; border-radius: 5px; font-size: 11px; }
-.dea-row-actions button:hover { background: #fff4ec; color: #a44016; }
+.dea-management-map { border: 1px solid #dfe3e6; border-radius: 9px; overflow: hidden; background: #fff; }
+.dea-management-map-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 18px 20px; }
+.dea-management-map-heading h2 { font-size: 19px; font-weight: 700; }
+.dea-management-map-heading p { margin-top: 5px; color: #65717d; font-size: 12px; line-height: 1.6; }
+.dea-management-map-legend { display: flex; flex-wrap: wrap; gap: 7px 15px; margin-top: 10px; color: #65717d; font-size: 11px; }
+.dea-management-map-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.dea-management-map-legend i { width: 10px; height: 10px; border-radius: 50%; border: 1px solid #fff; box-shadow: 0 0 0 1px #d5dade; }
+.dea-management-map-legend .is-published { background: #c74712; }
+.dea-management-map-legend .is-draft { background: #d39a3d; }
+.dea-management-map-legend .is-archived { background: #84909a; }
+.dea-map-reset { display: inline-flex; align-items: center; gap: 7px; flex-shrink: 0; padding: 10px 12px; border: 1px solid #d5dade; border-radius: 6px; font-size: 12px; font-weight: 600; }
+.dea-management-map > .dea-error { margin: 0 20px 15px; }
+.dea-management-map-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr); border-top: 1px solid #dfe3e6; }
+.dea-management-map-layout > .dea-map-shell { min-width: 0; }
+.dea-management-map-layout .dea-leaflet-map { height: 600px; }
+.dea-management-map-sidebar { display: flex; flex-direction: column; min-width: 0; height: 600px; border-left: 1px solid #dfe3e6; }
+.dea-management-map-selected { padding: 16px; border-bottom: 1px solid #dfe3e6; background: #fff8f3; }
+.dea-management-map-selected h3 { margin-top: 9px; font-size: 17px; font-weight: 700; line-height: 1.35; }
+.dea-management-map-selected p { margin-top: 6px; font-size: 12px; line-height: 1.6; color: #536071; }
+.dea-management-map-selected small { display: block; margin-top: 5px; font-size: 11px; color: #65717d; }
+.dea-management-map-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 13px; }
+.dea-management-map-actions .grcp-button { padding: 10px 12px; font-size: 12px; }
+.dea-management-map-confirm { margin-top: 14px; padding: 12px; border: 1px solid #edc3b7; border-radius: 6px; background: #fff; }
+.dea-management-map-confirm p { margin: 0 0 10px; color: #963219; }
+.dea-management-map-confirm > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.dea-management-map-confirm .grcp-button { padding: 9px 11px; font-size: 11px; }
+.dea-management-map-list-heading { display: flex; justify-content: space-between; gap: 10px; padding: 12px 15px; font-size: 11px; color: #536071; }
+.dea-management-map-list-heading span { color: #7a858e; text-align: right; }
+.dea-management-map-list { flex: 1; min-height: 0; overflow-y: auto; border-top: 1px solid #eceeef; }
+.dea-management-map-list > button { display: flex; gap: 9px; width: 100%; padding: 11px 15px; border-bottom: 1px solid #eceeef; text-align: left; }
+.dea-management-map-list > button:hover, .dea-management-map-list > button.is-selected { background: #fff4ec; }
+.dea-management-map-list > button > svg { flex-shrink: 0; margin-top: 2px; color: #c74712; }
+.dea-management-map-list strong { display: block; font-size: 12px; line-height: 1.4; }
+.dea-management-map-list small { display: block; margin-top: 3px; font-size: 10px; line-height: 1.5; color: #65717d; }
+.dea-management-map-new { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 13px; border-top: 1px solid #dfe3e6; color: #a44016; font-size: 12px; font-weight: 650; }
 .dea-badge { display: inline-block; padding: 5px 8px; border-radius: 5px; background: #f3f4f2; color: #596573; font-size: 10px; }
 .dea-badge.is-published { background: #edf5ef; color: #34644a; }
-.dea-pagination { display: flex; justify-content: flex-end; gap: 16px; margin-top: 20px; align-items: center; font-size: 12px; color: #65717d; }
-.dea-pagination button { padding: 9px 12px; border: 1px solid #d5dade; border-radius: 5px; background: #fff; }
-.dea-import-preview, .dea-confirm-archive, .dea-history { padding: 24px; border: 1px solid #dfe3e6; border-radius: 9px; background: #fff; margin-block: 18px; }
-.dea-import-preview h2, .dea-confirm-archive h2 { font-size: 20px; font-weight: 700; }
-.dea-import-preview p, .dea-confirm-archive p { font-size: 13px; line-height: 1.8; color: #596573; margin-block: 12px; }
+.dea-import-preview, .dea-history { padding: 24px; border: 1px solid #dfe3e6; border-radius: 9px; background: #fff; margin-block: 18px; }
+.dea-import-preview h2 { font-size: 20px; font-weight: 700; }
+.dea-import-preview p { font-size: 13px; line-height: 1.8; color: #596573; margin-block: 12px; }
 .dea-import-preview .dea-checkbox { margin-block: 18px; }
-.dea-confirm-archive > button { margin-right: 12px; }
 .dea-history ul { margin-top: 20px; display: grid; gap: 12px; }
 .dea-history li { display: flex; justify-content: space-between; gap: 12px; padding-top: 12px; border-top: 1px solid #eceeef; font-size: 12px; }
 .dea-history li span { color: #65717d; }
@@ -199,6 +222,9 @@
   .dea-admin-stats { grid-template-columns: 1fr 1fr; }
   .dea-admin-heading { align-items: flex-start; flex-direction: column; gap: 18px; }
   .dea-admin-toolbar .dea-search-field { flex-basis: 100%; }
+  .dea-management-map-layout { grid-template-columns: 1fr; }
+  .dea-management-map-layout .dea-leaflet-map { height: min(55dvh, 480px); min-height: 320px; }
+  .dea-management-map-sidebar { height: 370px; border-left: 0; border-top: 1px solid #dfe3e6; }
   .dea-history li { flex-direction: column; }
 }
 @media (max-width: 480px) {
@@ -218,6 +244,9 @@
   .dea-directions > a { flex: 1; }
   .dea-login-card { padding: 24px; }
   .dea-admin-stats > div { padding: 17px; }
+  .dea-admin-secondary-actions { gap: 12px; }
+  .dea-admin-secondary-actions > span { margin-left: 0; }
+  .dea-management-map-heading { align-items: flex-start; flex-direction: column; }
   .dea-editor-dialog { padding: 20px; }
   .dea-form-grid { grid-template-columns: 1fr; }
   .dea-span-two { grid-column: span 1; }
@@ -230,3 +259,13 @@
 .dea-management-link { display: inline-flex; align-items: center; gap: 6px; padding: 7px 10px; border: 1px solid #dfe3e6; border-radius: 5px; color: #69747e; font-size: 10px; }
 .dea-management-link:hover { background: #fff; color: #253343; }
 @media (max-width: 480px) { .dea-emergency-description { display: none; } }
+.dea-duplicate-warning { margin: 10px 0 15px; padding: 12px 14px; border: 1px solid #efc9a8; border-radius: 8px; background: #fff6ee; color: #713912; font-size: 12px; }
+.dea-duplicate-warning p { margin: 5px 0; }
+.dea-duplicate-warning ul { margin: 6px 0 0; padding-left: 18px; }
+.dea-evidence-panel { display: grid; gap: 7px; margin: 13px 0; padding: 11px; border: 1px solid #dce5eb; border-radius: 8px; background: #f8fafb; }
+.dea-evidence-panel > strong { font-size: 12px; }
+.dea-evidence-panel > small { color: #697b8b; font-size: 11px; }
+.dea-evidence-panel > button { display: flex; align-items: center; gap: 7px; min-width: 0; padding: 7px 0; color: #1b3c5c; font-size: 11px; text-align: left; }
+.dea-evidence-panel > button span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dea-evidence-upload { display: inline-flex; align-items: center; gap: 6px; width: fit-content; margin-top: 3px; color: #b13d10; font-size: 11px; font-weight: 700; cursor: pointer; }
+.dea-evidence-upload input { position: absolute; width: 1px; height: 1px; opacity: 0; }

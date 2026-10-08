@@ -1,0 +1,7 @@
+.portal-unsaved-prompt { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; padding: 18px; background: rgba(12, 30, 47, .45); }
+.portal-unsaved-prompt > div { width: min(430px, 100%); padding: 22px; border-radius: 10px; background: white; box-shadow: 0 20px 60px rgba(0,0,0,.18); }
+.portal-unsaved-prompt strong { font-size: 17px; }
+.portal-unsaved-prompt p { color: #5e7082; font-size: 13px; line-height: 1.5; }
+.portal-unsaved-prompt > div > div { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+.portal-unsaved-prompt .portal-button { padding: 10px 13px; border: 1px solid #d3dce4; border-radius: 7px; background: #fff; color: #183046; font-size: 12px; font-weight: 700; cursor: pointer; }
+.portal-unsaved-prompt .portal-button.primary { border-color: #c74712; background: #c74712; color: #fff; }

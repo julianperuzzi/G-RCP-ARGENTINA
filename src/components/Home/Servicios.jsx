@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Building2, GraduationCap, Heart, Users } from 'lucide-react';
 

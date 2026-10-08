@@ -47,11 +47,43 @@ Deno.serve(async (request: Request) => {
     await client.rpc("get_portal_context");
   if (contextError || !context?.is_admin)
     return respond({ message: "Solo GRCP puede invitar usuarios." }, 403);
-  let body: { membership_id?: string };
+  let body: { membership_id?: string; operator_id?: string };
   try {
     body = await request.json();
   } catch {
     return respond({ message: "Solicitud inválida." }, 400);
+  }
+  if (body.operator_id) {
+    if (body.membership_id || !/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(body.operator_id))
+      return respond({ message: "Seleccioná un operador válido." }, 400);
+    const { data: operator, error: operatorError } = await client
+      .from("portal_operators")
+      .select("email,active,invite_count")
+      .eq("id", body.operator_id)
+      .single();
+    if (operatorError || !operator?.active)
+      return respond({ message: "El operador no existe o está deshabilitado." }, 400);
+    const admin = createClient(url, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, {
+      auth: { persistSession: false, autoRefreshToken: false },
+    });
+    const { error: operatorInviteError } = await admin.auth.admin.inviteUserByEmail(
+      operator.email, { redirectTo: portalUrl },
+    );
+    if (operatorInviteError) {
+      await admin.from('portal_operators').update({ invite_failed_at: new Date().toISOString() }).eq('id', body.operator_id);
+      if (["email_exists", "user_already_exists"].includes(operatorInviteError.code || ""))
+        return respond({ message: "La cuenta ya existe. Puede ingresar o recuperar su contraseña desde el portal." }, 409);
+      return respond({ message: operatorInviteError.status === 429
+        ? "Se alcanzó el límite de correos. Esperá unos minutos."
+        : "No se pudo enviar la invitación. Revisá la configuración de correo en Supabase." }, 400);
+    }
+    const { error: statusError } = await admin.from('portal_operators').update({
+      last_invited_at: new Date().toISOString(), invite_failed_at: null,
+      invite_count: Number(operator.invite_count || 0) + 1,
+    }).eq('id', body.operator_id);
+    return respond({ message: statusError
+      ? 'La invitación se envió, pero no se pudo actualizar su estado. Revisá este operador antes de reenviar.'
+      : 'Invitación enviada. El operador podrá elegir su contraseña desde el enlace.' });
   }
   if (
     !body.membership_id ||
@@ -60,7 +92,7 @@ Deno.serve(async (request: Request) => {
     return respond({ message: "Seleccioná un acceso válido." }, 400);
   const { data: membership, error } = await client
     .from("portal_memberships")
-    .select("email,active,institution_id")
+    .select("email,active,institution_id,invite_count")
     .eq("id", body.membership_id)
     .single();
   if (error || !membership?.active)
@@ -87,6 +119,7 @@ Deno.serve(async (request: Request) => {
     { redirectTo: portalUrl },
   );
   if (inviteError) {
+    await admin.from('portal_memberships').update({ invite_failed_at: new Date().toISOString() }).eq('id', body.membership_id);
     if (
       ["email_exists", "user_already_exists"].includes(inviteError.code || "")
     )
@@ -107,8 +140,13 @@ Deno.serve(async (request: Request) => {
       400,
     );
   }
+  const { error: statusError } = await admin.from('portal_memberships').update({
+    last_invited_at: new Date().toISOString(), invite_failed_at: null,
+    invite_count: Number(membership.invite_count || 0) + 1,
+  }).eq('id', body.membership_id);
   return respond({
-    message:
-      "Invitación enviada. La persona podrá elegir su contraseña desde el enlace.",
+    message: statusError
+      ? 'La invitación se envió, pero no se pudo actualizar su estado. Revisá este acceso antes de reenviar.'
+      : "Invitación enviada. La persona podrá elegir su contraseña desde el enlace.",
   });
 });

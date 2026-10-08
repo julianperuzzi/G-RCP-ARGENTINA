@@ -1,4 +1,3 @@
-import React from "react";
 import Marquee from "react-fast-marquee";
 import Imagen1 from "../../assets/liston clientes/1.png";
 import Imagen2 from "../../assets/liston clientes/2.png";

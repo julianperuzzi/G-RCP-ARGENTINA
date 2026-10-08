@@ -1,15 +1,31 @@
-import { useEffect } from "react";
-import { X, Package, Truck, AlertTriangle, Tag, Plus } from "lucide-react";
+import { X, Package, AlertTriangle, Tag, Plus } from "lucide-react";
+import PropTypes from "prop-types";
+import { useEffect, useRef } from 'react';
+import { hasStock, sellingPrice } from '../../lib/shopCatalog';
 
 export default function ProductModal({ product, isOpen, onClose, onAddToCart }) {
-  // Reset error cuando cambia el producto
-  useEffect(() => {}, [product]);
-
+  const dialogRef = useRef(null);
+  const closeRef = useRef(null);
+  useEffect(() => {
+    if (!isOpen) return;
+    const previousFocus = document.activeElement;
+    closeRef.current?.focus();
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') { onClose(); return; }
+      if (event.key !== 'Tab') return;
+      const controls = [...(dialogRef.current?.querySelectorAll('button:not(:disabled),a[href]') || [])];
+      if (!controls.length) return;
+      if (event.shiftKey && document.activeElement === controls[0]) { event.preventDefault(); controls.at(-1).focus(); }
+      else if (!event.shiftKey && document.activeElement === controls.at(-1)) { event.preventDefault(); controls[0].focus(); }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => { document.removeEventListener('keydown', onKeyDown); previousFocus?.focus?.(); };
+  }, [isOpen, onClose]);
   if (!isOpen || !product) return null;
 
-  const isOutOfStock = parseInt(product.stock) === 0;
-  const hasDiscount = product.descuento && product.descuento !== "" && !isNaN(parseFloat(product.descuento));
-  const finalPrice = hasDiscount ? parseFloat(product.descuento) : parseFloat(product.precio);
+  const isOutOfStock = !hasStock(product);
+  const hasDiscount = Number(product.descuento) > 0 && Number(product.descuento) < Number(product.precio);
+  const finalPrice = sellingPrice(product);
   const originalPrice = parseFloat(product.precio);
   const discountPercentage = hasDiscount ? Math.round((1 - finalPrice / originalPrice) * 100) : 0;
 
@@ -21,11 +37,11 @@ export default function ProductModal({ product, isOpen, onClose, onAddToCart }) 
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+    <div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="product-modal-title" className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
       <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border-2 border-blue-100 animate-fade-in">
         {/* Header */}
         <div className="sticky top-0 bg-white border-b px-8 py-6 flex justify-between items-center rounded-t-3xl">
-          <h2 className="text-2xl font-extrabold text-blue-700 flex items-center gap-2">
+          <h2 id="product-modal-title" className="text-2xl font-extrabold text-blue-700 flex items-center gap-2">
             {hasDiscount && (
               <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow">
                 <Tag className="w-4 h-4" /> Oferta
@@ -34,6 +50,7 @@ export default function ProductModal({ product, isOpen, onClose, onAddToCart }) 
             {product.nombre}
           </h2>
           <button 
+            ref={closeRef}
             onClick={onClose} 
             className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
             aria-label="Cerrar"
@@ -77,10 +94,6 @@ export default function ProductModal({ product, isOpen, onClose, onAddToCart }) 
                   Stock: {product.stock}
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <Truck className="w-5 h-5 text-green-600" /> 
-                <span className="text-green-600 font-semibold">Envío gratis</span>
-              </div>
             </div>
 
             <div className="space-y-2">
@@ -122,3 +135,18 @@ export default function ProductModal({ product, isOpen, onClose, onAddToCart }) 
     </div>
   );
 }
+
+ProductModal.propTypes = {
+  product: PropTypes.shape({
+    nombre: PropTypes.string.isRequired,
+    descripcion: PropTypes.string,
+    especificaciones: PropTypes.string,
+    img_url: PropTypes.string,
+    stock: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    precio: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    descuento: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onAddToCart: PropTypes.func.isRequired,
+};

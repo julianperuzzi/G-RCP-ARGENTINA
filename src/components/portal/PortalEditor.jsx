@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { X, Plus, Trash2, Upload, Save } from "lucide-react";
 import { LocationPicker } from "./PortalLocationMap";
+import UnsavedChangesPrompt from './UnsavedChangesPrompt';
+import useUnsavedForm from '../../hooks/useUnsavedForm';
 import { locationPayload } from "../../lib/portalLocations";
+import { preparePortalDocument } from "../../lib/portalFinanceFile";
 import {
   label,
   localDate,
@@ -24,7 +27,7 @@ const options = (key, title, values, required = true) => ({
   type: "select",
   options: values.map((value) => [value, label(value)]),
 });
-function fieldsFor(key, record, data, values) {
+function fieldsFor(key, record, data, values, replacing = false) {
   const sites = {
     key: "site_id",
     title: "Sede",
@@ -90,6 +93,12 @@ function fieldsFor(key, record, data, values) {
         options("kind", "Tipo", [
           "dea",
           "kit",
+          "trauma_kit",
+          "spine_board",
+          "oxygen_kit",
+          "bvm",
+          "splint_kit",
+          "evacuation_chair",
           "exit",
           "extinguisher",
           "other",
@@ -175,12 +184,21 @@ function fieldsFor(key, record, data, values) {
         options("attendance", "Asistencia", ["pending", "attended", "absent"]),
       ];
     case "documents":
-      return [
+      return replacing ? [
+        text("title", "Título de la nueva versión", true),
+        text("issued_on", "Fecha de emisión", true, "date"),
+        text("expires_on", "Vencimiento, si corresponde", false, "date"),
+      ] : record?.id ? [
         text("title", "Título del documento", true),
-        options("kind", "Tipo", ["certificate", "protocol", "report", "other"]),
-        activities,
+        text("issued_on", "Fecha de emisión", true, "date"),
+        text("expires_on", "Vencimiento, si corresponde", false, "date"),
+        text("version", "Versión", true, "number"),
+      ] : [
+        text("title", "Título del documento", true),
+        options("kind", "Tipo", ["certificate", "protocol", "report", "photo", "manual", "other"]),
         ...(values.kind === "certificate"
           ? [
+              activities,
               {
                 key: "participant_id",
                 title: "Participante con asistencia registrada",
@@ -196,7 +214,9 @@ function fieldsFor(key, record, data, values) {
               },
             ]
           : [
-              {
+              { ...assets, required: ['photo', 'manual'].includes(values.kind) },
+              ...(['photo', 'manual'].includes(values.kind) ? [] : [activities]),
+              ...(['photo', 'manual'].includes(values.kind) ? [] : [{
                 key: "inspection_id",
                 title: "Revisión relacionada",
                 type: "select",
@@ -204,7 +224,7 @@ function fieldsFor(key, record, data, values) {
                   r.id,
                   `${data.assets.find((a) => a.id === r.asset_id)?.name || "Equipo"} · ${r.checked_on}`,
                 ]),
-              },
+              }]),
             ]),
         text("issued_on", "Fecha de emisión", true, "date"),
         text("expires_on", "Vencimiento, si corresponde", false, "date"),
@@ -242,6 +262,7 @@ PortalEditor.propTypes = {
   record: PropTypes.object,
   data: PropTypes.object.isRequired,
   institutionId: PropTypes.string,
+  replacing: PropTypes.bool,
   onSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
@@ -277,6 +298,7 @@ export default function PortalEditor({
   record,
   data,
   institutionId,
+  replacing = false,
   onSave,
   onClose,
 }) {
@@ -295,30 +317,39 @@ export default function PortalEditor({
     return result;
   });
   const [file, setFile] = useState(null),
+    [assetFiles, setAssetFiles] = useState([]),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
+    [fieldError, setFieldError] = useState(null),
     [checkText, setCheckText] = useState("");
-  const fields = fieldsFor(entity, record, data, values);
+  const unsaved = useUnsavedForm(values, file || (assetFiles.length ? assetFiles : null), busy, onClose);
+  const fields = fieldsFor(entity, record, data, values, replacing);
+  const similarParticipant = entity === 'participants' && !record?.id && values.full_name?.trim() &&
+    data.participants.find((row) => row.activity_id === values.activity_id &&
+      row.full_name.trim().localeCompare(values.full_name.trim(), 'es', { sensitivity: 'base' }) === 0);
   useEffect(() => {
     const node = dialog.current;
     node.showModal();
     return () => node.close();
   }, []);
   function change(key, value) {
+    if (fieldError?.key === key) setFieldError(null);
     setValues((old) => ({
       ...old,
       [key]: value,
       ...(key === "activity_id" ? { participant_id: "" } : {}),
       ...(key === "kind" && entity === "documents"
-        ? { activity_id: "", participant_id: "", inspection_id: "" }
+        ? { activity_id: "", participant_id: "", inspection_id: "", asset_id: value === 'certificate' ? '' : old.asset_id }
         : {}),
     }));
   }
   async function submit(event) {
     event.preventDefault();
     setError("");
+    setFieldError(null);
     setBusy(true);
     try {
+      const invalidField = (key, message) => { setFieldError({ key, message }); throw new Error(message); };
       const payload = Object.fromEntries(
         fields.map((field) => {
           let value = values[field.key] ?? "";
@@ -334,6 +365,8 @@ export default function PortalEditor({
         }),
       );
       if (entity === "memberships") payload.email = payload.email.toLowerCase();
+      if (entity === 'participants' && !record?.id && payload.email && data.participants.some((row) => row.activity_id === payload.activity_id && row.email?.toLowerCase() === payload.email.toLowerCase()))
+        invalidField('email', 'Ya existe un participante con ese correo en esta capacitación. Revisá la lista antes de guardar.');
       if (["institutions", "sites"].includes(entity)) Object.assign(payload, locationPayload(values));
       if (entity === "inspections") payload.checklist = values.checklist || [];
       if (entity === "assets") {
@@ -348,22 +381,28 @@ export default function PortalEditor({
         payload.ends_at &&
         payload.ends_at <= payload.starts_at
       )
-        throw new Error("La finalización debe ser posterior al inicio.");
+        invalidField('ends_at', "La finalización debe ser posterior al inicio.");
       if (entity === "inspections" && payload.checked_on > localDate())
-        throw new Error("Una revisión realizada no puede tener fecha futura.");
+        invalidField('checked_on', "Una revisión realizada no puede tener fecha futura.");
       if (
         entity === "inspections" &&
         payload.next_review_on &&
         payload.next_review_on <= payload.checked_on
       )
-        throw new Error(
+        invalidField('next_review_on',
           "La próxima revisión debe ser posterior a la revisión realizada.",
         );
-      if (entity === "documents") validateDocument(file);
+      let uploadFile = file;
+      if (entity === "documents" && (!record?.id || replacing)) {
+        uploadFile = await preparePortalDocument(file);
+        validateDocument(uploadFile);
+        if (values.kind === 'photo' && !['image/jpeg', 'image/png'].includes(uploadFile.type))
+          invalidField('file', 'Para una foto seleccioná un archivo JPG o PNG.');
+      }
       if (!record?.id && entity !== "institutions")
         payload.institution_id = institutionId;
-      await onSave(entity, payload, record?.id, file);
-      onClose();
+      await onSave(entity, payload, record?.id, entity === 'assets' ? assetFiles : uploadFile);
+      unsaved.closeAfterSave();
     } catch (failure) {
       setError(
         failure.code
@@ -380,10 +419,11 @@ export default function PortalEditor({
       className="portal-dialog"
       onCancel={(e) => {
         e.preventDefault();
-        if (!busy) onClose();
+        if (unsaved.confirmDiscard) unsaved.setConfirmDiscard(false);
+        else unsaved.requestClose();
       }}
       onClick={(e) => {
-        if (e.target === e.currentTarget && !busy) onClose();
+        if (e.target === e.currentTarget) unsaved.requestClose();
       }}
       aria-labelledby="portal-editor-title"
     >
@@ -396,18 +436,21 @@ export default function PortalEditor({
                 : "PORTAL GRCP"}
             </span>
             <h2 id="portal-editor-title">
-              {record?.id ? "Editar" : "Registrar"} {TITLES[entity]}
+              {replacing ? "Reemplazar" : record?.id ? "Editar" : "Registrar"} {TITLES[entity]}
             </h2>
           </div>
           <button
             className="portal-icon-button"
             aria-label="Cerrar formulario"
-            onClick={onClose}
+            onClick={unsaved.requestClose}
             disabled={busy}
           >
             <X />
           </button>
         </header>
+        {entity === 'sites' && (
+          <p className="portal-form-hint">Esta sede {record?.id ? 'está' : 'quedará'} vinculada a <strong>{data.institutions.find((row) => row.id === institutionId)?.name || 'la institución seleccionada'}</strong>. Podés registrar otras sedes después.</p>
+        )}
         {entity === "memberships" && (
           <p className="portal-alert">
             Asigná el correo que usará esta persona. Después de guardar, usá
@@ -428,6 +471,7 @@ export default function PortalEditor({
             <p>{record.body}</p>
           </div>
         )}
+        {similarParticipant && <p className="portal-alert" role="status">Ya figura una persona con ese nombre en esta capacitación. Comprobá que no sea una carga duplicada.</p>}
         <form onSubmit={submit}>
           <fieldset disabled={busy} className="portal-form-grid">
             {fields.map((field) => (
@@ -439,6 +483,8 @@ export default function PortalEditor({
                 {field.required ? " *" : ""}
                 {field.type === "select" ? (
                   <select
+                    name={field.key}
+                    aria-invalid={fieldError?.key === field.key}
                     required={field.required}
                     value={values[field.key] ?? ""}
                     onChange={(e) => change(field.key, e.target.value)}
@@ -458,6 +504,8 @@ export default function PortalEditor({
                   </select>
                 ) : field.type === "textarea" ? (
                   <textarea
+                    name={field.key}
+                    aria-invalid={fieldError?.key === field.key}
                     rows={4}
                     maxLength={
                       entity === "activities" && field.key === "report"
@@ -470,12 +518,16 @@ export default function PortalEditor({
                   />
                 ) : field.type === "checkbox" ? (
                   <input
+                    name={field.key}
+                    aria-invalid={fieldError?.key === field.key}
                     type="checkbox"
                     checked={Boolean(values[field.key])}
                     onChange={(e) => change(field.key, e.target.checked)}
                   />
                 ) : (
                   <input
+                    name={field.key}
+                    aria-invalid={fieldError?.key === field.key}
                     type={field.type}
                     required={field.required}
                     value={values[field.key] ?? ""}
@@ -497,6 +549,7 @@ export default function PortalEditor({
                     onChange={(e) => change(field.key, e.target.value)}
                   />
                 )}
+                {fieldError?.key === field.key && <small className="portal-field-error" role="alert">{fieldError.message}</small>}
               </label>
             ))}
             {["institutions", "sites"].includes(entity) && (
@@ -571,20 +624,34 @@ export default function PortalEditor({
                 </div>
               </div>
             )}
-            {entity === "documents" && (
+            {entity === 'assets' && !record?.id && (
+              <div className="portal-field wide portal-file-field">
+                <Upload size={23} aria-hidden="true" />
+                <label htmlFor="portal-asset-files"><strong>Fotos y adjuntos iniciales</strong></label>
+                <span>Hasta 8 archivos PDF, JPG o PNG. Las fotos grandes se comprimen antes de guardarse. Podés agregar más desde la ficha del equipo.</span>
+                <input id="portal-asset-files" type="file" multiple accept="application/pdf,image/jpeg,image/png"
+                  onChange={(event) => {
+                    const selected = Array.from(event.target.files || []);
+                    if (selected.length > 8) setError('Seleccioná hasta 8 archivos por carga.');
+                    else { setError(''); setAssetFiles(selected); }
+                  }} />
+                {assetFiles.length > 0 && <ul className="portal-selected-files">{assetFiles.map((attachment, index) => <li key={`${attachment.name}-${index}`}><span>{attachment.name}</span><button type="button" className="portal-icon-button" aria-label={`Quitar ${attachment.name}`} onClick={() => setAssetFiles((old) => old.filter((_, position) => position !== index))}><Trash2 size={15} /></button></li>)}</ul>}
+              </div>
+            )}
+            {entity === "documents" && (!record?.id || replacing) && (
               <label className="portal-field wide portal-file-field">
                 <Upload size={23} />
                 <strong>Archivo PDF, JPG o PNG</strong>
                 <span>
-                  Hasta 10 MB. Los archivos quedan privados para esta
-                  institución.
+                  PDF hasta 10 MB. Las fotos grandes se comprimen antes de guardarse. Los archivos quedan privados para esta institución.
                 </span>
                 <input
                   type="file"
                   required
-                  accept="application/pdf,image/jpeg,image/png"
+                  accept={values.kind === 'photo' ? 'image/jpeg,image/png' : 'application/pdf,image/jpeg,image/png'}
                   onChange={(e) => setFile(e.target.files?.[0] || null)}
                 />
+                {fieldError?.key === 'file' && <small className="portal-field-error" role="alert">{fieldError.message}</small>}
               </label>
             )}
           </fieldset>
@@ -598,7 +665,7 @@ export default function PortalEditor({
               type="button"
               className="portal-button"
               disabled={busy}
-              onClick={onClose}
+              onClick={unsaved.requestClose}
             >
               Cancelar
             </button>
@@ -609,6 +676,7 @@ export default function PortalEditor({
           </footer>
         </form>
       </div>
+      {unsaved.confirmDiscard && <UnsavedChangesPrompt onKeep={() => unsaved.setConfirmDiscard(false)} onDiscard={unsaved.discard} />}
     </dialog>
   );
 }

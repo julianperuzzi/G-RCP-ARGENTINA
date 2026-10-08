@@ -1,4 +1,3 @@
-import React from 'react';
 import rcpImage from '../assets/img blog/Reanimación-cardiopulmonar-RCP.webp';
 import deaImage from '../assets/img blog/dea.jpg';
 import primerosAuxiliosImage from '../assets/img blog/Primeros-Auxilios.jpg';
@@ -6,6 +5,7 @@ import primerosAuxiliosImage from '../assets/img blog/Primeros-Auxilios.jpg';
 const BlogPage = () => {
   return (
     <div className="container mx-auto pb-8 animate-fade-in ">
+      <h1 className="text-3xl font-bold py-8 text-center">Noticias y recursos</h1>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-bold mb-4">La Importancia Vital de Saber RCP</h2>

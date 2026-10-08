@@ -3,10 +3,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import L from "leaflet";
 import { MapPin, LocateFixed, ArrowUpRight, Pencil } from "lucide-react";
 import "leaflet/dist/leaflet.css";
-import { coordinatesOf, institutionLocations } from "../../lib/portalLocations";
+import { coordinatesOf, groupNearbyLocations, institutionLocations } from "../../lib/portalLocations";
 
 const center = [-31.5375, -68.5364];
-const markerIcon = L.divIcon({ className: "portal-location-pin", html: '<span aria-hidden="true"></span>', iconSize: [26, 26], iconAnchor: [13, 13] });
+const markerIcon = (rows, selected) => L.divIcon({
+  className: `portal-location-pin ${rows.length > 1 ? 'cluster' : rows[0].entity === 'sites' ? 'site' : ''} ${selected ? 'selected' : ''}`,
+  html: `<span aria-hidden="true">${rows.length > 1 ? rows.length : ''}</span>`,
+  iconSize: [30, 30], iconAnchor: [15, 15],
+});
 
 function MapCanvas({ records, selected, onSelect, onPick, resetKey = 0 }) {
   const host = useRef(null), map = useRef(null), layer = useRef(null);
@@ -29,22 +33,43 @@ function MapCanvas({ records, selected, onSelect, onPick, resetKey = 0 }) {
   useEffect(() => {
     const instance = map.current;
     layer.current.clearLayers();
-    for (const row of records) {
-      const point = coordinatesOf(row);
-      if (!point) continue;
-      const marker = L.marker([point.latitude, point.longitude], {
-        icon: markerIcon, draggable: Boolean(onPick), title: row.name || "Ubicación seleccionada",
-        alt: row.name || "Ubicación seleccionada", riseOnHover: true,
+    for (const group of groupNearbyLocations(records)) {
+      const row = group.rows[0];
+      const clustered = group.rows.length > 1;
+      const title = clustered ? `${group.rows.length} ubicaciones cercanas` : row.name || 'Ubicación seleccionada';
+      const marker = L.marker([group.latitude, group.longitude], {
+        icon: markerIcon(group.rows, group.rows.some((item) => item.mapId === selected?.mapId)),
+        draggable: Boolean(onPick) && !clustered, title,
+        alt: title, riseOnHover: true,
       }).addTo(layer.current);
-      const tooltip = document.createElement("span");
-      tooltip.textContent = row.name || "Ubicación seleccionada";
-      marker.bindTooltip(tooltip);
-      marker.on("click", () => actions.current.onSelect?.(row));
+      if (clustered) {
+        const popup = document.createElement('div');
+        popup.className = 'portal-map-cluster-list';
+        const heading = document.createElement('strong');
+        heading.textContent = `${group.rows.length} ubicaciones cercanas`;
+        popup.append(heading);
+        for (const item of group.rows) {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.textContent = `${item.entity === 'sites' ? 'Sede' : 'Institución'} · ${item.name}`;
+          button.addEventListener('click', () => {
+            actions.current.onSelect?.(item);
+            marker.closePopup();
+          });
+          popup.append(button);
+        }
+        marker.bindPopup(popup);
+      } else {
+        const tooltip = document.createElement('span');
+        tooltip.textContent = title;
+        marker.bindTooltip(tooltip);
+        marker.on('click', () => actions.current.onSelect?.(row));
+      }
       marker.on("dragend", () => {
         const p = marker.getLatLng();
         actions.current.onPick?.({ latitude: Number(p.lat.toFixed(6)), longitude: Number(p.lng.toFixed(6)) });
       });
-      if (selected?.mapId === row.mapId) marker.openTooltip();
+      if (selected?.mapId === row.mapId && !clustered) marker.openTooltip();
     }
     const points = records.map(coordinatesOf).filter(Boolean);
     if (points.length && !onPick) instance.fitBounds(points.map((p) => [p.latitude, p.longitude]), { padding: [35, 35], maxZoom: 14, animate: false });
@@ -86,7 +111,7 @@ export default function InstitutionMap({ institutions, sites, search, onEdit, on
   const located = rows.filter(coordinatesOf).length;
   return <section className="portal-institution-map">
     <div className="portal-map-toolbar">
-      <p><strong>{located}</strong> {located === 1 ? "ubicación" : "ubicaciones"} en el mapa · <strong>{rows.length - located}</strong> {rows.length - located === 1 ? "pendiente" : "pendientes"}</p>
+      <p><strong>{located}</strong> {located === 1 ? "ubicación" : "ubicaciones"} en el mapa · <strong>{rows.length - located}</strong> {rows.length - located === 1 ? "pendiente" : "pendientes"}<small> Los números agrupan puntos cercanos.</small></p>
       <label><input type="checkbox" checked={onlyPending} onChange={(e) => setOnlyPending(e.target.checked)} /> Solo pendientes de ubicar</label>
       <button className="portal-button" onClick={() => { setSelectedId(null); setResetKey((key) => key + 1); }}><LocateFixed size={16} /> Ver todas</button>
     </div>
@@ -106,7 +131,7 @@ export default function InstitutionMap({ institutions, sites, search, onEdit, on
             </button>
             <div className="portal-row-actions">
               <button className="portal-text-button" onClick={() => onEdit(row.entity, row)}><Pencil size={14} /> {point ? "Editar" : "Ubicar"}</button>
-              <button className="portal-text-button" onClick={() => onOpen(row.institutionId)}>Abrir ficha <ArrowUpRight size={14} /></button>
+              <button className="portal-text-button" onClick={() => onOpen(row)}>{row.entity === 'sites' ? 'Ver sede' : 'Abrir institución'} <ArrowUpRight size={14} /></button>
               {point && <a className="portal-text-button" target="_blank" rel="noopener noreferrer" href={`https://www.google.com/maps/dir/?api=1&destination=${point.latitude},${point.longitude}`}>Cómo llegar</a>}
             </div>
           </article>;

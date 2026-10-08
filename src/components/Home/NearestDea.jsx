@@ -9,7 +9,6 @@ export default function NearestDea() {
   const { origin, locating, error: locationError, requestLocation, clearOrigin } = useDeaLocation();
   const [records, setRecords] = useState([]), [loading, setLoading] = useState(true), [error, setError] = useState(''), [preview, setPreview] = useState(false), [retry, setRetry] = useState(0);
   const [mode, setMode] = useState('driving');
-  useEffect(() => { requestLocation({ automatic: true }); }, [requestLocation]);
   useEffect(() => {
     let active = true; setLoading(true); setError('');
     // The map library stays off the home page; load only the public registry client.

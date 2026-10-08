@@ -5,9 +5,10 @@ function cell(value) {
   const safe = /^[\s]*[=+\-@]/.test(text) ? `'${text}` : text;
   return `"${safe.replaceAll('"', '""')}"`;
 }
-export function portalCsv(key, rows, data) {
+export function portalCsv(key, rows, data, { includeInstitution = false } = {}) {
   const asset = (id) => data.assets?.find((r) => r.id === id)?.name || "";
   const course = (id) => data.activities?.find((r) => r.id === id)?.title || "";
+  const institution = (id) => data.institutions?.find((r) => r.id === id)?.name || "Institución sin identificar";
   const columns = {
     institutions: [
       ["name", "Institución"],
@@ -70,12 +71,15 @@ export function portalCsv(key, rows, data) {
     ],
   }[key];
   if (!columns) throw new Error("Exportación no disponible");
+  const exportColumns = includeInstitution && key !== 'institutions'
+    ? [['institution_id', 'Institución', institution], ...columns]
+    : columns;
   return (
     "\ufeff" +
     [
-      columns.map(([, title]) => cell(title)).join(";"),
+      exportColumns.map(([, title]) => cell(title)).join(";"),
       ...rows.map((row) =>
-        columns
+        exportColumns
           .map(([field, , transform]) =>
             cell(transform ? transform(row[field]) : row[field]),
           )

@@ -16,6 +16,7 @@ export default function usePortal(demo) {
   );
   const [demoAdmin, setDemoAdmin] = useState(true);
   const generation = useRef(0);
+  const sessionToken = useRef(null);
   const invalidate = useCallback(() => {
     generation.current += 1;
   }, []);
@@ -25,27 +26,42 @@ export default function usePortal(demo) {
       return;
     }
     let alive = true;
+    const applySession = (nextSession) => {
+      if (!alive) return;
+      const nextToken = nextSession?.access_token || null;
+      if (sessionToken.current !== nextToken) {
+        sessionToken.current = nextToken;
+        if (!demo) {
+          ++generation.current;
+          setData(null);
+          setContext(null);
+        }
+      }
+      setSession(nextSession);
+    };
     supabase.auth.getSession().then(({ data, error }) => {
       if (alive) {
-        setSession(data.session);
+        applySession(data.session);
         if (error) setError("No pudimos recuperar tu sesión.");
       }
     });
     const { data: auth } = supabase.auth.onAuthStateChange((event, next) => {
-      setSession(next);
+      applySession(next);
       if (event === "PASSWORD_RECOVERY") setRecovery(true);
       if (event === "SIGNED_OUT") {
         clearAuthLinkType();
         setRecovery(false);
-        setData(null);
-        setContext(null);
+        if (!demo) {
+          setData(null);
+          setContext(null);
+        }
       }
     });
     return () => {
       alive = false;
       auth.subscription.unsubscribe();
     };
-  }, []);
+  }, [demo]);
   const token = session?.access_token;
   const reload = useCallback(async () => {
     if (demo) return;
@@ -62,7 +78,7 @@ export default function usePortal(demo) {
       const { data: access, error: failure } =
         await supabase.rpc("get_portal_context");
       if (failure) throw failure;
-      const records = await loadPortal(access.is_admin);
+      const records = await loadPortal(Boolean(access.is_admin || access.is_operator), access.email, Boolean(access.is_admin));
       if (current !== generation.current) return;
       setContext(access);
       setData(records);
@@ -142,6 +158,45 @@ export default function usePortal(demo) {
     });
     return result;
   }
+  async function bulkAttendance(ids, activityId, institutionId, attendance) {
+    if (!['pending', 'attended', 'absent'].includes(attendance) || !ids.length) throw new Error('Seleccioná participantes y una asistencia válida.');
+    if (!demo) {
+      const { data: changed, error } = await supabase.from('portal_participants').update({ attendance })
+        .in('id', ids).eq('activity_id', activityId).eq('institution_id', institutionId).select('id');
+      if (error) throw error;
+      if (changed.length !== ids.length) throw new Error('Algunos participantes cambiaron. Actualizá la lista y volvé a intentarlo.');
+      await reload();
+      return;
+    }
+    setData((previous) => ({ ...previous, participants: previous.participants.map((row) =>
+      ids.includes(row.id) && row.activity_id === activityId && row.institution_id === institutionId ? { ...row, attendance } : row) }));
+  }
+  async function replaceDocument(previous, payload, file) {
+    if (!previous?.id) throw new Error('Elegí el documento que querés reemplazar.');
+    const nextPayload = { ...payload, institution_id: previous.institution_id, kind: previous.kind,
+      activity_id: previous.activity_id, participant_id: previous.participant_id,
+      inspection_id: previous.inspection_id, asset_id: previous.asset_id, version: Number(previous.version) + 1 };
+    if (!demo) {
+      let created;
+      try {
+        created = await uploadPortalDocument(nextPayload, file);
+        await savePortal('documents', { archived_at: new Date().toISOString() }, previous.id);
+        await reload();
+        return created;
+      } catch (failure) {
+        if (created) {
+          await reload().catch(() => {});
+          throw { partialPortalSave: true, portalMessage: 'La nueva versión se guardó, pero no se pudo archivar la anterior. Revisá ambas en Documentos antes de reintentar.' };
+        }
+        throw failure;
+      }
+    }
+    const created = { ...nextPayload, id: crypto.randomUUID(), created_at: new Date().toISOString(),
+      file_name: file.name, mime_type: file.type, file_size: file.size, demoFile: file };
+    setData((current) => ({ ...current, documents: [...current.documents.map((row) => row.id === previous.id ?
+      { ...row, archived_at: new Date().toISOString() } : row), created] }));
+    return created;
+  }
   return {
     session,
     context: demo
@@ -157,6 +212,8 @@ export default function usePortal(demo) {
       setRecovery(value);
     },
     save,
+    bulkAttendance,
+    replaceDocument,
     demoAdmin,
     setDemoAdmin,
   };

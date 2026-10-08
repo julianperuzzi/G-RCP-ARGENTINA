@@ -11,6 +11,7 @@ test("portal institucional: SQL real, permisos y separación de instituciones", 
     b: "33333333-3333-4333-8333-333333333333",
     viewer: "44444444-4444-4444-8444-444444444444",
     outsider: "55555555-5555-4555-8555-555555555555",
+    operator: "66666666-6666-4666-8666-666666666666",
   };
   const as = async (user) =>
     db.exec(
@@ -29,14 +30,14 @@ test("portal institucional: SQL real, permisos y separación de instituciones", 
     ).rows[0];
   try {
     await db.exec(`create role anon; create role authenticated; create schema auth; create schema storage;
-      create table auth.users(id uuid primary key,email text,email_confirmed_at timestamptz);
+      create table auth.users(id uuid primary key,email text,email_confirmed_at timestamptz,last_sign_in_at timestamptz);
       create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
       grant usage on schema auth,storage to authenticated,anon; grant execute on function auth.uid() to authenticated,anon;
       create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);
       create table storage.objects(id uuid primary key default gen_random_uuid(),bucket_id text,name text);
       alter table storage.objects enable row level security; grant select,insert,update,delete on storage.objects to authenticated;
-      insert into auth.users values ('${ids.admin}','gruporcpsa@gmail.com',now()),('${ids.a}','a@example.com',now()),
-      ('${ids.b}','b@example.com',now()),('${ids.viewer}','viewer@example.com',now()),('${ids.outsider}','outsider@example.com',now());`);
+      insert into auth.users(id,email,email_confirmed_at,last_sign_in_at) values ('${ids.admin}','gruporcpsa@gmail.com',now(),now()),('${ids.a}','a@example.com',now(),now()),
+      ('${ids.b}','b@example.com',now(),null),('${ids.viewer}','viewer@example.com',now(),null),('${ids.outsider}','outsider@example.com',now(),null),('${ids.operator}','operator@example.com',now(),now());`);
     await db.exec(
       await readFile(
         new URL("../supabase/01-instalar-registro.sql", import.meta.url),
@@ -50,6 +51,8 @@ test("portal institucional: SQL real, permisos y separación de instituciones", 
       ),
     );
     await db.exec(await readFile(new URL("../supabase/migrations/20261007044329_portal_institution_locations.sql", import.meta.url), "utf8"));
+    await db.exec(await readFile(new URL("../supabase/migrations/20261008142346_portal_equipment_media.sql", import.meta.url), "utf8"));
+    await db.exec(await readFile(new URL("../supabase/migrations/20261008150143_portal_staff_profiles_usage.sql", import.meta.url), "utf8"));
     await as("admin");
     const a = await insert("portal_institutions", { name: "Escuela A" });
     const b = await insert("portal_institutions", { name: "Empresa B" });
@@ -187,6 +190,39 @@ test("portal institucional: SQL real, permisos y separación de instituciones", 
         );
       },
     );
+    await t.test('una institución no crea instituciones, capacitaciones ni otros registros de GRCP', async () => {
+      await as('a');
+      const restricted = [
+        ['portal_institutions', { name: 'Institución creada por cliente' }],
+        ['portal_memberships', { institution_id: a.id, email: 'nuevo@example.com' }],
+        ['portal_sites', { institution_id: a.id, name: 'Sede cliente' }],
+        ['portal_assets', { institution_id: a.id, name: 'Equipo cliente', kind: 'dea' }],
+        ['portal_activities', { institution_id: a.id, title: 'Capacitación cliente', kind: 'training', starts_at: '2026-03-01T13:00:00Z' }],
+        ['portal_inspections', { institution_id: a.id, asset_id: assetA.id, checked_on: '2026-01-01', result: 'pass', checked_by: 'Cliente' }],
+        ['portal_participants', { institution_id: a.id, activity_id: training.id, full_name: 'Cargado por cliente' }],
+        ['portal_documents', { institution_id: a.id, title: 'Documento cliente', kind: 'report', file_path: `${a.id}/cliente.pdf`, file_name: 'cliente.pdf', mime_type: 'application/pdf', file_size: 100 }],
+      ];
+      for (const [table, fields] of restricted) {
+        await assert.rejects(insert(table, fields), (error) => ['42501', '23514'].includes(error.code), table);
+      }
+      assert.equal((await db.query("update public.portal_activities set title='Modificada' where id=$1 returning id", [training.id])).rows.length, 0);
+    });
+    await t.test('cada módulo oculta los registros de otra institución incluso en consultas directas', async () => {
+      await as('admin');
+      const activityB = await insert('portal_activities', { institution_id: b.id, title: 'Curso B', kind: 'training', starts_at: '2026-04-01T13:00:00Z' });
+      await insert('portal_participants', { institution_id: b.id, activity_id: activityB.id, full_name: 'Asistente B' });
+      await insert('portal_inspections', { institution_id: b.id, asset_id: assetB.id, checked_on: '2026-01-01', result: 'pass', checked_by: 'GRCP' });
+      await insert('portal_documents', { institution_id: b.id, title: 'Informe B', kind: 'report', file_path: `${b.id}/informe.pdf`, file_name: 'informe.pdf', mime_type: 'application/pdf', file_size: 100 });
+      await insert('portal_requests', { institution_id: b.id, title: 'Consulta B', kind: 'question', body: 'Consulta privada' });
+      await as('a');
+      for (const table of ['portal_sites', 'portal_assets', 'portal_activities', 'portal_inspections', 'portal_participants', 'portal_documents', 'portal_requests']) {
+        assert.equal((await db.query(`select * from public.${table} where institution_id=$1`, [b.id])).rows.length, 0, table);
+      }
+      assert.equal((await db.query('select * from public.portal_institutions where id=$1', [b.id])).rows.length, 0);
+      assert.equal((await db.query('select * from public.portal_memberships where institution_id=$1', [b.id])).rows.length, 0);
+      await as('viewer');
+      assert.equal((await db.query('select * from public.portal_activities where institution_id=$1', [b.id])).rows.length, 0);
+    });
     await t.test(
       "responsable crea solicitudes, sin responderlas ni saltar de institución",
       async () => {
@@ -560,6 +596,81 @@ test("portal institucional: SQL real, permisos y separación de instituciones", 
         );
       },
     );
+    await t.test('equipamiento admite nuevos tipos y adjuntos privados de su misma institución', async () => {
+      await as('admin');
+      const board = await insert('portal_assets', { institution_id: a.id, name: 'Camilla rígida', kind: 'spine_board' });
+      await insert('portal_assets', { institution_id: a.id, name: 'Kit de trauma', kind: 'trauma_kit' });
+      const photo = { institution_id: a.id, asset_id: board.id, title: 'Foto camilla', kind: 'photo',
+        file_path: `${a.id}/camilla.jpg`, file_name: 'camilla.jpg', mime_type: 'image/jpeg', file_size: 1200 };
+      await insert('portal_documents', photo);
+      await assert.rejects(insert('portal_documents', { ...photo, file_path: `${a.id}/otro.jpg`, asset_id: assetB.id }), (error) => error.code === '23503');
+      await assert.rejects(insert('portal_documents', { ...photo, file_path: `${a.id}/foto.pdf`, mime_type: 'application/pdf' }), (error) => error.code === '23514');
+      await as('a');
+      assert.equal((await db.query('select id from public.portal_documents where asset_id=$1', [board.id])).rows.length, 1);
+      assert.equal((await db.query('select private.portal_file_access($1) as allowed', [photo.file_path])).rows[0].allowed, true);
+      await assert.rejects(insert('portal_documents', { ...photo, file_path: `${a.id}/cliente.jpg` }), (error) => error.code === '42501');
+      await as('b');
+      assert.equal((await db.query('select id from public.portal_documents where asset_id=$1', [board.id])).rows.length, 0);
+      assert.equal((await db.query('select private.portal_file_access($1) as allowed', [photo.file_path])).rows[0].allowed, false);
+    });
+    await t.test('operador GRCP trabaja con instituciones pero no administra accesos', async () => {
+      await as('admin');
+      const operator = await insert('portal_operators', { email: 'operator@example.com', full_name: 'Operador de prueba' });
+      assert.ok((await db.query('select * from public.portal_operator_audit')).rows.length);
+      await as('operator');
+      const context = (await db.query('select public.get_portal_context() as c')).rows[0].c;
+      assert.equal(context.is_admin, false);
+      assert.equal(context.is_operator, true);
+      assert.equal((await db.query('select id from public.portal_institutions')).rows.length, 2);
+      const asset = await insert('portal_assets', { institution_id: b.id, name: 'Equipo de operador', kind: 'trauma_kit' });
+      assert.equal(asset.institution_id, b.id);
+      const filePath = `${b.id}/operator-report.pdf`;
+      await db.query('insert into storage.objects(bucket_id,name) values($1,$2)', ['grcp-instituciones', filePath]);
+      await insert('portal_documents', { institution_id: b.id, asset_id: asset.id, title: 'Informe del operador', kind: 'report',
+        file_path: filePath, file_name: 'operator-report.pdf', mime_type: 'application/pdf', file_size: 200 });
+      assert.equal((await db.query('select private.portal_file_access($1) as allowed', [filePath])).rows[0].allowed, true);
+      assert.equal((await db.query('select public.get_dea_role() as role')).rows[0].role, null);
+      assert.equal((await db.query('select institution_id from public.portal_usage_by_institution()')).rows.length, 2);
+      await assert.rejects(db.query('select * from public.portal_operator_activity()'), /Acceso denegado/);
+      assert.equal((await db.query('select id from public.portal_memberships')).rows.length, 3);
+      await assert.rejects(insert('portal_memberships', { institution_id: a.id, email: 'otro@example.com' }), /row-level security/);
+      await assert.rejects(insert('portal_operators', { email: 'otro@example.com' }), /row-level security/);
+      assert.equal((await db.query('select id from public.portal_operators')).rows.length, 0);
+      await as('admin');
+      await db.query('update public.portal_operators set email=$1 where id=$2', ['outsider@example.com', operator.id]);
+      await as('operator');
+      assert.equal((await db.query('select public.get_portal_context() as c')).rows[0].c.is_operator, false);
+      await as('outsider');
+      assert.equal((await db.query('select public.get_portal_context() as c')).rows[0].c.is_operator, true);
+      await as('admin');
+      await db.query('update public.portal_operators set email=$1 where id=$2', ['operator@example.com', operator.id]);
+      await db.query('update public.portal_operators set active=false where id=$1', [operator.id]);
+      await as('operator');
+      assert.equal((await db.query('select public.get_portal_context() as c')).rows[0].c.is_operator, false);
+      assert.equal((await db.query('select id from public.portal_institutions')).rows.length, 0);
+    });
+    await t.test('perfil propio y métricas institucionales quedan separados', async () => {
+      await as('a');
+      await insert('portal_user_profiles', { user_id: ids.a, display_name: 'A', phone: '123' });
+      await assert.rejects(insert('portal_user_profiles', { user_id: ids.b, display_name: 'B' }), /row-level security/);
+      assert.equal((await db.query('select user_id from public.portal_user_profiles')).rows.length, 1);
+      await db.query('select public.portal_record_module_visit($1,$2)', [a.id, 'equipamiento']);
+      await db.query('select public.portal_record_module_visit($1,$2)', [a.id, 'equipamiento']);
+      await assert.rejects(db.query('select public.portal_record_module_visit($1,$2)', [b.id, 'equipamiento']), /Acceso denegado/);
+      await assert.rejects(db.query('select * from public.portal_usage_daily'), /permission denied/);
+      await assert.rejects(db.query('select * from public.portal_usage_by_institution()'), /Acceso denegado/);
+      await as('admin');
+      assert.equal((await db.query('select user_id from public.portal_user_profiles')).rows.length, 0);
+      const metrics = (await db.query('select * from public.portal_usage_by_institution() order by institution_id')).rows;
+      assert.equal(metrics.length, 2);
+      assert.ok(metrics.find((row) => row.institution_id === a.id).active_members >= 1);
+      assert.ok(metrics.find((row) => row.institution_id === a.id).stored_bytes >= 100);
+      assert.equal(metrics.find((row) => row.institution_id === a.id).active_users_30d, 1);
+      assert.equal(metrics.find((row) => row.institution_id === a.id).module_uses_30d, 1);
+      await assert.rejects(db.query('select public.portal_record_module_visit($1,$2)', [a.id, 'equipamiento']), /Acceso denegado/);
+      await as('anon');
+      await assert.rejects(db.query('select * from public.portal_usage_by_institution()'), /permission denied/);
+    });
   } finally {
     await db.close();
   }

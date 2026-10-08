@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Papa from "papaparse";
 import { ShoppingCart, Package, Search } from "lucide-react";
 import ProductCard from "../components/Shop/ProductCard";
@@ -6,46 +6,55 @@ import ProductModal from "../components/Shop/ProductModal";
 import CartSidebar from "../components/Shop/CartSidebar";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { catalogProducts, hasStock, sellingPrice, stockLimit } from '../lib/shopCatalog';
 
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTvpq02Wi3p_u4SMi9C1FBZ_yozKV8rqno8XX-3jzsD3TKD7bAQKntkci1wwrQgnxP3Rv99REuusbUL/pub?gid=0&single=true&output=csv";
 const WHATSAPP_NUMBER = "+5492645667981";
 
 export default function ShopPage() {
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
+  const [retry, setRetry] = useState(0);
+  const filteredProducts = useMemo(() => products.filter((product) =>
+    `${product.nombre} ${product.descripcion}`.toLocaleLowerCase('es').includes(searchTerm.trim().toLocaleLowerCase('es')),
+  ), [products, searchTerm]);
+  const closeCart = useCallback(() => setIsCartOpen(false), []);
+  const closeProduct = useCallback(() => setSelectedProduct(null), []);
 
-  // Cargar productos
   useEffect(() => {
+    let active = true;
+    setLoading(true);
+    setLoadError('');
     Papa.parse(SHEET_URL, {
       download: true,
       header: true,
       complete: (results) => {
-        setProducts(results.data);
-        setFilteredProducts(results.data);
+        if (!active) return;
+        const valid = catalogProducts(results.data);
+        if (!valid.length) setLoadError('No pudimos cargar el catálogo. Revisá tu conexión e intentá nuevamente.');
+        setProducts(valid);
+        setLoading(false);
+      },
+      error: () => {
+        if (!active) return;
+        setProducts([]);
+        setLoadError('No pudimos cargar el catálogo. Revisá tu conexión e intentá nuevamente.');
         setLoading(false);
       },
     });
-  }, []);
+    return () => { active = false; };
+  }, [retry]);
 
-  // Filtrar
-  useEffect(() => {
-    setFilteredProducts(
-      products.filter(
-        (p) =>
-          p.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          p.descripcion.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
-  }, [searchTerm, products]);
-
-  // Carrito
   const addToCart = (product, qty = 1) => {
+    if (!hasStock(product)) { toast.error('Este producto no tiene stock disponible.'); return; }
+    const limit = stockLimit(product.stock);
     const exist = cart.find((i) => i.id === product.id);
+    if (qty < 1 || !Number.isInteger(qty) || (exist?.quantity || 0) + qty > limit) { toast.error('No hay más unidades disponibles de este producto.'); return; }
     if (exist) {
       setCart(
         cart.map((i) =>
@@ -67,26 +76,27 @@ export default function ShopPage() {
   };
   const removeFromCart = (id) => setCart(cart.filter((i) => i.id !== id));
   const updateQuantity = (id, q) =>
-    setCart(cart.map((i) => (i.id === id ? { ...i, quantity: Math.max(1, q) } : i)));
+    setCart(cart.map((i) => (i.id === id ? { ...i, quantity: Math.max(1, Math.min(stockLimit(i.stock), q)) } : i)));
 
   const handleWhatsAppOrder = () => {
-    const total = cart.reduce((s, i) => {
-      const price = i.descuento && i.descuento !== "" ? parseFloat(i.descuento) : parseFloat(i.precio);
-      return s + price * i.quantity;
-    }, 0);
+    if (!cart.length || cart.some((item) => !hasStock(item) || item.quantity > stockLimit(item.stock))) {
+      toast.error('Revisá el carrito: hay un producto sin stock disponible.');
+      return;
+    }
+    const total = cart.reduce((sum, item) => sum + sellingPrice(item) * item.quantity, 0);
 
     const message = cart
       .map(
         (i, idx) =>
-          `${idx + 1}. ${i.nombre} (x${i.quantity}) - $${i.precio}`
+          `${idx + 1}. ${i.nombre} (x${i.quantity}) - $${sellingPrice(i)}`
       )
       .join("\n");
 
     window.open(
-      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+      `https://wa.me/${WHATSAPP_NUMBER.replace(/\D/g, '')}?text=${encodeURIComponent(
         `Pedido:\n${message}\n\nTOTAL: $${total}`
       )}`,
-      "_blank"
+      "_blank", "noopener,noreferrer"
     );
   };
 
@@ -96,7 +106,7 @@ export default function ShopPage() {
       <header className="bg-white/90 shadow-lg sticky top-0 z-20 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl md:text-3xl font-extrabold text-blue-700 tracking-tight flex items-center gap-2">
-            <span className="text-blue-600">Mi</span> Tienda Online
+            Tienda GRCP
           </h1>
           <button
             onClick={() => setIsCartOpen(true)}
@@ -118,6 +128,7 @@ export default function ShopPage() {
           <div className="relative">
             <input
               type="text"
+              aria-label="Buscar productos"
               placeholder="Buscar productos..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -134,6 +145,12 @@ export default function ShopPage() {
           <div className="flex flex-col items-center justify-center min-h-[300px]">
             <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-blue-600 mb-4"></div>
             <span className="text-blue-700 font-semibold">Cargando productos...</span>
+          </div>
+        ) : loadError ? (
+          <div className="text-center py-16 bg-white rounded-lg shadow-sm" role="alert">
+            <Package className="w-16 h-16 mx-auto text-blue-200 mb-4" />
+            <p className="text-xl text-blue-700 font-semibold">{loadError}</p>
+            <button className="mt-5 px-5 py-2 rounded-lg bg-blue-700 text-white font-semibold" onClick={() => setRetry((value) => value + 1)}>Reintentar</button>
           </div>
         ) : filteredProducts.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 md:gap-6">
@@ -159,14 +176,14 @@ export default function ShopPage() {
       <ProductModal
         product={selectedProduct}
         isOpen={!!selectedProduct}
-        onClose={() => setSelectedProduct(null)}
+        onClose={closeProduct}
         onAddToCart={addToCart}
       />
 
       {/* Carrito */}
       <CartSidebar
         isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
+        onClose={closeCart}
         cart={cart}
         removeFromCart={removeFromCart}
         updateQuantity={updateQuantity}
@@ -177,7 +194,7 @@ export default function ShopPage() {
       {isCartOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-40 z-40"
-          onClick={() => setIsCartOpen(false)}
+          onClick={closeCart}
         />
       )}
 

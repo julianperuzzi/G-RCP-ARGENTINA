@@ -1,5 +1,4 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // Importamos Link desde react-router-dom
+import PropTypes from 'prop-types';
 import imgRCPBasica from '../assets/img biblioteca/rcp_basica_infografia.webp';
 import imgPosicionLateral from '../assets/img biblioteca/posicion_lateral_seguridad_infografia.webp';
 import imgCadenaSupervivencia from '../assets/img biblioteca/cadena_supervivencia_infografia.webp';
@@ -14,6 +13,12 @@ const Recurso = ({ titulo, descripcion, linkDescarga, imagen }) => (
     <a href={linkDescarga} className="text-blue-500 hover:underline" download>Descargar documento</a>
   </div>
 );
+Recurso.propTypes = {
+  titulo: PropTypes.string.isRequired,
+  descripcion: PropTypes.string.isRequired,
+  linkDescarga: PropTypes.string.isRequired,
+  imagen: PropTypes.string.isRequired,
+};
 
 const Biblioteca = () => {
   const recursos = [

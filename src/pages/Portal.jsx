@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Link,
   NavLink,
@@ -25,6 +25,7 @@ import {
   History,
   LayoutDashboard,
   LogOut,
+  Wallet,
   MapPin,
   Menu,
   MessageSquare,
@@ -37,6 +38,8 @@ import {
   X,
   Archive,
   RotateCcw,
+  UserRound,
+  BarChart3,
 } from "lucide-react";
 import usePortal from "../hooks/usePortal";
 import { supabase } from "../lib/supabase";
@@ -48,7 +51,8 @@ import {
   localDate,
   portalError,
 } from "../lib/portal";
-import { downloadPortalDocument, invitePortalMember } from "../lib/portalApi";
+import { downloadPortalDocument, getPortalDocumentBlob, invitePortalMember, uploadPortalDocument } from "../lib/portalApi";
+import { preparePortalDocument } from "../lib/portalFinanceFile";
 import {
   downloadPortalExport,
   portalCalendarIcs,
@@ -57,12 +61,23 @@ import {
 import PortalLogin from "../components/portal/PortalLogin";
 import PortalEditor from "../components/portal/PortalEditor";
 import InstitutionMap from "../components/portal/PortalLocationMap";
+import PortalFinance from "../components/portal/PortalFinance";
+import PortalDocumentPreview from "../components/portal/PortalDocumentPreview";
+import PortalAssetPhotos from "../components/portal/PortalAssetPhotos";
+import PortalProfile from "../components/portal/PortalProfile";
+import PortalOperators from "../components/portal/PortalOperators";
+import PortalUsage from "../components/portal/PortalUsage";
+import CopyRecordLink from "../components/portal/CopyRecordLink";
+import { resetFinanceDemo } from "../lib/portalFinanceDemo";
+import { canWritePortal } from '../lib/portalPermissions';
+import { selectedPortalInstitution, scopedPortalData } from '../lib/portalScope';
 import "./portal.css";
 
 const MODULES = [
   ["resumen", "Resumen", LayoutDashboard],
   ["instituciones", "Instituciones", Building2, "admin"],
   ["mapa", "Mapa de instituciones", MapPin, "admin"],
+  ["tesoreria", "Tesorería", Wallet, "owner"],
   ["calendario", "Calendario", CalendarDays],
   ["sedes", "Sedes", MapPin],
   ["equipamiento", "Equipamiento", HeartPulse],
@@ -70,22 +85,30 @@ const MODULES = [
   ["capacitaciones", "Capacitaciones", GraduationCap],
   ["documentos", "Documentos", FileBadge],
   ["solicitudes", "Solicitudes", MessageSquare],
-  ["accesos", "Accesos", Users, "admin"],
+  ["accesos", "Accesos", Users, "owner"],
   ["historial", "Historial", History, "admin"],
+  ["uso", "Uso por institución", BarChart3, "admin"],
+  ["operadores", "Operadores GRCP", Users, "owner"],
+  ["perfil", "Mi perfil", UserRound],
 ];
+const canAccessModule = (row, isAdmin, isOwner) => !row[3] || (row[3] === 'owner' ? isOwner : isAdmin);
 const DESCRIPTIONS = {
   resumen: "Un panorama de tu preparación y lo que viene.",
   instituciones: "Cada institución, con su información y seguimiento.",
   mapa: "Todas las instituciones y sus sedes, con acceso a su ficha y ubicación.",
+  tesoreria: "Fondos, cobros, pagos, compromisos y comprobantes de uso interno de GRCP.",
   calendario: "Organizá capacitaciones, revisiones y simulacros.",
-  sedes: "Los espacios que forman parte de esta institución.",
-  equipamiento: "Equipos y elementos, con sus fechas y estado registrado.",
+  sedes: "Ubicaciones de la institución donde se realizan actividades o se registran equipos.",
+  equipamiento: "Equipos y elementos, con fotos, documentos, fechas y estado registrado.",
   revisiones: "Controles realizados, evidencias y acciones pendientes.",
   capacitaciones: "Jornadas, participantes y asistencia registrada.",
   documentos: "Certificados, protocolos e informes en un solo lugar.",
   solicitudes: "Un canal de seguimiento compartido con GRCP.",
   accesos: "Asigná y administrá los permisos de esta institución.",
   historial: "Trazabilidad de los cambios realizados en el portal.",
+  uso: "Actividad, registros y archivos de cada institución.",
+  operadores: "Cuentas del equipo de GRCP y su acceso operativo.",
+  perfil: "Tus datos personales y contraseña de acceso.",
 };
 const ENTITY = {
   instituciones: "institutions",
@@ -110,9 +133,9 @@ const ADD_LABEL = {
   accesos: "Asignar acceso",
 };
 const activeRows = (rows) => (rows || []).filter((row) => !row.archived_at);
-const matchSearch = (rows, search) =>
+const matchSearch = (rows, search, institutionName) =>
   rows.filter((row) =>
-    Object.values(row)
+    [...Object.values(row), institutionName?.(row.institution_id)]
       .filter((value) => typeof value === "string")
       .join(" ")
       .toLocaleLowerCase("es")
@@ -161,7 +184,7 @@ function ArchiveButton({ record, onClick }) {
   );
 }
 
-function Detail({ item, data, onClose }) {
+function Detail({ item, data, isAdmin, getBlob, onEdit, onPreview, onNewInspection, onNewFollowUp, onAttachEvidence, onAttachAssetDocument, onClose }) {
   const dialog = useRef(null);
   useEffect(() => {
     const node = dialog.current;
@@ -171,6 +194,26 @@ function Detail({ item, data, onClose }) {
   const inspections = data.inspections
     .filter((r) => r.asset_id === item.id)
     .sort((a, b) => b.checked_on.localeCompare(a.checked_on));
+  const entity = ["institutions", "sites", "assets", "activities", "inspections", "participants", "documents", "requests", "memberships"].find((key) => data[key]?.some((row) => row.id === item.id));
+  const title = item.name || item.title || item.full_name || item.email || data.assets.find((row) => row.id === item.asset_id)?.name || "Registro";
+  const relatedDocuments = entity === "documents" ? [item] : data.documents.filter((row) =>
+    row.activity_id === item.id || row.participant_id === item.id || row.inspection_id === item.id || row.asset_id === item.id ||
+    (entity === "assets" && inspections.some((inspection) => inspection.id === row.inspection_id)));
+  const photos = entity === 'assets' ? relatedDocuments.filter((row) => row.asset_id === item.id && row.kind === 'photo' && !row.archived_at) : [];
+  const details = [
+    ["Tipo", item.kind && label(item.kind)], ["Estado", (item.status || item.result || item.attendance) && label(item.status || item.result || item.attendance)],
+    ["Permiso", item.role && label(item.role)], ["Invitación", item.email && item.role ? item.last_invited_at ? formatDate(item.last_invited_at, true) : 'Sin envío registrado' : null],
+    ["Último ingreso", item.email && item.role && data.accessActivity?.find((row) => row.membership_id === item.id)?.last_sign_in_at ? formatDate(data.accessActivity.find((row) => row.membership_id === item.id).last_sign_in_at, true) : null],
+    ["Institución", data.institutions.find((row) => row.id === item.institution_id)?.name],
+    ["Sede", data.sites.find((row) => row.id === item.site_id)?.name],
+    ["Equipo", data.assets.find((row) => row.id === item.asset_id)?.name],
+    ["Fecha", item.checked_on && formatDate(item.checked_on)], ["Próxima revisión", item.next_review_on && formatDate(item.next_review_on)],
+    ["Vencimiento", item.expires_on && formatDate(item.expires_on)], ["Asistencia", item.attendance && label(item.attendance)],
+    ["Contacto", item.contact_name], ["Correo", item.contact_email || item.email], ["Teléfono", item.contact_phone],
+    ["Localidad", item.city], ["Provincia", item.province], ["Dirección", item.address], ["Responsable", item.responsible || item.checked_by],
+    ["Inicio", item.starts_at && formatDate(item.starts_at, true)], ["Finalización", item.ends_at && formatDate(item.ends_at, true)],
+    ["Resultado", item.report], ["Respuesta", item.response], ["Descripción", item.body], ["Notas", item.notes],
+  ].filter(([, value]) => value);
   return (
     <dialog
       className="portal-dialog"
@@ -188,7 +231,7 @@ function Detail({ item, data, onClose }) {
         <header>
           <div>
             <span className="portal-eyebrow">HISTORIAL Y DETALLES</span>
-            <h2 id="portal-detail-title">{item.name || item.title}</h2>
+            <h2 id="portal-detail-title">{title}</h2>
           </div>
           <button
             className="portal-icon-button"
@@ -199,8 +242,8 @@ function Detail({ item, data, onClose }) {
           </button>
         </header>
         <div className="portal-detail-body">
-          <Badge value={item.status || item.kind} />
-          <p>{item.location || item.address}</p>
+          <dl className="portal-detail-fields">{details.map(([name, value]) => <div key={name}><dt>{name}</dt><dd>{value}</dd></div>)}</dl>
+          {item.location && <p>Ubicación: {item.location}</p>}
           {item.serial_number && (
             <p>
               Serie: {item.serial_number} ·{" "}
@@ -215,10 +258,7 @@ function Detail({ item, data, onClose }) {
               {item.responsible || "Responsable por asignar"}
             </p>
           )}
-          {item.kind &&
-            ["dea", "kit", "exit", "extinguisher", "other"].includes(
-              item.kind,
-            ) && (
+          {entity === 'assets' && (
               <>
                 <h3>Revisiones realizadas</h3>
                 {!inspections.length ? (
@@ -248,6 +288,14 @@ function Detail({ item, data, onClose }) {
                 )}
               </>
             )}
+          {photos.length > 0 && <section><h3>Fotos del equipo</h3><PortalAssetPhotos photos={photos} getBlob={getBlob} onPreview={onPreview} /></section>}
+          {relatedDocuments.length > 0 && <section><h3>Documentos asociados</h3>{relatedDocuments.map((row) => <button key={row.id} className="portal-detail-document" disabled={Boolean(row.archived_at)} onClick={() => onPreview(row)}><FileText size={17} /> {row.title || row.file_name}{row.archived_at ? ' · Archivado' : ''} <ArrowRight size={15} /></button>)}</section>}
+          {isAdmin && entity === 'assets' && <button className="portal-button" onClick={() => onAttachAssetDocument(item)}>Adjuntar foto o documento</button>}
+          {isAdmin && entity === 'assets' && <button className="portal-button" onClick={() => onNewInspection(item)}>Registrar revisión</button>}
+          {isAdmin && entity === 'inspections' && <button className="portal-button" onClick={() => onAttachEvidence(item)}>Adjuntar evidencia</button>}
+          {isAdmin && entity === 'inspections' && item.result !== 'pass' && <button className="portal-button" onClick={() => onNewFollowUp(item)}>Crear seguimiento</button>}
+          <CopyRecordLink />
+          {isAdmin && entity && entity !== "inspections" && <button className="portal-button primary" onClick={() => onEdit(entity, item)}>Editar registro</button>}
         </div>
       </div>
     </dialog>
@@ -255,6 +303,7 @@ function Detail({ item, data, onClose }) {
 }
 
 function Summary({ data, institution, onGo, onDetail, isAdmin }) {
+  const globalView = isAdmin && !institution;
   const assets = activeRows(data.assets),
     activities = activeRows(data.activities),
     documents = activeRows(data.documents);
@@ -293,8 +342,9 @@ function Summary({ data, institution, onGo, onDetail, isAdmin }) {
             <em>un trabajo compartido.</em>
           </h2>
           <p>
-            {institution?.name ||
-              "Comenzá registrando una institución para organizar su seguimiento."}
+            {globalView
+              ? `Vista general de ${activeRows(data.institutions).length} ${activeRows(data.institutions).length === 1 ? 'institución' : 'instituciones'}. Elegí una para trabajar en su ficha.`
+              : institution?.name || "Comenzá registrando una institución para organizar su seguimiento."}
           </p>
         </div>
         <div className="portal-welcome-symbol">
@@ -346,7 +396,7 @@ function Summary({ data, institution, onGo, onDetail, isAdmin }) {
                 <span>
                   <strong>{row.title}</strong>
                   <small>
-                    {label(row.kind)} · {formatDate(row.starts_at, true)}
+                    {label(row.kind)} · {formatDate(row.starts_at, true)}{globalView ? ` · ${data.institutions.find((item) => item.id === row.institution_id)?.name || 'Institución'}` : ''}
                   </small>
                 </span>
                 <Badge value={row.status} />
@@ -379,7 +429,7 @@ function Summary({ data, institution, onGo, onDetail, isAdmin }) {
                   <span>
                     <strong>{row.asset.name}</strong>
                     <small>
-                      {row.name} · {formatDate(row.date)}
+                      {row.name} · {formatDate(row.date)}{globalView ? ` · ${data.institutions.find((item) => item.id === row.asset.institution_id)?.name || 'Institución'}` : ''}
                     </small>
                   </span>
                   <span className={`portal-badge ${row.state}`}>
@@ -399,10 +449,10 @@ function Summary({ data, institution, onGo, onDetail, isAdmin }) {
       <div className="portal-summary-grid">
         <section className="portal-card">
           <div className="portal-card-heading">
-            <h3>Tu institución</h3>
+            <h3>{globalView ? 'Instituciones de GRCP' : isAdmin ? 'Institución seleccionada' : 'Tu institución'}</h3>
             <Building2 size={19} />
           </div>
-          <dl className="portal-profile">
+          {globalView ? <><p className="portal-muted">Consultá los registros de todas las instituciones o seleccioná una desde la parte superior.</p><dl className="portal-profile"><div><dt>Instituciones activas</dt><dd>{activeRows(data.institutions).length}</dd></div><div><dt>Sedes registradas</dt><dd>{activeRows(data.sites).length}</dd></div></dl><button className="portal-text-button" onClick={() => onGo('instituciones')}>Ver instituciones <ArrowRight size={15} /></button></> : <dl className="portal-profile">
             <div>
               <dt>Contacto</dt>
               <dd>{institution?.contact_name || "Sin registrar"}</dd>
@@ -423,15 +473,12 @@ function Summary({ data, institution, onGo, onDetail, isAdmin }) {
               <dt>Sedes</dt>
               <dd>{activeRows(data.sites).length}</dd>
             </div>
-          </dl>
+          </dl>}
         </section>
         <section className="portal-card portal-contact-card">
           <MessageSquare size={25} />
-          <h3>Seguimos en contacto</h3>
-          <p>
-            Solicitá una capacitación, coordiná una revisión o compartí una
-            observación con GRCP.
-          </p>
+          <h3>{isAdmin ? 'Solicitudes institucionales' : 'Seguimos en contacto'}</h3>
+          <p>{isAdmin ? 'Revisá las solicitudes de las instituciones y organizá el seguimiento.' : 'Solicitá una capacitación, coordiná una revisión o compartí una observación con GRCP.'}</p>
           <button className="portal-button" onClick={() => onGo("solicitudes")}>
             Ver solicitudes <ArrowRight size={16} />
           </button>
@@ -441,7 +488,7 @@ function Summary({ data, institution, onGo, onDetail, isAdmin }) {
   );
 }
 
-function Calendar({ rows, isAdmin, onEdit, onDetail, onArchive }) {
+function Calendar({ rows, isAdmin, onEdit, onDetail, onArchive, institutionName }) {
   const [month, setMonth] = useState(
     () => new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   );
@@ -570,7 +617,7 @@ function Calendar({ rows, isAdmin, onEdit, onDetail, onArchive }) {
               </span>
               <div>
                 <div className="portal-row-heading">
-                  <h3>{row.title}</h3>
+                  <h3><button className="portal-record-link" onClick={() => onDetail(row)}>{row.title}</button></h3>
                   <Badge value={row.status} />
                 </div>
                 <p>
@@ -586,6 +633,7 @@ function Calendar({ rows, isAdmin, onEdit, onDetail, onArchive }) {
                     ? ` · Cada ${row.repeat_months} meses`
                     : ""}
                 </small>
+                {institutionName && <small>{institutionName(row.institution_id)}</small>}
               </div>
               <div className="portal-row-actions">
                 <button
@@ -617,15 +665,21 @@ function Calendar({ rows, isAdmin, onEdit, onDetail, onArchive }) {
   );
 }
 
-function Training({ data, isAdmin, onEdit, onGo }) {
+function Training({ data, isAdmin, onEdit, onGo, onDetail, onPreview, onBulkAttendance, institutionName }) {
   const courses = activeRows(data.activities)
     .filter((row) => row.kind === "training")
     .sort((a, b) => b.starts_at.localeCompare(a.starts_at));
   const [chosen, setChosen] = useState("");
+  const [selected, setSelected] = useState([]);
+  const [bulkStatus, setBulkStatus] = useState('attended');
   const current = courses.find((row) => row.id === chosen) || courses[0];
   const people = data.participants.filter(
     (row) => row.activity_id === current?.id,
   );
+  useEffect(() => { setSelected([]); }, [current?.id]);
+  const certificates = activeRows(data.documents).filter((row) => row.kind === 'certificate' && row.activity_id === current?.id);
+  const protectedSelection = bulkStatus !== 'attended' && selected.some((id) => certificates.some((row) => row.participant_id === id));
+  function toggleParticipant(id) { setSelected((old) => old.includes(id) ? old.filter((value) => value !== id) : [...old, id]); }
   return !courses.length ? (
     <Empty text="Todavía no hay capacitaciones." />
   ) : (
@@ -643,7 +697,7 @@ function Training({ data, isAdmin, onEdit, onGo }) {
                 <GraduationCap size={20} />
                 <span>
                   <strong>{row.title}</strong>
-                  <small>{formatDate(row.starts_at)}</small>
+                  <small>{formatDate(row.starts_at)}{institutionName ? ` · ${institutionName(row.institution_id)}` : ''}</small>
                 </span>
                 <Badge value={row.status} />
               </button>
@@ -690,6 +744,7 @@ function Training({ data, isAdmin, onEdit, onGo }) {
             </span>
           </div>
           <div className="portal-row-actions">
+            <button className="portal-text-button" onClick={() => onDetail(current)}>Ver detalle <ArrowRight size={15} /></button>
             {isAdmin && (
               <button
                 className="portal-button"
@@ -717,25 +772,30 @@ function Training({ data, isAdmin, onEdit, onGo }) {
         </div>
         {people.length ? (
           <div className="portal-table-wrap">
+            {isAdmin && <div className="portal-bulk-toolbar"><label><input type="checkbox" checked={people.length > 0 && selected.length === people.length} onChange={(event) => setSelected(event.target.checked ? people.map((row) => row.id) : [])} /> Seleccionar todos</label><span>{selected.length} seleccionados</span><select aria-label="Asistencia para seleccionados" value={bulkStatus} onChange={(event) => setBulkStatus(event.target.value)}><option value="attended">Presente</option><option value="absent">Ausente</option><option value="pending">Pendiente</option></select><button className="portal-button" disabled={!selected.length || protectedSelection} onClick={async () => { if (await onBulkAttendance(selected, current, bulkStatus)) setSelected([]); }}>Aplicar asistencia</button>{protectedSelection && <small role="alert">Una persona seleccionada tiene certificado. Archivá ese certificado antes de cambiar su asistencia.</small>}</div>}
             <table>
               <thead>
                 <tr>
+                  {isAdmin && <th><span className="portal-sr-only">Seleccionar</span></th>}
                   <th>Participante</th>
                   <th>Correo</th>
                   <th>Asistencia</th>
+                  <th>Certificado</th>
                   {isAdmin && <th>Acciones</th>}
                 </tr>
               </thead>
               <tbody>
                 {people.map((row) => (
                   <tr key={row.id}>
+                    {isAdmin && <td><input type="checkbox" aria-label={`Seleccionar ${row.full_name}`} checked={selected.includes(row.id)} onChange={() => toggleParticipant(row.id)} /></td>}
                     <td>
-                      <strong>{row.full_name}</strong>
+                      <button className="portal-record-link" onClick={() => onDetail(row)}>{row.full_name}</button>
                     </td>
                     <td>{row.email || "—"}</td>
                     <td>
                       <Badge value={row.attendance} />
                     </td>
+                    <td>{certificates.find((document) => document.participant_id === row.id) ? <button className="portal-text-button" onClick={() => onPreview(certificates.find((document) => document.participant_id === row.id))}>Ver certificado <FileText size={14} /></button> : isAdmin && row.attendance === 'attended' && current.status === 'completed' ? <button className="portal-text-button" onClick={() => onEdit('documents', { kind: 'certificate', activity_id: current.id, participant_id: row.id, title: `Certificado · ${row.full_name}` })}>Cargar certificado <Plus size={14} /></button> : '—'}</td>
                     {isAdmin && (
                       <td>
                         <EditButton
@@ -778,13 +838,16 @@ export default function Portal() {
     [search, setSearch] = useState(""),
     [archived, setArchived] = useState(false),
     [editor, setEditor] = useState(null),
-    [detail, setDetail] = useState(null),
+    [detail, setDetailState] = useState(null),
+    [preview, setPreview] = useState(null),
     [menu, setMenu] = useState(false),
     [notice, setNotice] = useState(""),
     [failure, setFailure] = useState(""),
     [busy, setBusy] = useState(false),
-    [documentKind, setDocumentKind] = useState("all");
-  const isAdmin = Boolean(portal.context?.is_admin);
+    [documentKind, setDocumentKind] = useState("all"),
+    [documentExpiry, setDocumentExpiry] = useState('all');
+  const isOwner = Boolean(portal.context?.is_admin);
+  const isAdmin = Boolean(isOwner || portal.context?.is_operator);
   const institutions = useMemo(
     () =>
       portal.data?.institutions.filter(
@@ -796,43 +859,53 @@ export default function Portal() {
       ) || [],
     [portal.data, isAdmin, demo],
   );
-  const institution =
-    institutions.find((row) => row.id === institutionId) ||
-    institutions.find((row) => !row.archived_at) ||
-    institutions[0];
+  const institution = selectedPortalInstitution(institutions, institutionId, isAdmin);
   const tenant = institution?.id;
-  const data = useMemo(
-    () =>
-      portal.data
-        ? Object.fromEntries(
-            Object.entries(portal.data).map(([key, rows]) => [
-              key,
-              key === "institutions"
-                ? rows
-                : rows.filter((row) => row.institution_id === tenant),
-            ]),
-          )
-        : null,
-    [portal.data, tenant],
-  );
+  const recordId = params.get('registro');
+  const data = useMemo(() => scopedPortalData(portal.data, tenant, isAdmin), [portal.data, tenant, isAdmin]);
   const module =
     MODULES.find(
-      (row) => row[0] === (section || "resumen") && (!row[3] || isAdmin),
+      (row) => row[0] === (section || "resumen") && canAccessModule(row, isAdmin, isOwner),
     ) || MODULES[0];
   const tab = module[0];
+  const globalModule = isAdmin && ['instituciones', 'mapa', 'tesoreria', 'uso', 'operadores'].includes(tab);
+  useEffect(() => {
+    if (demo || isAdmin || !portal.session?.user?.id || !portal.context || !tenant ||
+      !['resumen', 'calendario', 'sedes', 'equipamiento', 'revisiones', 'capacitaciones', 'documentos', 'solicitudes'].includes(tab)) return;
+    supabase.rpc('portal_record_module_visit', { tenant_id: tenant, visited_module: tab }).then(() => {});
+  }, [demo, isAdmin, portal.session?.user?.id, portal.context, tenant, tab]);
+  useEffect(() => {
+    if (portal.context && MODULES.some((row) => row[0] === section && !canAccessModule(row, isAdmin, isOwner))) {
+      navigate(`/Portal/resumen${demo ? '?demo=1' : ''}`, { replace: true });
+    }
+  }, [portal.context, isAdmin, isOwner, section, demo, navigate]);
+  useEffect(() => {
+    const requestedInstitution = params.get('institucion');
+    if (requestedInstitution && institutions.some((row) => row.id === requestedInstitution)) setInstitutionId(requestedInstitution);
+  }, [params, institutions]);
+  useEffect(() => {
+    if (!recordId || !data) { setDetailState(null); return; }
+    const record = Object.values(data).flat().find((row) => row.id === recordId);
+    setDetailState(record || null);
+  }, [recordId, data]);
   const membership = data?.memberships.find(
     (row) => row.email === portal.context?.email && row.active,
   );
-  const canRequest = isAdmin || membership?.role === "manager" || demo;
+  const canRequest = isAdmin || membership?.role === "manager";
   useEffect(() => {
     setSearch("");
     setMenu(false);
     setArchived(false);
     setFailure("");
     setNotice("");
-    setDetail(null);
     setEditor(null);
-  }, [section, tenant, demo, isAdmin]);
+  }, [section, demo, isAdmin]);
+  useEffect(() => {
+    setSearch("");
+    setArchived(false);
+    setFailure("");
+    setNotice("");
+  }, [tenant]);
   useEffect(() => {
     if (!menu) return;
     const previous = document.body.style.overflow;
@@ -872,21 +945,89 @@ export default function Portal() {
     };
   }, [menu]);
   const go = (key) => navigate(`/Portal/${key}${demo ? "?demo=1" : ""}`);
+  function chooseInstitution(id) {
+    setInstitutionId(id);
+    setDetailState(null);
+    setParams((previous) => {
+      const next = new URLSearchParams(previous);
+      next.delete('institucion');
+      next.delete('registro');
+      return next;
+    }, { replace: true });
+  }
+  function setDetail(item) {
+    setDetailState(item);
+    setParams((previous) => {
+      const next = new URLSearchParams(previous);
+      if (item?.id) {
+        next.set('registro', item.id);
+        if (item.institution_id && (!isAdmin || tenant)) next.set('institucion', item.institution_id);
+        else next.delete('institucion');
+      } else next.delete('registro');
+      return next;
+    }, { replace: !item });
+  }
   async function perform(operation, message) {
     setFailure("");
     setNotice("");
     setBusy(true);
     try {
-      await operation();
-      setNotice(message);
+      const result = await operation();
+      setNotice(typeof message === 'function' ? message(result) : message);
+      return true;
     } catch (error) {
       setFailure(portalError(error));
+      return false;
     } finally {
       setBusy(false);
     }
   }
-  function edit(entity, record) {
-    setEditor({ entity, record: record || {} });
+  function edit(entity, record, options = {}) {
+    if (entity === 'memberships' && !isOwner) {
+      setFailure('Solo la cuenta principal de GRCP administra los accesos.');
+      return;
+    }
+    const relatedInstitutionId = record?.institution_id ||
+      portal.data.assets.find((row) => row.id === record?.asset_id)?.institution_id ||
+      portal.data.activities.find((row) => row.id === record?.activity_id)?.institution_id ||
+      portal.data.inspections.find((row) => row.id === record?.inspection_id)?.institution_id ||
+      portal.data.participants.find((row) => row.id === record?.participant_id)?.institution_id;
+    const editorInstitutionId = relatedInstitutionId || tenant;
+    if (isAdmin && entity !== 'institutions' && !editorInstitutionId) {
+      setFailure('Seleccioná una institución para registrar este dato.');
+      return;
+    }
+    if (!canWritePortal({ isAdmin, role: membership?.role, entity, recordId: record?.id,
+      institutionId: editorInstitutionId, selectedInstitutionId: tenant })) {
+      setFailure('Este perfil no tiene permiso para modificar ese módulo.');
+      return;
+    }
+    setEditor({ entity, record: record || {}, institutionId: editorInstitutionId, ...options });
+  }
+  function documentVisible(row) {
+    if (documentKind !== 'all' && row.kind !== documentKind) return false;
+    const today = localDate();
+    const soon = localDate(new Date(Date.now() + 30 * 86400000));
+    return documentExpiry === 'all' ||
+      (documentExpiry === 'expired' && row.expires_on && row.expires_on < today) ||
+      (documentExpiry === 'soon' && row.expires_on && row.expires_on >= today && row.expires_on <= soon) ||
+      (documentExpiry === 'current' && (!row.expires_on || row.expires_on >= today)) ||
+      (documentExpiry === 'no_date' && !row.expires_on);
+  }
+  function documentOrigin(row) {
+    return data.participants.find((item) => item.id === row.participant_id) ||
+      data.activities.find((item) => item.id === row.activity_id) ||
+      data.inspections.find((item) => item.id === row.inspection_id) ||
+      data.assets.find((item) => item.id === row.asset_id) || null;
+  }
+  function accessActivityFor(row) { return data.accessActivity?.find((item) => item.membership_id === row.id); }
+  function accessStatus(row) {
+    const activity = accessActivityFor(row);
+    if (!row.active) return 'Acceso deshabilitado';
+    if (activity?.confirmed_at) return 'Cuenta activada';
+    if (row.invite_failed_at && (!row.last_invited_at || row.invite_failed_at > row.last_invited_at)) return 'Error de envío';
+    if (row.last_invited_at) return 'Invitación enviada';
+    return 'Sin invitación registrada';
   }
   async function archive(entity, record) {
     await perform(
@@ -918,6 +1059,14 @@ export default function Portal() {
         setTimeout(() => URL.revokeObjectURL(url), 1000);
       } else await downloadPortalDocument(document);
     }, "Documento descargado.");
+  }
+  const previewBlob = useCallback((document) => demo ? Promise.resolve(document.demoFile) : getPortalDocumentBlob(document), [demo]);
+  function previewDocument(document) {
+    if (demo && !document.demoFile) {
+      setNotice("Este documento de ejemplo no tiene archivo para previsualizar.");
+      return;
+    }
+    setPreview(document);
   }
   if (!demo && (!portal.session || portal.recovery))
     return (
@@ -968,7 +1117,10 @@ export default function Portal() {
         archived ? Boolean(row.archived_at) : !row.archived_at,
       ),
       search,
+      isAdmin && !tenant ? institutionName : null,
     );
+  const institutionName = (id) => data.institutions.find((row) => row.id === id)?.name || 'Institución sin identificar';
+  const showInstitution = isAdmin && (!tenant || globalModule);
   const hasArchive = [
     "instituciones",
     "calendario",
@@ -979,11 +1131,12 @@ export default function Portal() {
   const allowAdd =
     (isAdmin && Boolean(ENTITY[tab]) && (tab === "instituciones" || tenant)) ||
     (tab === "solicitudes" && canRequest && tenant);
+  const editorData = scopedPortalData(portal.data, editor?.institutionId || tenant, isAdmin);
   const scopedForEditor = {
-    ...data,
-    sites: activeRows(data.sites),
-    assets: activeRows(data.assets),
-    activities: activeRows(data.activities),
+    ...editorData,
+    sites: activeRows(editorData.sites),
+    assets: activeRows(editorData.assets),
+    activities: activeRows(editorData.activities),
   };
   function exportData(calendar = false) {
     const entity = ENTITY[tab];
@@ -993,8 +1146,11 @@ export default function Portal() {
         documentKind === "all" ||
         row.kind === documentKind,
     );
+    const exportRows = calendar && showInstitution
+      ? rows.map((row) => ({ ...row, title: `${institutionName(row.institution_id)} · ${row.title}` }))
+      : rows;
     downloadPortalExport(
-      calendar ? portalCalendarIcs(rows) : portalCsv(entity, rows, data),
+      calendar ? portalCalendarIcs(exportRows) : portalCsv(entity, exportRows, data, { includeInstitution: showInstitution }),
       calendar ? "calendario-grcp.ics" : `${entity}-grcp.csv`,
       calendar ? "text/calendar;charset=utf-8" : undefined,
     );
@@ -1038,18 +1194,19 @@ export default function Portal() {
         </button>
         <div className="portal-workspace">
           <span>{isAdmin ? "GESTIÓN GRCP" : "ESPACIO INSTITUCIONAL"}</span>
-          <strong>{institution?.name || "Sin instituciones"}</strong>
+          <strong>{isAdmin ? 'GRCP Argentina' : institution?.name || 'Sin institución asignada'}</strong>
           <small>
             <span className="portal-online-dot" />
             {demo
               ? "Demostración"
               : isAdmin
-                ? "Administrador general"
-                : "Acceso privado"}
+                ? isOwner ? "Administrador general" : "Operador GRCP"
+                : membership?.role === 'manager' ? 'Responsable institucional' : membership?.role === 'viewer' ? 'Solo consulta' : 'Sin acceso asignado'}
           </small>
+          {isAdmin && <p className="portal-workspace-scope">Vista: {tab === 'tesoreria' ? 'Uso interno GRCP' : globalModule ? 'Todas las instituciones' : institution?.name || 'Todas las instituciones'}</p>}
         </div>
         <nav aria-label="Navegación del portal">
-          {MODULES.filter((row) => !row[3] || isAdmin).map(
+          {MODULES.filter((row) => canAccessModule(row, isAdmin, isOwner)).map(
             ([key, title, Icon]) => (
               <NavLink
                 key={key}
@@ -1077,7 +1234,7 @@ export default function Portal() {
             <ArrowLeft size={16} />
             Volver al sitio
           </Link>
-          {isAdmin && (
+          {isOwner && (
             <Link to="/PanelDEA">
               <MapPin size={16} />
               Gestionar mapa DEA
@@ -1087,7 +1244,7 @@ export default function Portal() {
             disabled={busy}
             onClick={() =>
               demo
-                ? setParams({})
+                ? (resetFinanceDemo(), setParams({}))
                 : perform(() => supabase.auth.signOut(), "Sesión cerrada.")
             }
           >
@@ -1116,14 +1273,15 @@ export default function Portal() {
             </span>
           </div>
           <div>
-            {institutions.length > 0 && tab !== "mapa" && (
+            {(isAdmin || institutions.length > 1) && !["mapa", "tesoreria", "uso", "operadores", "perfil"].includes(tab) && (
               <label className="portal-institution-select">
                 <Building2 size={16} />
                 <select
-                  aria-label="Institución seleccionada"
+                  aria-label="Filtrar por institución"
                   value={tenant || ""}
-                  onChange={(e) => setInstitutionId(e.target.value)}
+                  onChange={(e) => chooseInstitution(e.target.value)}
                 >
+                  {isAdmin && <option value="">Todas las instituciones</option>}
                   {institutions.map((row) => (
                     <option value={row.id} key={row.id}>
                       {row.name}
@@ -1183,10 +1341,26 @@ export default function Portal() {
               </button>
             )}
           </div>
+          {isAdmin && !tenant && !['mapa', 'tesoreria', 'uso', 'operadores', 'perfil'].includes(tab) && (
+            <div className="portal-global-context" role="status">
+              <Building2 size={18} aria-hidden="true" />
+              <span><strong>Vista general de GRCP.</strong> Estás viendo información de todas las instituciones. Para cargar datos vinculados a una institución, elegila arriba.</span>
+            </div>
+          )}
+          {tab === 'sedes' && institution && (
+            <div className="portal-site-context">
+              <Building2 size={22} aria-hidden="true" />
+              <div>
+                <strong>Sedes de {institution.name}</strong>
+                <p>{institution.name} es la institución. Cada sede es una ubicación propia, como una oficina, sucursal o establecimiento. {isAdmin ? 'Podés agregar varias sedes y después asignarles equipos y actividades.' : 'GRCP registra las sedes y sus ubicaciones.'}</p>
+              </div>
+              <span>{activeRows(data.sites).length} {activeRows(data.sites).length === 1 ? 'sede' : 'sedes'}</span>
+            </div>
+          )}
           {ENTITY[tab] &&
             tab !== "accesos" &&
             tab !== "capacitaciones" &&
-            tenant && (
+            (tenant || isAdmin) && (
               <div className="portal-export-actions">
                 <button
                   className="portal-text-button"
@@ -1227,7 +1401,7 @@ export default function Portal() {
               usuarios no tienen acceso.
             </p>
           )}
-          {!tenant && !["instituciones", "mapa"].includes(tab) ? (
+          {!tenant && !isAdmin && tab !== 'perfil' ? (
             <Empty
               text={
                 isAdmin
@@ -1250,7 +1424,7 @@ export default function Portal() {
             </Empty>
           ) : (
             <>
-              {!["resumen", "historial", "capacitaciones"].includes(tab) && (
+              {!["resumen", "historial", "capacitaciones", "tesoreria", "uso", "operadores", "perfil"].includes(tab) && (
                 <div className="portal-list-toolbar">
                   <label className="portal-search">
                     <Search size={17} />
@@ -1262,20 +1436,20 @@ export default function Portal() {
                     />
                   </label>
                   {tab === "documentos" && (
-                    <select
+                    <><select
                       aria-label="Tipo de documento"
                       value={documentKind}
                       onChange={(e) => setDocumentKind(e.target.value)}
                     >
                       <option value="all">Todos los documentos</option>
-                      {["certificate", "protocol", "report", "other"].map(
+                      {["certificate", "protocol", "report", "photo", "manual", "other"].map(
                         (value) => (
                           <option key={value} value={value}>
                             {label(value)}
                           </option>
                         ),
                       )}
-                    </select>
+                    </select><select aria-label="Vencimiento de documentos" value={documentExpiry} onChange={(event) => setDocumentExpiry(event.target.value)}><option value="all">Todos los vencimientos</option><option value="current">Vigentes</option><option value="soon">Vencen en 30 días</option><option value="expired">Vencidos</option><option value="no_date">Sin vencimiento</option></select></>
                   )}
                   {isAdmin && hasArchive && (
                     <label className="portal-archive-filter">
@@ -1300,8 +1474,19 @@ export default function Portal() {
               )}
               {tab === "mapa" && isAdmin && (
                 <InstitutionMap institutions={institutions} sites={portal.data.sites} search={search}
-                  onEdit={edit} onOpen={(id) => { setInstitutionId(id); go("resumen"); }} />
+                  onEdit={edit} onOpen={(row) => {
+                    setInstitutionId(row.institutionId);
+                    const target = row.entity === 'sites' ? 'sedes' : 'resumen';
+                    const query = new URLSearchParams({ institucion: row.institutionId });
+                    if (row.entity === 'sites') query.set('registro', row.id);
+                    if (demo) query.set('demo', '1');
+                    navigate(`/Portal/${target}?${query}`);
+                  }} />
               )}
+              {tab === "tesoreria" && isOwner && <PortalFinance institutions={institutions} demo={demo} />}
+              {tab === "perfil" && <PortalProfile session={portal.session} context={portal.context} institutions={portal.data.institutions} memberships={portal.data.memberships} demo={demo} />}
+              {tab === "uso" && isAdmin && <PortalUsage institutions={institutions} data={portal.data} demo={demo} onOpen={(id) => { setInstitutionId(id); navigate(`/Portal/resumen?institucion=${id}${demo ? '&demo=1' : ''}`); }} />}
+              {tab === "operadores" && isOwner && <PortalOperators demo={demo} />}
               {tab === "instituciones" &&
                 (list("institutions").length ? (
                   <div className="portal-institution-grid">
@@ -1323,7 +1508,7 @@ export default function Portal() {
                           </div>
                         </div>
                         <Badge value={row.status} />
-                        <h3>{row.name}</h3>
+                        <h3><button className="portal-record-link" onClick={() => setDetail(row)}>{row.name}</button></h3>
                         <p>
                           {label(row.kind)} ·{" "}
                           {row.city || "Localidad sin registrar"}
@@ -1331,6 +1516,7 @@ export default function Portal() {
                         <p className="portal-muted">
                           {row.contact_name || "Sin contacto asignado"}
                         </p>
+                        <p className="portal-muted">{(portal.data.sites || []).filter((site) => site.institution_id === row.id && !site.archived_at).length} sedes registradas</p>
                         <button
                           className="portal-text-button"
                           onClick={() => {
@@ -1339,6 +1525,9 @@ export default function Portal() {
                           }}
                         >
                           Abrir institución <ArrowRight size={16} />
+                        </button>
+                        <button className="portal-text-button" onClick={() => { setInstitutionId(row.id); go('sedes'); }}>
+                          Ver sedes <MapPin size={15} />
                         </button>
                       </article>
                     ))}
@@ -1363,11 +1552,12 @@ export default function Portal() {
                             </div>
                           )}
                         </div>
-                        <h3>{row.name}</h3>
+                        <h3><button className="portal-record-link" onClick={() => setDetail(row)}>{row.name}</button></h3>
                         <p>
                           {[row.address, row.city].filter(Boolean).join(", ") ||
                             "Dirección sin registrar"}
                         </p>
+                        {showInstitution && <p className="portal-record-institution">{institutionName(row.institution_id)}</p>}
                         <p className="portal-muted">{row.notes}</p>
                         <span className="portal-badge">
                           {
@@ -1381,7 +1571,9 @@ export default function Portal() {
                     ))}
                   </div>
                 ) : (
-                  <Empty text="Sin sedes registradas." />
+                  <Empty text={search ? 'No hay sedes que coincidan con la búsqueda.' : archived ? 'No hay sedes archivadas.' : tenant ? `${institution.name} todavía no tiene sedes registradas.` : 'Todavía no hay sedes registradas.'}>
+                    {isAdmin && tenant && !archived && !search && <button className="portal-button primary" onClick={() => edit('sites', {})}><Plus size={16} /> Crear primera sede</button>}
+                  </Empty>
                 ))}
               {tab === "calendario" && (
                 <Calendar
@@ -1390,6 +1582,7 @@ export default function Portal() {
                   onEdit={edit}
                   onDetail={setDetail}
                   onArchive={archive}
+                  institutionName={showInstitution ? institutionName : null}
                 />
               )}
               {tab === "equipamiento" &&
@@ -1406,7 +1599,9 @@ export default function Portal() {
                         <small className="portal-eyebrow">
                           {label(row.kind)}
                         </small>
-                        <h3>{row.name}</h3>
+                        <h3><button className="portal-record-link" onClick={() => setDetail(row)}>{row.name}</button></h3>
+                        <small>{data.documents.filter((document) => document.asset_id === row.id && !document.archived_at).length} fotos o documentos adjuntos</small>
+                        {showInstitution && <p className="portal-record-institution">{institutionName(row.institution_id)}</p>}
                         <p>
                           {data.sites.find((s) => s.id === row.site_id)?.name ||
                             "Sin sede asignada"}
@@ -1441,6 +1636,8 @@ export default function Portal() {
                           </button>
                           {isAdmin && (
                             <>
+                              <button className="portal-text-button" onClick={() => edit('inspections', { asset_id: row.id })}>Registrar revisión <Plus size={15} /></button>
+                              <button className="portal-text-button" onClick={() => edit('documents', { kind: 'photo', asset_id: row.id, title: `Foto · ${row.name}` })}>Adjuntar foto <Plus size={15} /></button>
                               <EditButton
                                 title={`Editar ${row.name}`}
                                 onClick={() => edit("assets", row)}
@@ -1475,6 +1672,7 @@ export default function Portal() {
                             </h3>
                             <Badge value={row.result} />
                           </div>
+                          {showInstitution && <p className="portal-record-institution">{institutionName(row.institution_id)}</p>}
                           <p>
                             {formatDate(row.checked_on)} · {row.checked_by}
                           </p>
@@ -1495,6 +1693,7 @@ export default function Portal() {
                             <small>
                               Próxima revisión: {formatDate(row.next_review_on)}
                             </small>
+                            <button className="portal-text-button" onClick={() => setDetail(row)}>Ver detalle <ArrowRight size={15} /></button>
                             {isAdmin && (
                               <button
                                 className="portal-text-button"
@@ -1505,7 +1704,7 @@ export default function Portal() {
                                   })
                                 }
                               >
-                                Adjuntar informe <Plus size={15} />
+                                Adjuntar evidencia <Plus size={15} />
                               </button>
                             )}
                           </div>
@@ -1521,12 +1720,14 @@ export default function Portal() {
                   isAdmin={isAdmin}
                   onEdit={edit}
                   onGo={go}
+                  onDetail={setDetail}
+                  onPreview={previewDocument}
+                  onBulkAttendance={(ids, activity, status) => perform(() => portal.bulkAttendance(ids, activity.id, activity.institution_id, status), `${ids.length} asistencias actualizadas.`)}
+                  institutionName={showInstitution ? institutionName : null}
                 />
               )}
               {tab === "documentos" &&
-                (list("documents").filter(
-                  (d) => documentKind === "all" || d.kind === documentKind,
-                ).length ? (
+                (list("documents").filter(documentVisible).length ? (
                   <div className="portal-card portal-table-wrap">
                     <table>
                       <thead>
@@ -1539,32 +1740,24 @@ export default function Portal() {
                       </thead>
                       <tbody>
                         {list("documents")
-                          .filter(
-                            (d) =>
-                              documentKind === "all" || d.kind === documentKind,
-                          )
+                          .filter(documentVisible)
                           .map((row) => (
                             <tr key={row.id}>
                               <td>
                                 <div className="portal-document-name">
                                   <FileText size={22} />
                                   <span>
-                                    <strong>{row.title}</strong>
+                                    <button className="portal-record-link" disabled={Boolean(row.archived_at)} onClick={() => previewDocument(row)}>{row.title}</button>
                                     <small>
                                       {label(row.kind)} · v{row.version} ·{" "}
                                       {row.file_name}
                                     </small>
+                                    {showInstitution && <small>{institutionName(row.institution_id)}</small>}
                                   </span>
                                 </div>
                               </td>
                               <td>
-                                {data.participants.find(
-                                  (p) => p.id === row.participant_id,
-                                )?.full_name ||
-                                  data.activities.find(
-                                    (a) => a.id === row.activity_id,
-                                  )?.title ||
-                                  "Institución"}
+                                {documentOrigin(row) ? <button className="portal-record-link" onClick={() => setDetail(documentOrigin(row))}>{documentOrigin(row).full_name || documentOrigin(row).title || documentOrigin(row).name || data.assets.find((asset) => asset.id === documentOrigin(row).asset_id)?.name || 'Revisión'}</button> : 'Institución'}
                               </td>
                               <td>
                                 {formatDate(row.issued_on)}
@@ -1578,6 +1771,15 @@ export default function Portal() {
                                 <div className="portal-row-actions">
                                   <button
                                     className="portal-icon-button"
+                                    title="Ver documento"
+                                    aria-label={`Ver ${row.title}`}
+                                    disabled={busy || Boolean(row.archived_at)}
+                                    onClick={() => previewDocument(row)}
+                                  >
+                                    <FileText size={17} />
+                                  </button>
+                                  <button
+                                    className="portal-icon-button"
                                     title="Descargar documento"
                                     aria-label={`Descargar ${row.title}`}
                                     disabled={busy || Boolean(row.archived_at)}
@@ -1586,10 +1788,10 @@ export default function Portal() {
                                     <Download size={17} />
                                   </button>
                                   {isAdmin && (
-                                    <ArchiveButton
+                                    <><EditButton title={`Editar datos de ${row.title}`} onClick={() => edit('documents', row)} />{!row.archived_at && <button className="portal-text-button" onClick={() => edit('documents', row, { replacing: true })}>Nueva versión <Plus size={14} /></button>}<ArchiveButton
                                       record={row}
                                       onClick={() => archive("documents", row)}
-                                    />
+                                    /></>
                                   )}
                                 </div>
                               </td>
@@ -1621,13 +1823,14 @@ export default function Portal() {
                             key={row.id}
                           >
                             <div className="portal-row-heading">
-                              <h3>{row.title}</h3>
+                              <h3><button className="portal-record-link" onClick={() => setDetail(row)}>{row.title}</button></h3>
                               <Badge value={row.status} />
                             </div>
                             <small>
                               {label(row.kind)} ·{" "}
                               {formatDate(row.created_at, true)}
                             </small>
+                            {showInstitution && <p className="portal-record-institution">{institutionName(row.institution_id)}</p>}
                             <p>{row.body}</p>
                             {row.response && (
                               <div className="portal-response">
@@ -1667,13 +1870,15 @@ export default function Portal() {
                             <th>Correo</th>
                             <th>Permiso</th>
                             <th>Acceso</th>
+                            <th>Invitación</th>
+                            <th>Último ingreso</th>
                             <th>Acciones</th>
                           </tr>
                         </thead>
                         <tbody>
                           {list("memberships").map((row) => (
                             <tr key={row.id}>
-                              <td>{row.email}</td>
+                              <td><button className="portal-record-link" onClick={() => setDetail(row)}>{row.email}</button>{showInstitution && <small>{institutionName(row.institution_id)}</small>}</td>
                               <td>{label(row.role)}</td>
                               <td>
                                 <span
@@ -1682,13 +1887,15 @@ export default function Portal() {
                                   {row.active ? "Habilitado" : "Deshabilitado"}
                                 </span>
                               </td>
+                              <td><strong>{accessStatus(row)}</strong>{row.last_invited_at && <small>Enviada {formatDate(row.last_invited_at, true)} · {row.invite_count || 1} {row.invite_count === 1 ? 'envío' : 'envíos'}</small>}</td>
+                              <td>{accessActivityFor(row)?.last_sign_in_at ? formatDate(accessActivityFor(row).last_sign_in_at, true) : 'Sin ingresos registrados'}</td>
                               <td>
                                 <div className="portal-row-actions">
                                   <EditButton
                                     title={`Editar acceso de ${row.email}`}
                                     onClick={() => edit("memberships", row)}
                                   />
-                                  <button
+                                  {!accessActivityFor(row)?.confirmed_at && <button
                                     className="portal-text-button"
                                     disabled={busy || !row.active}
                                     onClick={() =>
@@ -1697,13 +1904,13 @@ export default function Portal() {
                                             "En la demostración no se envían correos.",
                                           )
                                         : perform(
-                                            () => invitePortalMember(row.id),
-                                            "Invitación enviada. La persona podrá elegir su contraseña.",
+                                            async () => { try { return await invitePortalMember(row.id); } finally { await portal.reload().catch(() => {}); } },
+                                            (result) => result?.message || "Invitación enviada.",
                                           )
                                     }
                                   >
-                                    Enviar invitación <ArrowRight size={14} />
-                                  </button>
+                                    {row.last_invited_at ? 'Reenviar invitación' : 'Enviar invitación'} <ArrowRight size={14} />
+                                  </button>}
                                 </div>
                               </td>
                             </tr>
@@ -1738,14 +1945,18 @@ export default function Portal() {
                           <tr key={row.id}>
                             <td>{formatDate(row.happened_at, true)}</td>
                             <td>
-                              <strong>
+                              <button className="portal-record-link" onClick={() => {
+                                const collection = row.entity.replace('portal_', '');
+                                setDetail(data[collection]?.find((item) => item.id === row.record_id) || row.after_data);
+                              }}>
                                 {row.after_data?.name ||
                                   row.after_data?.title ||
                                   row.after_data?.full_name ||
                                   row.after_data?.email ||
                                   "Registro"}
-                              </strong>
+                              </button>
                               <small>{row.entity.replace("portal_", "")}</small>
+                              {showInstitution && row.institution_id && <small>{institutionName(row.institution_id)}</small>}
                             </td>
                             <td>
                               {row.action === "INSERT"
@@ -1770,7 +1981,7 @@ export default function Portal() {
           <footer className="portal-content-footer">
             <span>
               <ShieldCheck size={14} />
-              Información privada de la institución.
+              {showInstitution ? 'Información privada de las instituciones, visible para GRCP.' : 'Información privada de la institución.'}
             </span>
             <span>
               El estado de los equipos refleja los registros cargados y requiere
@@ -1781,25 +1992,62 @@ export default function Portal() {
       </div>
       {editor && (
         <PortalEditor
-          key={`${editor.entity}-${editor.record?.id || "new"}`}
+          key={`${editor.entity}-${editor.record?.id || "new"}-${editor.replacing ? 'replace' : 'edit'}`}
           entity={editor.entity}
           record={editor.record}
           data={scopedForEditor}
-          institutionId={tenant}
+          institutionId={editor.institutionId}
+          replacing={Boolean(editor.replacing)}
           onClose={() => setEditor(null)}
           onSave={async (...args) => {
-            await portal.save(...args);
+            if (editor.entity === 'memberships' && !isOwner) throw new Error('Solo la cuenta principal de GRCP administra los accesos.');
+            if (!canWritePortal({ isAdmin, role: membership?.role, entity: editor.entity, recordId: editor.record?.id,
+              institutionId: args[1]?.institution_id || editor.institutionId, selectedInstitutionId: tenant })) {
+              throw new Error('Este perfil no tiene permiso para guardar ese registro.');
+            }
+            try {
+              if (editor.entity === 'assets' && !editor.record?.id && Array.isArray(args[3]) && args[3].length) {
+                const files = await Promise.all(args[3].map((file) => preparePortalDocument(file)));
+                const asset = await portal.save('assets', args[1]);
+                const results = await Promise.allSettled(files.map((file) => {
+                  const payload = {
+                    institution_id: asset.institution_id,
+                    asset_id: asset.id,
+                    title: file.name.replace(/\.[^.]+$/, '') || asset.name,
+                    kind: file.type.startsWith('image/') ? 'photo' : 'other',
+                    issued_on: localDate(),
+                    version: 1,
+                  };
+                  return demo ? portal.save('documents', payload, undefined, file) : uploadPortalDocument(payload, file);
+                }));
+                if (!demo) await portal.reload();
+                const failed = results.filter((result) => result.status === 'rejected').length;
+                setNotice(failed ? `Equipo guardado. ${failed} adjunto${failed === 1 ? '' : 's'} no se pudo${failed === 1 ? '' : 'ieron'} guardar; podés reintentarlo desde la ficha.` : 'Equipo y adjuntos guardados.');
+                return;
+              }
+              if (editor.replacing) await portal.replaceDocument(editor.record, args[1], args[3]);
+              else await portal.save(...args);
+            } catch (error) {
+              if (error.partialPortalSave) { setFailure(error.portalMessage); return; }
+              throw error;
+            }
             setNotice(
               demo
                 ? "Registro actualizado en la demostración."
-                : "Registro guardado.",
+                : editor.replacing ? 'Nueva versión guardada. La anterior quedó archivada.' : "Registro guardado.",
             );
           }}
         />
       )}
       {detail && (
-        <Detail item={detail} data={data} onClose={() => setDetail(null)} />
+        <Detail item={detail} data={data} isAdmin={isAdmin} getBlob={previewBlob} onEdit={(entity, row) => { setDetail(null); edit(entity, row); }} onPreview={previewDocument}
+          onNewInspection={(row) => { setDetail(null); edit('inspections', { asset_id: row.id }); }}
+          onAttachAssetDocument={(row) => { setDetail(null); edit('documents', { kind: 'photo', asset_id: row.id, title: `Foto · ${row.name}` }); }}
+          onNewFollowUp={(row) => { setDetail(null); edit('requests', { kind: 'problem', asset_id: row.asset_id, title: `Seguimiento de revisión: ${data.assets.find((asset) => asset.id === row.asset_id)?.name || 'equipo'}`, body: row.notes || `Revisión del ${formatDate(row.checked_on)} con resultado ${label(row.result)}.` }); }}
+          onAttachEvidence={(row) => { setDetail(null); edit('documents', { kind: 'report', inspection_id: row.id, title: `Evidencia de revisión · ${data.assets.find((asset) => asset.id === row.asset_id)?.name || 'equipo'}` }); }}
+          onClose={() => setDetail(null)} />
       )}
+      {preview && <PortalDocumentPreview document={preview} getBlob={previewBlob} onDownload={download} onClose={() => setPreview(null)} />}
     </div>
   );
 }

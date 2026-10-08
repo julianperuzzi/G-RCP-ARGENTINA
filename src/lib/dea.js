@@ -15,6 +15,17 @@ export function nearestDea(records, origin) {
     return !nearest || distance < nearest.distance ? { ...record, distance } : nearest;
   }, null);
 }
+export function potentialDeaDuplicates(records, candidate, currentId = null) {
+  const latitude = Number(candidate.latitude), longitude = Number(candidate.longitude);
+  if (candidate.latitude === '' || candidate.longitude === '' || !Number.isFinite(latitude) || !Number.isFinite(longitude)) return [];
+  const address = normalizeText(candidate.address), city = normalizeText(candidate.city), name = normalizeText(candidate.name);
+  return records.filter((row) => row.id !== currentId && !row.archived_at).map((row) => ({
+    ...row, duplicateDistanceKm: distanceKm({ latitude, longitude }, row),
+  })).filter((row) => row.duplicateDistanceKm <= 0.15 ||
+    (address && city && address === normalizeText(row.address) && city === normalizeText(row.city)) ||
+    (name && address && name === normalizeText(row.name) && address === normalizeText(row.address)))
+    .sort((a, b) => a.duplicateDistanceKm - b.duplicateDistanceKm).slice(0, 5);
+}
 export function directionsUrl(record, mode = 'walking', origin) {
   const params = new URLSearchParams({ api: '1', destination: `${record.latitude},${record.longitude}`, travelmode: mode });
   if (origin) params.set('origin', `${origin.latitude},${origin.longitude}`);

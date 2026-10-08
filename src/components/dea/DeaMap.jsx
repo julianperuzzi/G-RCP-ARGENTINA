@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-export default function DeaMap({ records, selected, onSelect, origin, route, resetKey = 0, onPick, initialView }) {
+export default function DeaMap({ records, selected, onSelect, origin, route, resetKey = 0, onPick, initialView, management = false }) {
   const hostRef = useRef(null), mapRef = useRef(null), layerRef = useRef(null), originRef = useRef(null), fitted = useRef(false);
   const selectRef = useRef(onSelect), pickRef = useRef(onPick);
   const recordsRef = useRef(records);
@@ -33,15 +33,19 @@ export default function DeaMap({ records, selected, onSelect, origin, route, res
     layer.clearLayers();
     for (const record of records) {
       const active = selected?.id === record.id;
-      const marker = L.circleMarker([record.latitude, record.longitude], { radius: active ? 10 : 7, color: active ? '#142232' : '#fff', weight: active ? 3 : 2, fillColor: record.availability === 'unavailable' ? '#84909a' : '#c74712', fillOpacity: .95 }).addTo(layer);
+      const fillColor = management ? record.archived_at ? '#84909a' : record.published ? '#c74712' : '#d39a3d' : record.availability === 'unavailable' ? '#84909a' : '#c74712';
+      const marker = L.circleMarker([record.latitude, record.longitude], { radius: active ? 10 : 7, color: active ? '#142232' : '#fff', weight: active ? 3 : 2, fillColor, fillOpacity: .95 }).addTo(layer);
       const tooltip = document.createElement('span'); tooltip.textContent = record.name; marker.bindTooltip(tooltip);
-      marker.on('click', () => selectRef.current?.(record));
+      marker.on('click', event => {
+        if (selectRef.current && pickRef.current) L.DomEvent.stopPropagation(event);
+        selectRef.current?.(record);
+      });
     }
     if (!fitted.current && records.length) {
       if (!initialViewRef.current) map.fitBounds(records.map(r => [r.latitude, r.longitude]), { padding: [35, 35], maxZoom: 13 });
       fitted.current = true;
     }
-  }, [records, selected?.id]);
+  }, [records, selected?.id, management]);
   useEffect(() => {
     const map = mapRef.current;
     if (!map || selectedId == null) return;
@@ -77,7 +81,7 @@ export default function DeaMap({ records, selected, onSelect, origin, route, res
   useEffect(() => {
     if (resetKey && recordsRef.current.length) mapRef.current?.fitBounds(recordsRef.current.map(r => [r.latitude, r.longitude]), { padding: [35, 35], maxZoom: 13 });
   }, [resetKey]); // Reset is an explicit user action, not a response to every search.
-  return <div className="dea-map-shell"><div ref={hostRef} className="dea-leaflet-map" role="region" aria-label={onPick ? 'Mapa para elegir coordenadas del DEA' : 'Mapa de ubicaciones de DEA. También podés elegir un lugar en la lista.'} />{tileError && <p className="dea-tile-warning" role="status">Algunas imágenes del mapa no cargaron. Podés seguir consultando los lugares en la lista.</p>}</div>;
+  return <div className="dea-map-shell"><div ref={hostRef} className="dea-leaflet-map" role="region" aria-label={management ? 'Mapa de gestión. Seleccioná un marcador para editar o un punto libre para crear un DEA.' : onPick ? 'Mapa para elegir coordenadas del DEA' : 'Mapa de ubicaciones de DEA. También podés elegir un lugar en la lista.'} />{tileError && <p className="dea-tile-warning" role="status">Algunas imágenes del mapa no cargaron. Podés seguir consultando los lugares en la lista.</p>}</div>;
 }
 DeaMap.propTypes = {
   records: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -88,4 +92,5 @@ DeaMap.propTypes = {
   onPick: PropTypes.func,
   route: PropTypes.shape({ coordinates: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)) }),
   initialView: PropTypes.shape({ center: PropTypes.arrayOf(PropTypes.number).isRequired, zoom: PropTypes.number.isRequired }),
+  management: PropTypes.bool,
 };

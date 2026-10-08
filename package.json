@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test:dea": "node --test tests/dea*.test.mjs",
-    "test:rcp": "node --test tests/rcp*.test.mjs",
-    "test:portal": "node --test tests/portal*.test.mjs",
+    "test:dea": "node --test tests/dea.test.mjs tests/dea-location.test.mjs tests/dea-routing.test.mjs",
+    "test:rcp": "node --test tests/rcp-metronome.test.mjs",
+    "test:shop": "node --test tests/shop.test.mjs",
+    "test:portal": "node --test tests/portal.test.mjs tests/portal-security.test.mjs tests/portal-locations.test.mjs tests/portal-invite.test.mjs tests/portal-finance.test.mjs tests/portal-finance-utils.test.mjs tests/portal-permissions.test.mjs tests/portal-scope.test.mjs",
     "dea:sql": "node scripts/build-dea-sql.mjs",
     "dea:convert": "node scripts/convert-dea.mjs",
     "preview": "vite preview",
@@ -36,7 +37,7 @@
     "react-fast-marquee": "^1.6.4",
     "react-icons": "^5.5.0",
     "react-parallax": "^3.5.1",
-    "react-router-dom": "^6.22.3",
+    "react-router-dom": "^7.18.4",
     "react-share": "^5.1.0",
     "react-toastify": "^11.0.5"
   },

@@ -26,3 +26,23 @@ export function institutionLocations(institutions, sites) {
     })),
   ];
 }
+
+export function groupNearbyLocations(records, radiusMeters = 50) {
+  const groups = [];
+  for (const row of records) {
+    const point = coordinatesOf(row);
+    if (!point) continue;
+    const group = groups.find(({ latitude, longitude }) => {
+      const north = (point.latitude - latitude) * 111195;
+      const east = (point.longitude - longitude) * 111195 * Math.cos((point.latitude + latitude) * Math.PI / 360);
+      return Math.hypot(north, east) <= radiusMeters;
+    });
+    if (group) {
+      const count = group.rows.length;
+      group.latitude = (group.latitude * count + point.latitude) / (count + 1);
+      group.longitude = (group.longitude * count + point.longitude) / (count + 1);
+      group.rows.push(row);
+    } else groups.push({ ...point, rows: [row] });
+  }
+  return groups;
+}

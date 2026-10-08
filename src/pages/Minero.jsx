@@ -1,12 +1,10 @@
-import React from 'react';
 import workerImage from '../assets/img mineras/bienestar minero.jpg'; // Importa la imagen del trabajador
 import cprImage from '../assets/img mineras/calidad de vida.jpg'; // Importa la imagen de RCP
-import { Link } from 'react-router-dom';
 
 const Minero = () => {
   return (
     <div className=" py-8 px-4 bg-slate-800 text-white animate-fade-in">
-      <h2 className="text-4xl font-bold mb-8 text-center">Bienestar Minero</h2>
+      <h1 className="text-4xl font-bold mb-8 text-center">Bienestar Minero</h1>
       
       {/* Sección "Proyecto de Bienestar Integral para Empresas Mineras" */}
       <div className="mb-12 lg:w-1/2 mx-auto">

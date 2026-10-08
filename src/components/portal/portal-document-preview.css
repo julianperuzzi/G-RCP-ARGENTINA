@@ -1,0 +1,12 @@
+.portal-preview-dialog { position: fixed; width: min(1050px, calc(100vw - 28px)); max-width: none; height: min(90vh, 900px); padding: 0; border: 0; border-radius: 10px; background: #fff; box-shadow: 0 20px 80px rgba(0,0,0,.25); }
+.portal-preview-dialog::backdrop { background: rgba(10, 26, 43, .72); }
+.portal-preview-dialog .portal-button { display: inline-flex; align-items: center; gap: 6px; padding: 9px 12px; border: 1px solid #d6dfe7; border-radius: 6px; background: #fff; color: #183046; font-size: 12px; font-weight: 700; }
+.portal-preview-dialog .portal-icon-button { display: inline-grid; place-items: center; width: 32px; height: 32px; border: 1px solid #d6dfe7; border-radius: 6px; background: #fff; color: #183046; }
+.portal-preview-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; border-bottom: 1px solid #e3e8ed; }
+.portal-preview-head > div:first-child { min-width: 0; display: grid; gap: 3px; }
+.portal-preview-head strong, .portal-preview-head small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.portal-preview-head small { color: #69798a; font-size: 11px; }
+.portal-preview-head > div:last-child { display: flex; align-items: center; gap: 8px; }
+.portal-preview-body { height: calc(100% - 70px); display: grid; place-items: center; padding: 12px; overflow: auto; }
+.portal-preview-body img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.portal-preview-body iframe { width: 100%; height: 100%; border: 0; background: white; }

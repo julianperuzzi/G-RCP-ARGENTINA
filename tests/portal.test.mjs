@@ -57,6 +57,16 @@ test("CSV neutraliza fórmulas y escapa comillas de contenido ingresado", () => 
   assert.ok(csv.includes('"\'=HYPERLINK(""url"")"'));
   assert.ok(csv.includes('"Una; consulta"'));
 });
+test('CSV general identifica la institución de cada registro', () => {
+  const csv = portalCsv('sites', [
+    { name: 'Sede Central', institution_id: 'one' },
+    { name: 'Otra sede', institution_id: 'two' },
+  ], { institutions: [{ id: 'one', name: 'DISEI' }, { id: 'two', name: 'Otra institución' }] }, { includeInstitution: true });
+  const [header, first, second] = csv.replace(/^\ufeff/, '').split('\r\n');
+  assert.ok(header.startsWith('"Institución";"Sede"'));
+  assert.ok(first.startsWith('"DISEI";"Sede Central"'));
+  assert.ok(second.startsWith('"Otra institución";"Otra sede"'));
+});
 test("calendario ICS exporta UTC, escapa saltos y excluye canceladas", () => {
   const ics = portalCalendarIcs(
     [

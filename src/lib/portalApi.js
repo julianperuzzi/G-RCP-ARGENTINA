@@ -12,26 +12,46 @@ export const PORTAL_TABLES = [
   "documents",
   "requests",
 ];
-export async function loadPortal(isAdmin) {
+async function readPortalTable(key, scopeColumn, scopeValues) {
+  const records = [];
+  if (scopeValues && !scopeValues.length) return records;
+  for (let from = 0; ; from += 1000) {
+    let query = supabase.from(`portal_${key}`).select('*');
+    if (scopeValues) query = scopeValues.length === 1
+      ? query.eq(scopeColumn, scopeValues[0])
+      : query.in(scopeColumn, scopeValues);
+    const { data, error } = await query.order(key === 'audit' ? 'happened_at' : 'created_at', {
+      ascending: key !== 'audit',
+    }).order('id', { ascending: key !== 'audit' }).range(from, from + 999);
+    if (error) throw error;
+    records.push(...data);
+    if (data.length < 1000) break;
+  }
+  return records;
+}
+
+export async function loadPortal(isAdmin, email, isOwner = isAdmin) {
+  const memberships = isAdmin ? null : email
+    ? (await readPortalTable('memberships', 'email', [email])).filter((row) => row.active && row.email === email)
+    : [];
+  const tenantIds = isAdmin ? null : [...new Set(memberships.map((row) => row.institution_id))];
   const entries = await Promise.all(
-    [...PORTAL_TABLES, ...(isAdmin ? ["audit"] : [])].map(async (key) => {
-      const records = [];
-      for (let from = 0; ; from += 1000) {
-        const { data, error } = await supabase
-          .from(`portal_${key}`)
-          .select("*")
-          .order(key === "audit" ? "happened_at" : "created_at", {
-            ascending: key !== "audit",
-          })
-          .range(from, from + 999);
-        if (error) throw error;
-        records.push(...data);
-        if (data.length < 1000 || key === "audit") break;
-      }
-      return [key, records];
-    }),
+    [...PORTAL_TABLES, ...(isAdmin ? ['audit'] : [])].map(async (key) => [
+      key,
+      key === 'memberships' && !isAdmin ? memberships : await readPortalTable(
+        key,
+        key === 'institutions' ? 'id' : 'institution_id',
+        key === 'audit' ? null : tenantIds,
+      ),
+    ]),
   );
-  return { ...Object.fromEntries(entries), ...(isAdmin ? {} : { audit: [] }) };
+  let accessActivity = [];
+  if (isOwner) {
+    const { data, error } = await supabase.rpc('portal_access_activity');
+    if (error && !['PGRST202', '42883'].includes(error.code)) throw error;
+    accessActivity = data || [];
+  }
+  return { ...Object.fromEntries(entries), accessActivity, ...(isAdmin ? {} : { audit: [] }) };
 }
 export async function savePortal(key, payload, id) {
   if (!PORTAL_TABLES.includes(key)) throw new Error("Entidad inválida");
@@ -67,11 +87,16 @@ export async function uploadPortalDocument(payload, file) {
     throw saveError;
   }
 }
-export async function downloadPortalDocument(document) {
+export async function getPortalDocumentBlob(document) {
   const { data, error } = await supabase.storage
     .from(PORTAL_BUCKET)
     .download(document.file_path);
   if (error) throw error;
+  return data;
+}
+
+export async function downloadPortalDocument(document) {
+  const data = await getPortalDocumentBlob(document);
   const url = URL.createObjectURL(data);
   const link = window.document.createElement("a");
   link.href = url;
@@ -95,6 +120,18 @@ export async function invitePortalMember(id) {
         message ||
         "Las invitaciones necesitan activar la función grcp-invite en Supabase. Mientras tanto, podés crear o invitar la cuenta desde Authentication → Users.",
     };
+  }
+  return data;
+}
+
+export async function invitePortalOperator(id) {
+  const { data, error } = await supabase.functions.invoke('grcp-invite', {
+    body: { operator_id: id },
+  });
+  if (error) {
+    let message;
+    try { message = (await error.context.json()).message; } catch { /* Función no disponible. */ }
+    throw new Error(message || 'La invitación de operadores requiere desplegar la función grcp-invite actualizada.');
   }
   return data;
 }
