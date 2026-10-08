@@ -1,29 +1,25 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { catalogProducts, hasStock, sellingPrice, stockLimit } from '../src/lib/shopCatalog.js';
+import { formatShopPrice, shopCanOrder, shopDiscountPercent, shopMoneyToCents, shopPrice, shopStockLimit, validateShopDraft } from '../src/lib/shopCatalog.js';
 
-test('stock textual y numérico del catálogo', () => {
-  assert.equal(stockLimit('Sin Stock'), 0);
-  assert.equal(stockLimit('Disponible'), Infinity);
-  assert.equal(stockLimit('En stock'), Infinity);
-  assert.equal(stockLimit('3'), 3);
-  assert.equal(stockLimit('0'), 0);
-  assert.equal(stockLimit('desconocido'), 0);
-  assert.equal(hasStock({ stock: 'Sin Stock' }), false);
-  assert.equal(hasStock({ stock: 'Disponible' }), true);
+const published = { status: 'published', price_cents: 2000000, sale_price_cents: 1800000, stock_mode: 'limited', stock_quantity: 2 };
+
+test('precio y stock se expresan en centavos y limitan el carrito', () => {
+  assert.equal(shopPrice(published), 1800000);
+  assert.equal(shopDiscountPercent(published), 10);
+  assert.equal(shopStockLimit(published), 2);
+  assert.equal(shopCanOrder({ ...published, stock_quantity: 0 }), false);
+  assert.equal(shopCanOrder({ ...published, status: 'draft' }), false);
+  assert.equal(shopStockLimit({ ...published, stock_mode: 'available' }), Infinity);
+  assert.match(formatShopPrice(1800000), /18\.000/);
 });
 
-test('filas vacías no rompen búsqueda ni precios del catálogo', () => {
-  const products = catalogProducts([
-    { id: ' A ', nombre: 'DEA', precio: '200000', descuento: '180000', stock: 'Disponible' },
-    { id: 'B', nombre: 'Kit', precio: '20000', descuento: '', stock: 'Sin Stock' },
-    { id: '', nombre: '', precio: '' },
-    { id: 'C', nombre: 'Sin precio', precio: '' },
-  ]);
-  assert.equal(products.length, 2);
-  assert.equal(products[0].id, 'A');
-  assert.equal(products[0].descripcion, '');
-  assert.equal(sellingPrice(products[0]), 180000);
-  assert.equal(sellingPrice(products[1]), 20000);
-  assert.equal(hasStock(products[1]), false);
+test('el editor valida precio, oferta y cantidad antes de guardar', () => {
+  const form = { name: 'Kit RCP', category: 'Capacitación', price: '20000,50', sale: '18000', stock_mode: 'limited', stock_quantity: '2', status: 'draft' };
+  assert.equal(shopMoneyToCents('20000,50'), 2000050);
+  assert.equal(validateShopDraft(form).price_cents, 2000050);
+  assert.equal(validateShopDraft(form).sale_price_cents, 1800000);
+  assert.throws(() => validateShopDraft({ ...form, sale: '25000' }), /oferta/);
+  assert.throws(() => validateShopDraft({ ...form, stock_quantity: '0' }), /cantidad/);
+  assert.throws(() => validateShopDraft({ ...form, price: 'abc' }), /precio/);
 });

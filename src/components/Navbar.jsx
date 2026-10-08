@@ -66,6 +66,7 @@ function Navbar() {
             {isResourcesOpen && <div id="resource-navigation" className="grcp-resource-dropdown">{resources.map(([path, label]) => <Link key={path} to={path} onClick={() => { setIsOpen(false); setIsResourcesOpen(false); }}>{label}</Link>)}</div>}
           </div>
           <NavLink to="/Nosotros" className="grcp-nav-link">Nosotros</NavLink>
+          <NavLink to="/shop" className="grcp-nav-link">Tienda</NavLink>
           <NavLink to="/MapaDEA" className="grcp-nav-link grcp-map-link">Mapa DEA</NavLink>
           <Link to="/Contacto" className="grcp-button grcp-button-primary grcp-nav-cta">Contactanos <ArrowUpRight size={17} aria-hidden="true" /></Link>
         </nav>

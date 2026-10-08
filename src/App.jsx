@@ -22,12 +22,12 @@ import { Analytics } from '@vercel/analytics/react';
 import RCPPractice from './pages/RCPPractice';
 import Galeria from './pages/Galeria';
 import RA_Menu from './pages/RA_Menu';
-import ShopPage from './pages/ShopPages';
 import PWAInstallBanner from './components/PWAInstallBanner';
 
 const MapaDEA = lazy(() => import('./pages/MapaDEA'));
 const PanelDEA = lazy(() => import('./pages/PanelDEA'));
 const Portal = lazy(() => import('./pages/Portal'));
+const ShopPage = lazy(() => import('./pages/ShopPages'));
 
 function SiteApp() {
   const [darkMode, setDarkMode] = useState(false);

@@ -14,6 +14,7 @@ export function Footer() {
         <h2>Explorá</h2>
         <Link to="/Servicios">Capacitaciones</Link>
         <Link to="/MapaDEA">Mapa DEA</Link>
+        <Link to="/shop">Tienda</Link>
         <Link to="/rcp">Aprendé RCP</Link>
         <Link to="/Nosotros">Nosotros</Link>
         <Link to="/Portal">Portal institucional</Link>

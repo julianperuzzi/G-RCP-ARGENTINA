@@ -26,6 +26,7 @@ import {
   LayoutDashboard,
   LogOut,
   Wallet,
+  Store,
   MapPin,
   Menu,
   MessageSquare,
@@ -67,6 +68,7 @@ import PortalAssetPhotos from "../components/portal/PortalAssetPhotos";
 import PortalProfile from "../components/portal/PortalProfile";
 import PortalOperators from "../components/portal/PortalOperators";
 import PortalUsage from "../components/portal/PortalUsage";
+import PortalShop from "../components/portal/PortalShop";
 import CopyRecordLink from "../components/portal/CopyRecordLink";
 import { resetFinanceDemo } from "../lib/portalFinanceDemo";
 import { canWritePortal } from '../lib/portalPermissions';
@@ -78,6 +80,7 @@ const MODULES = [
   ["instituciones", "Instituciones", Building2, "admin"],
   ["mapa", "Mapa de instituciones", MapPin, "admin"],
   ["tesoreria", "Tesorería", Wallet, "owner"],
+  ["tienda", "Tienda", Store, "owner"],
   ["calendario", "Calendario", CalendarDays],
   ["sedes", "Sedes", MapPin],
   ["equipamiento", "Equipamiento", HeartPulse],
@@ -97,6 +100,7 @@ const DESCRIPTIONS = {
   instituciones: "Cada institución, con su información y seguimiento.",
   mapa: "Todas las instituciones y sus sedes, con acceso a su ficha y ubicación.",
   tesoreria: "Fondos, cobros, pagos, compromisos y comprobantes de uso interno de GRCP.",
+  tienda: "Productos, fotos, precios y disponibilidad de la tienda pública.",
   calendario: "Organizá capacitaciones, revisiones y simulacros.",
   sedes: "Ubicaciones de la institución donde se realizan actividades o se registran equipos.",
   equipamiento: "Equipos y elementos, con fotos, documentos, fechas y estado registrado.",
@@ -868,7 +872,7 @@ export default function Portal() {
       (row) => row[0] === (section || "resumen") && canAccessModule(row, isAdmin, isOwner),
     ) || MODULES[0];
   const tab = module[0];
-  const globalModule = isAdmin && ['instituciones', 'mapa', 'tesoreria', 'uso', 'operadores'].includes(tab);
+  const globalModule = isAdmin && ['instituciones', 'mapa', 'tesoreria', 'tienda', 'uso', 'operadores'].includes(tab);
   useEffect(() => {
     if (demo || isAdmin || !portal.session?.user?.id || !portal.context || !tenant ||
       !['resumen', 'calendario', 'sedes', 'equipamiento', 'revisiones', 'capacitaciones', 'documentos', 'solicitudes'].includes(tab)) return;
@@ -1203,7 +1207,7 @@ export default function Portal() {
                 ? isOwner ? "Administrador general" : "Operador GRCP"
                 : membership?.role === 'manager' ? 'Responsable institucional' : membership?.role === 'viewer' ? 'Solo consulta' : 'Sin acceso asignado'}
           </small>
-          {isAdmin && <p className="portal-workspace-scope">Vista: {tab === 'tesoreria' ? 'Uso interno GRCP' : globalModule ? 'Todas las instituciones' : institution?.name || 'Todas las instituciones'}</p>}
+          {isAdmin && <p className="portal-workspace-scope">Vista: {['tesoreria', 'tienda'].includes(tab) ? 'Uso interno GRCP' : globalModule ? 'Todas las instituciones' : institution?.name || 'Todas las instituciones'}</p>}
         </div>
         <nav aria-label="Navegación del portal">
           {MODULES.filter((row) => canAccessModule(row, isAdmin, isOwner)).map(
@@ -1273,7 +1277,7 @@ export default function Portal() {
             </span>
           </div>
           <div>
-            {(isAdmin || institutions.length > 1) && !["mapa", "tesoreria", "uso", "operadores", "perfil"].includes(tab) && (
+            {(isAdmin || institutions.length > 1) && !["mapa", "tesoreria", "tienda", "uso", "operadores", "perfil"].includes(tab) && (
               <label className="portal-institution-select">
                 <Building2 size={16} />
                 <select
@@ -1341,7 +1345,7 @@ export default function Portal() {
               </button>
             )}
           </div>
-          {isAdmin && !tenant && !['mapa', 'tesoreria', 'uso', 'operadores', 'perfil'].includes(tab) && (
+          {isAdmin && !tenant && !['mapa', 'tesoreria', 'tienda', 'uso', 'operadores', 'perfil'].includes(tab) && (
             <div className="portal-global-context" role="status">
               <Building2 size={18} aria-hidden="true" />
               <span><strong>Vista general de GRCP.</strong> Estás viendo información de todas las instituciones. Para cargar datos vinculados a una institución, elegila arriba.</span>
@@ -1424,7 +1428,7 @@ export default function Portal() {
             </Empty>
           ) : (
             <>
-              {!["resumen", "historial", "capacitaciones", "tesoreria", "uso", "operadores", "perfil"].includes(tab) && (
+              {!["resumen", "historial", "capacitaciones", "tesoreria", "tienda", "uso", "operadores", "perfil"].includes(tab) && (
                 <div className="portal-list-toolbar">
                   <label className="portal-search">
                     <Search size={17} />
@@ -1484,6 +1488,7 @@ export default function Portal() {
                   }} />
               )}
               {tab === "tesoreria" && isOwner && <PortalFinance institutions={institutions} demo={demo} />}
+              {tab === "tienda" && isOwner && <PortalShop demo={demo} />}
               {tab === "perfil" && <PortalProfile session={portal.session} context={portal.context} institutions={portal.data.institutions} memberships={portal.data.memberships} demo={demo} />}
               {tab === "uso" && isAdmin && <PortalUsage institutions={institutions} data={portal.data} demo={demo} onOpen={(id) => { setInstitutionId(id); navigate(`/Portal/resumen?institucion=${id}${demo ? '&demo=1' : ''}`); }} />}
               {tab === "operadores" && isOwner && <PortalOperators demo={demo} />}
